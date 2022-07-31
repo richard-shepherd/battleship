@@ -1,0 +1,134 @@
+Overview
+--------
+AIs play batteleships against each other.
+
+
+Coding competition criteria
+---------------------------
+- The challenge has to be easy enough to be accessible
+  - But also interesting enough to be a challenge
+
+- Ideally you should be able to write a simple AI in less than an hour
+  - But also that there is enough complexity to write more interesting AIs
+
+- There must be no straightforward best solution to the game
+
+
+Extensions to the standard rules
+--------------------------------
+- I think that the standard rules are too simple
+
+- I suspect that there is a optimal strategy with the standard rules
+  - So this would not give enough scope for AIs to differentiate themselves
+
+- Ideas for rule extensions
+  - Moving ships
+  - Mines
+  - Reconnaissance drones
+  - Difference sizes of board (possibly much bigger)
+  - Salvo firing (more than one shot per turn)
+  - Budget for what you can fire each turn
+  - Budget for which ships you start off with
+
+- More than two players?
+  - It could be that we play with (say) three or four players at a time
+  - I think that could get too complicated, eg alliances
+  - And also possibly 'unfair' if players gang up
+  - So I think it is best to stick to two players at a time
+
+
+Moving ships
+------------
+- This helps avoid the main 'solvability' of the standard game
+  - ie, that there could be an optimal algorithm to narrow down where the opponent's ships are
+
+- How many ships should move each turn?
+
+- Maybe each ship can move one square per turn
+  - This seems 'realistic', ie that each ship can move
+
+- Perhaps ships can no longer move once they are hit?
+  - That might be a shame though as one nice thing would be that a ship can still get away even when it is hit
+  - So I think NO to this
+  - Otherwise the game seems to devolve to the non moving version
+    - ie, you find a ship (somehow) and then blitz it where you find it
+
+- Is it too much if each ship moves each turn?
+
+
+How do ships move?
+------------------
+- Ships move one squre per turn
+
+- Ships can move forwards or backwards on the direction of their axis
+
+- Can ships turn?
+  - Seems like they should be able to (???)
+
+- How do ships turn?
+  - They would need to turn while remaining on the board
+  - eg, if they are on the top or bottom row, or near the left or right edges
+
+
+- I worry that there is a danger of people setting up ships to constantly spin around
+  - Possibly around different points (depending on the turning rule)
+  - So they end up moving too fast
+  - And looking a bit stupid  
+
+
+- Alternatively, it could be that ships can just 'skip sideways' but stay in their original orientation
+  - This does mean that all the ships points change with no overlap
+  - Perhaps you can do it, but not every turn?
+  - eg, If you skip, then you miss the next movement turn (for that ship?)
+
+- Proposal
+  - Each ship can move by one space forwards or backwards every turn
+  - Ships can 'skip' sideways, but if they do, they miss the next movement turn
+
+
+Mines
+-----
+- Mines are like shells
+  - Except that if they do not hit a target, they remain in the square they are targetted at
+  - If a ship moves into that square the mine will detonate
+
+- This means that mines are significantly more powerful than standard shells
+  - They have the same value as shells for a direct hit
+  - They also have the additional benefit of damaging ships which move into their square
+
+- SO: They must cost more to use than standard shells
+  - Otherwise there is no point to standard shells, and everyone would always use mines
+
+- The existence of mines acts as a deterrent to moving ships
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
