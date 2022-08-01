@@ -3,6 +3,7 @@ Overview
 AIs play batteleships against each other.
 
 
+
 Coding competition criteria
 ---------------------------
 - The challenge has to be easy enough to be accessible
@@ -12,6 +13,7 @@ Coding competition criteria
   - But also that there is enough complexity to write more interesting AIs
 
 - There must be no straightforward best solution to the game
+
 
 
 Extensions to the standard rules
@@ -37,6 +39,7 @@ Extensions to the standard rules
   - So I think it is best to stick to two players at a time
 
 
+
 Moving ships
 ------------
 - This helps avoid the main 'solvability' of the standard game
@@ -54,6 +57,7 @@ Moving ships
     - ie, you find a ship (somehow) and then blitz it where you find it
 
 - Is it too much if each ship moves each turn?
+
 
 
 How do ships move?
@@ -86,6 +90,67 @@ How do ships move?
   - Ships can 'skip' sideways, but if they do, they miss the next movement turn
 
 
+
+Movement towards the end of the game
+------------------------------------
+- Does movement make the game too hard towards the end of the game?
+  - Especially on a large board
+
+- In an equal game, we could get down to one 2-square ship on each side on a 100x100 board
+
+- By this point, players cannot fire many shots
+  - Either with standard single-shot rules
+  - Or with ship-based salvos
+
+- If ships did not move, then someone would eventually win by searching through the grid
+
+- With movement, it is possible that the game could never end
+
+- But perhaps the use of reconnaissance drones means this will work better?
+  - I think it depends how powerful the drones are in finding ships
+  - And whether this makes things too easy in the early game
+  - See section on drones
+
+- Another option is that movement could be limited
+  - For example, you have only a limited amount of "fuel"
+  - You use one unit of fuel each time you move a ship one square
+  - So eventually you run out of fuel
+
+- Perhaps the fuel idea helps with sideways movement
+  - eg, it takes one unit of fuel to move forwards or backwards
+    but it takes n units (the size of the ship) to move sideways?
+
+- I rather like this fuel idea
+
+- An alternative (or additional factor) is the use of mines
+  - These mean that movement may eventually result in losing
+
+
+Fuel
+----
+- The idea of fuel is that you need to use fuel to move
+
+- This limits movement, particularly towards the end of the game
+  - Which helps avoid never ending games
+
+- Should fuel be global or per ship?
+
+- Per ship seems more "realistic"
+  - But global is simpler for AIs to manage
+  - Also allows for more trade-offs
+
+- Do bigger ships carry more fuel than smaller ships?
+  - YES: Would seem more realistic
+  - NO:  Would mean that larger ships could move for longer (particularly backwards and forwards) 
+         than smaller ships. Unless they take more fuel to move. But then, it might as well be the
+         same amount of fuel as for smaller ships, and the same movement cost.
+
+- Having fuel makes movement more of a tactical thing to do
+  - As opposed to something you would do all the time
+  - eg, you would do it when part of a ship had been hit
+
+
+
 Mines
 -----
 - Mines are like shells
@@ -100,6 +165,112 @@ Mines
   - Otherwise there is no point to standard shells, and everyone would always use mines
 
 - The existence of mines acts as a deterrent to moving ships
+  - Does it deter movement entirely?
+  - If so, then the existence of mines breaks the game
+
+- Should players / ships be able to detect mines?
+  - Or able to destroy them, eg with depth charges
+    - Which they could fire instead of shells into their own area, ahead of movement?
+  - I think NO
+  - I think that this makes the game more complicated, and does not really add anything
+
+- Maybe mines should have a TTL
+  - So they become inactive afer a number of turns
+  - That would stop the game board slowly filling up with mines
+  - Is that a good thing?
+
+- Without mine TTL movement becomes more and more dangerous as the game progresses
+  - So movement is increasingly deterred
+
+
+
+Board size
+----------
+- It could be good to play on a much bigger board
+  - eg, 100 x 100
+
+- This would encourage the use of mines and drones
+
+
+
+
+Salvos
+------
+- There are two main options for salvos:
+  - a) You can fire once per ship in each turn
+  - b) You can fire once per ship-square in each turn
+
+- With option b) a carrier - covering five squares - could fire five shells in each turn
+
+- Is the salvos feature too powerful when you detect an enemy ship?
+  - When you make a successful hit, you know where one part of the ship is
+  - So you can them aim a salvo at squares around that
+  - Especially if you can fire one shell per ship square, this means you can fire a lot 
+    of shells (especially towards the start of the game)
+  - On the other hand, this does mean that you use / waste a lot of your fire power on the salvo
+  - So there is still a trade off to make
+
+- With a standard game you have these ships: 5, 4, 3, 3, 2
+  - So 5 ships
+  - Covering 17 squares
+
+- So at the start of the game:
+  - Option a) fires 5 shells per turn 
+  - Option b) fires 17 shells per turn
+  
+- Something which would reduce the number of items fired per turn is if some items cost more
+  - For example: mines, drones
+
+- On a large board, it could be good to have larger salvos
+  - eg 100x100 is 10,000 squares
+
+- So I quite like option b)
+
+
+
+Reconnaissance drones
+---------------------
+- Overview
+  - You fire drones at a square
+  - They tell you something about ships nearby
+  - You can choose to fire drones instead of shells
+
+- What do drones tell you?
+
+
+- What cost should drones have?
+
+
+- Drone TTL
+
+
+- What happens if a drone hits a ship? (Or is hit by a ship which moves into its square)
+  - The drone is destroyed
+  - But it reports back first that it was hit
+
+
+
+Firing cost and TTL
+-------------------
+- Cost:
+  - Shell: 1
+  - Mine:  4
+  - Drone: 4
+
+- TTL:
+  - Shell: 0
+  - Mine:  8
+  - Drone: 3
+
+- Saving up for higher cost items
+  - Towards the end of the game in particular, you may not have enough shots to pay for a higher cost item
+  - For example, you may have only one small ship with two shots
+  - So you cannot pay for items which cost four shots
+
+- So we allow saving up 
+  - Any shots not taken in a turn are saved for subsequent turns
+
+- Is there any danger that saving up breaks the game in some way?
 
 
 
