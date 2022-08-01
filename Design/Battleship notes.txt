@@ -236,12 +236,23 @@ Reconnaissance drones
   - You can choose to fire drones instead of shells
 
 - What do drones tell you?
+  - a1) Everything that exists within some 'radius' (or nxn square, eg 10x10 square)
+  - a2) As a1 except that they only report one item (perhaps the nearest one)
+  - b1) That they see something in a given direction, eg "ship detected to the north"
+  - b2) As b1 except limited to some distance, eg 10 squares
 
+- I quite like b1 or b2
+  - ie, they only scan N, S, E, W
+  - They report on all four directions, but do not tell you how far the ship is
+    - Just that (for example) there is a "ship to the east"
 
 - What cost should drones have?
+  - Equivalent to four shells?
 
 
 - Drone TTL
+  - The usefulness of TTL depends on how much the opponent moves their ships
+  - If they do not move, then TTL 
 
 
 - What happens if a drone hits a ship? (Or is hit by a ship which moves into its square)
@@ -271,8 +282,15 @@ Firing cost and TTL
   - Any shots not taken in a turn are saved for subsequent turns
 
 - Is there any danger that saving up breaks the game in some way?
+  - For example, you save one shot per turn in the early game
+    so that when you get to the end game you have a huge advantage
 
-
+- I expect that this is not a problem
+  - You are at a disadvantage of you do not use your shots early
+  - There is the rule that you can only fire one show per ship-square
+  - So even if you save up (say) 100 units and have one two-square ship left
+    you can only fire two shots per turn
+  
 
 
 
