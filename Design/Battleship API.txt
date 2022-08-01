@@ -1,0 +1,84 @@
+API overview
+------------
+- AIs run as separate processes from the main game engine
+
+- They are spawned for each game
+
+- The API will send JSON messages via stdin and stdout
+
+- All interactions are driven from the game engine by sending a message
+  to the AI. It responds with a JSON message indicating the action to perform.
+
+
+
+Action=START_GAME
+-----------------
+- Sent at the start of the game
+
+- Message from game engine
+  - Opponent name
+  - Board size
+  - Numbers and sizes of ships to place
+  - Cost of each shot type (shell, mine, drone)
+  - Initial amount of fuel available
+
+- Response from AI
+  - Initial placement of ships
+
+
+
+Action=LIGHT_EM_UP
+------------------
+- Sent at the start of each turn to allow AIs to fire at the enemy
+
+- Message from game engine
+  - Budget available for shots (includes any 'saved up' shots)
+
+- Response from AI
+  - List of (shot-type, target-square)
+
+
+
+Processing
+----------
+- The game engine processes each shot
+  - If any shot goes over budget, the initial in-budget ones in the list are processed; out-of-budget ones are ignored
+
+- If not all shots have been used by an AI, any remaining shots are saved up
+
+- The game engine checks whether any of the shots have hit a target
+
+- The game engine checks whether any enemy vessels are completely destroyed
+
+
+
+Action=STATUS_UPDATE
+--------------------
+- Sent after the LIGHT_EM_UP and MOVE phases to let AIs know if they have hit opponents
+  and if they have been hit themselves
+
+- Message from game engine
+  - 
+
+- Response from AI
+  - None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

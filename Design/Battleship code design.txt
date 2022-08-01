@@ -10,7 +10,9 @@ Game management features
   - Each one has a file indicating how to launch it: executable + command-line
 
 - Tournament
-  - Plays every 
+  - Plays every AI against every other AI
+  - Ideally multiple times each
+  - Records the total number of wins for each AI
 
 - UI
   - Shows the two game boards
