@@ -1,0 +1,1 @@
+- Write AIs/readme.txt on how to add an AI
