@@ -1,0 +1,57 @@
+Game management features
+------------------------
+- Game
+  - Plays a game between two AIs
+  - Can optionally be shown on a UI board
+  - Can optionally be played at full speed or at a slower speed (especially for the UI)
+
+- AIs
+  - AIs are discovered from the AIs folder
+  - Each one has a file indicating how to launch it: executable + command-line
+
+- Tournament
+  - Plays every 
+
+- UI
+  - Shows the two game boards
+  - Shows ships, mines and drones
+  - Shows damage to ships
+  - Indicates mine and drone TTL (by colours? by numbers?)
+  - Maybe animate some aspects: shots with parabolas? mines and drones with pulsing effect?
+
+- Relationship between the Game and the UI
+  - The Game should not control the UI directly
+  - Instead, it raises events when updates should be made to the UI
+    - Or make updates via an optionally registered object / interface
+  - So the two are decoupled
+
+
+
+Code structure
+--------------
+
+
+
+
+
+
+Loading AIs and communicating with them
+---------------------------------------
+
+
+
+Validating AI updates
+---------------------
+- We need to validate updates received from AIs
+  - To check that shots are valid, for example:
+    - To check that the AI does not make more shots than it is allowed to
+    - To check the cost of shots and that the AI has the resources to make them
+  - To check that movement is valid
+
+
+
+
+
+
+
+
