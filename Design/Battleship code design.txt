@@ -27,6 +27,10 @@ Game management features
     - Or make updates via an optionally registered object / interface
   - So the two are decoupled
 
+- API
+  - Message types for messages sent to AIs and for results received
+
+
 
 
 Code structure

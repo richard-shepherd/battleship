@@ -54,27 +54,80 @@ Processing
 
 Action=STATUS_UPDATE
 --------------------
-- Sent after the LIGHT_EM_UP and MOVE phases to let AIs know if they have hit opponents
-  and if they have been hit themselves
+- Sent after the LIGHT_EM_UP phase to let AIs know if they have hit opponents and if they have been hit themselves
 
 - Message from game engine
-  - 
+  - Hits on opponent
+  - Opponent ships sunk
+  - Hits on player
+  - Player ships sunk
+  - List of player ships remaining and the position of each one
+  - Info from drones (only reported to each AI for its own drones)
+  - Info about drones destroyed
+
+- NOTE: The 'opponent' and 'player' sections will be sent in the opposite order to each AI
 
 - Response from AI
   - None
 
 
+Action=MOVE
+-----------
+- Sent after the first status update
+
+- Message from game engine
+  - Fuel remaining
+
+- Response from AI
+  - List of ships to move, and how each should move
+
+
+Processing
+----------
+- The game engine processes each move request in turn
+  - If any move request goes over the fuel budget the earlier in-budget requests are processed but 
+    later out-of-budget requests are ignored
+
+- The game engine checks whether movement causes ships to hit mines
+
+- The game engine checks whether movement causes ships to hit drones
+
+- The game engine checks whether movement causes ships to be detected by drones
 
 
 
+Action=STATUS_UPDATE
+--------------------
+- A second status update is sent after the move phase to:
+  - Confirm the new positions of the player's ships
+  - Whether movement has caused any addition hits on the player or opponent (from mines)
+  - New info from drones
 
 
 
+Game loop
+---------
+- We then loop to a new LIGHT_EM_UP phase
+
+- And repeat until the game is over
+
+- There should be a limit to the maximum number of turns that can be played
+  - In case the AIs fail to kill each other
+  - In this case, both players are killed by the KRAKEN
 
 
 
+Action=GAME_OVER
+----------------
+- Sent at the end of the game, shortly before AIs are cleaned up
+  - Allows AIs to record whether how they did (eg, if they are being trained)
 
+- Message from game engine
+  - WIN or LOSE or KRAKEN
+  - Score (your ship-squares minus opponent's ship-squares)
 
+- Response from AI
+  - None
 
 
 

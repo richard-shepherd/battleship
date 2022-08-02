@@ -290,13 +290,39 @@ Firing cost and TTL
   - There is the rule that you can only fire one show per ship-square
   - So even if you save up (say) 100 units and have one two-square ship left
     you can only fire two shots per turn
+
   
 
+Info about shots fired
+----------------------
+- Should an AI be told about all the shots fired by the opponent?
 
+- In the pen and paper (pnp) game each player does know where the opponent is firing
 
+- But the pnp game does not have movement
+  - Knowing where the opponent is targetting could be useful to decide where to move
+  - But: It could perhaps be too useful?
 
+- Also, knowing about a miss may be slightly less realistic
+  - Especially if a miss if a long way from any ships
+  - So the ships would not 'see' them
 
+- An AI should not know where enemy mines are placed
+  - So even if shots are reported, it should not be say whether the shot was a shell or a mine
+  - So mines which do not hit a ship would just be counted as a miss
 
+- The question is: What is best for the gameplay?
+  - Is it better for the gameplay to know where the opponent is targetting or not?
+
+- Proposal: It is better *not* to know about missed shots
+  - It would give a large advantage to AIs with good movement algorithms
+  - These algorithms may be quite hard to write
+
+- On the other hand:
+  - If it turns out that writing the AIs is too easy, then we could add this information 
+  - And then people would have to write better movement algorithms
+
+- But initially, let's say that we do not provide this info
 
 
 
