@@ -2,7 +2,10 @@
 {
     /// <summary>
     /// Sent from the game engine to each AI at the start of the game.
-    /// </summary>
+    /// </summary><remarks>
+    /// Tells AIs about the size of the board and requests that they place ships
+    /// on the board for the start of the game.
+    /// </remarks>
     public class StartGame_FromGameEngine
     {
         /// <summary>
@@ -34,7 +37,7 @@
             /// <summary>
             /// Gets or sets the index for this ship. This can be used when identifying the ship for game actions.
             /// </summary>
-            public int Index { get; set; } = 0;
+            public int ShipIndex { get; set; } = 0;
 
             /// <summary>
             /// Gets or sets the size of the ship - the number of squares it occupies.
