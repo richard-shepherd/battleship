@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Diagnostics;
 
 namespace Utility
 {
@@ -35,6 +36,29 @@ namespace Utility
                 throw new Exception($"Failed to deserialize {json} as type {typeof(T).Name}");
             }
             return deserializedObject;
+        }
+
+        /// <summary>
+        /// Waits for an asynchronous condition to be met, checking it at 1ms intervals.
+        /// Returns true if the condition was met, or false if the condition was not met 
+        /// by the timeout.
+        /// </summary>
+        public static bool wait(Func<bool> condition, int timeoutMS)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            for(; ;)
+            {
+                if(condition())
+                {
+                    return true;
+                }
+                if(stopwatch.ElapsedMilliseconds > timeoutMS)
+                {
+                    return false;
+                }
+                Thread.Sleep(1);
+            }
         }
 
         #endregion

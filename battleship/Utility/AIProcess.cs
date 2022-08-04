@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using API;
+using System.Diagnostics;
 
 namespace Utility
 {
@@ -17,6 +18,8 @@ namespace Utility
         /// </summary>
         public AIProcess(string folder)
         {
+            m_folder = folder;
+
             // We load and parse the AI.info file...
             var strAIInfo = File.ReadAllText(Path.Combine(folder, "AI.info"));
             var aiInfo = Utils.fromJSON<ParsedAIInfo>(strAIInfo);
@@ -50,7 +53,21 @@ namespace Utility
         {
             if (IsDisposed) return;
 
-            // TODO: Write this!!!
+            // We ask the AI to shut itself down...
+            sendMessage(new Shutdown.Message());
+
+            // We wait for the process to shut down...
+            var hasExited = Utils.wait(() => m_process.HasExited, 5000);
+            if (!hasExited)
+            {
+                // The process has not exited by the timeout, so we kill it...
+                Logger.log($"AI {m_folder} has not shut down. Killing it.");
+                m_process.Kill();
+            }
+
+            // We clean up the process...
+            m_process.OutputDataReceived -= onOutputDataReceived; ;
+            m_process.Dispose();
 
             IsDisposed = true;
         }
@@ -79,6 +96,9 @@ namespace Utility
         #endregion
 
         #region Private data
+
+        // The AI folder (an indication of the AI name)...
+        private readonly string m_folder;
 
         // The process we spawn to run the AI...
         private readonly Process m_process = new Process();
