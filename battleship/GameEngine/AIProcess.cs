@@ -1,7 +1,8 @@
 ﻿using API;
 using System.Diagnostics;
+using Utility;
 
-namespace Utility
+namespace GameEngine
 {
     /// <summary>
     /// Creates a process for an AI and manages communication with it.

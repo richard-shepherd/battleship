@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{2FA3AE6B-44A5-4C44-A47B-D85F3E4B1C94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{2FA3AE6B-44A5-4C44-A47B-D85F3E4B1C94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{121469D5-E52C-4857-98B1-610CEB42AF5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{121469D5-E52C-4857-98B1-610CEB42AF5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{A2EA36AB-062D-4DFF-9D99-4364B5F9EC00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{121469D5-E52C-4857-98B1-610CEB42AF5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{121469D5-E52C-4857-98B1-610CEB42AF5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{121469D5-E52C-4857-98B1-610CEB42AF5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2EA36AB-062D-4DFF-9D99-4364B5F9EC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2EA36AB-062D-4DFF-9D99-4364B5F9EC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2EA36AB-062D-4DFF-9D99-4364B5F9EC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2EA36AB-062D-4DFF-9D99-4364B5F9EC00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

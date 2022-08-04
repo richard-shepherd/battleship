@@ -1,4 +1,4 @@
-﻿namespace Utility
+﻿namespace GameEngine
 {
     /// <summary>
     /// Parsed version of the JSON AI.info file.
