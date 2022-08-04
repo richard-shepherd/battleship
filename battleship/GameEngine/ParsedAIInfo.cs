@@ -1,7 +1,7 @@
 ﻿namespace GameEngine
 {
     /// <summary>
-    /// Parsed version of the JSON AI.info file.
+    /// Parsed version of JSON AI.info files.
     /// </summary>
     internal class ParsedAIInfo
     {
