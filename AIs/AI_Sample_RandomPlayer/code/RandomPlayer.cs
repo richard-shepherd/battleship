@@ -24,8 +24,7 @@ namespace AI_Sample_RandomPlayer
 
                 // Creates and runs the AI. The run method runs a loop for one game
                 // until the game is over...
-                var ai = new RandomPlayer();
-                ai.run();
+                new RandomPlayer().run();
             }
             catch (Exception ex)
             {
@@ -36,13 +35,6 @@ namespace AI_Sample_RandomPlayer
         #endregion
 
         #region Private functions
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        private RandomPlayer()
-        {
-        }
 
         /// <summary>
         /// Runs the main loop of the AI.

@@ -32,7 +32,7 @@ namespace DevTestApp
             });
 
             ai.sendMessage(startGame);
-            Utils.wait(() => ai.HasOutput, 10000);
+            Utils.wait(() => ai.HasOutput, 5000);
             Console.WriteLine(ai.Output);
 
             ai.Dispose();
