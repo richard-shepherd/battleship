@@ -21,7 +21,7 @@
         /// <summary>
         /// Raised when messages are logged.
         /// </summary>
-        public static event EventHandler<Args>? onMessageLogged;
+        public static event EventHandler<Args> onMessageLogged;
 
         #endregion
 

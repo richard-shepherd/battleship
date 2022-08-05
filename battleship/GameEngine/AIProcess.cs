@@ -10,8 +10,31 @@ namespace GameEngine
     /// The AI is created by specifying its folder. This should contain a text file
     /// called AI.info which specifies how to run the process for the AI.
     /// </remarks>
-    public class AIProcess : IDisposable
+    internal class AIProcess : IDisposable
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets whether we have an output / response message from the AI.
+        /// </summary>
+        public bool HasOutput => (m_aiOutput != null);
+
+        /// <summary>
+        /// Gets the output / response from the AI.
+        /// NOTE: Once read, this clears the output. So it can only be read once.
+        /// </summary>
+        public string Output
+        {
+            get
+            {
+                var output = m_aiOutput;
+                m_aiOutput = null;
+                return output;
+            }
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -67,7 +90,7 @@ namespace GameEngine
             }
 
             // We clean up the process...
-            m_process.OutputDataReceived -= onOutputDataReceived; ;
+            m_process.OutputDataReceived -= onOutputDataReceived;
             m_process.Dispose();
 
             IsDisposed = true;
@@ -105,7 +128,7 @@ namespace GameEngine
         private readonly Process m_process = new Process();
 
         // The most recent message received from the AI...
-        private string m_aiOutput = null;
+        private volatile string m_aiOutput = null;
 
         #endregion
     }

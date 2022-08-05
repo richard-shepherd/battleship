@@ -88,8 +88,36 @@ namespace AI_Sample_RandomPlayer
             m_gameInfo = Utils.fromJSON<API.StartGame.Message>(message);
 
             // In response to the START_GAME message, we need to place our ships on the board...
+            var response = new API.StartGame.AIResponse();
+            foreach(var shipInfo in m_gameInfo.ShipInfos)
+            {
+                // We create a ship to place on the board and set its index...
+                var shipPlacement = new API.StartGame.AIResponse.ShipPlacement();
+                shipPlacement.ShipIndex = shipInfo.ShipIndex;
 
+                // We decide its orientation...
+                shipPlacement.Orientation = (m_rnd.NextDouble() > 0.5) ? API.Shared.OrientationEnum.HORIZONTAL : API.Shared.OrientationEnum.VERTICAL;
 
+                // We assign its (1-based) top-left point...
+                switch(shipPlacement.Orientation)
+                {
+                    case API.Shared.OrientationEnum.HORIZONTAL:
+                        shipPlacement.TopLeft.X = m_rnd.Next(1, m_gameInfo.BoardSize.X - shipInfo.Size + 1);
+                        shipPlacement.TopLeft.Y = m_rnd.Next(1, m_gameInfo.BoardSize.Y);
+                        break;
+
+                    case API.Shared.OrientationEnum.VERTICAL:
+                        shipPlacement.TopLeft.X = m_rnd.Next(1, m_gameInfo.BoardSize.X);
+                        shipPlacement.TopLeft.Y = m_rnd.Next(1, m_gameInfo.BoardSize.Y - shipInfo.Size + 1);
+                        break;
+                }
+
+                // We add the ship to the response...
+                response.ShipPlacements.Add(shipPlacement);
+            }
+
+            // We send the response...
+            sendMessage(response);
         }
 
         /// <summary>
@@ -100,7 +128,6 @@ namespace AI_Sample_RandomPlayer
             // We send an ack, and note that we need to shut down...
             sendMessage(new API.Shutdown.AIResponse());
             m_shutdown = true;
-
         }
 
         #endregion
