@@ -10,12 +10,15 @@
         /// <summary>
         /// Sent from the game engine to each AI, telling then to shut down.
         /// </summary>
-        public class Message
+        public class Message : MessageBase
         {
             /// <summary>
-            /// Gets or sets the event name.
+            /// Constructor.
             /// </summary>
-            public string EventName { get; set; } = "SHUTDOWN";
+            public Message() 
+            {
+                EventName = "SHUTDOWN";
+            }
         }
 
         #endregion
@@ -27,12 +30,15 @@
         /// </summary><remarks>
         /// The AI should ack with this message when it has processed the SHUTDOWN event.
         /// </remarks>
-        public class AIResponse
+        public class AIResponse : MessageBase
         {
             /// <summary>
-            /// Gets or sets the event name.
+            /// Constructor.
             /// </summary>
-            public string EventName { get; set; } = "SHUTDOWN";
+            public AIResponse()
+            {
+                EventName = "SHUTDOWN";
+            }
         }
 
         #endregion

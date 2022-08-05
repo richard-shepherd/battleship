@@ -6,6 +6,11 @@
     internal class ParsedAIInfo
     {
         /// <summary>
+        /// Gets or sets the working directory for the AI, relative to the folder holding the AI.info file.
+        /// </summary>
+        public string WorkingDirectory { get; set; } = ".";
+
+        /// <summary>
         /// Gets or sets the executable to run for the AI.
         /// </summary>
         public string Executable { get; set; } = "";

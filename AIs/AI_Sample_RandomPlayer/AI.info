@@ -1,0 +1,5 @@
+{
+	"WorkingDirectory": "./code/bin/Release/net6.0",
+	"Executable": "AI_Sample_RandomPlayer.exe",
+	"CommandLine": ""
+}

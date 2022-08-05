@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <StartupObject>AI_Sample_RandomPlayer.RandomPlayer</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\battleship\API\API.csproj" />
+    <ProjectReference Include="..\..\..\battleship\Utility\Utility.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -29,8 +29,8 @@ namespace GameEngine
             var startInfo = m_process.StartInfo;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardInput = true;
-            startInfo.WorkingDirectory = folder;
-            startInfo.FileName = Path.Combine(folder, aiInfo.Executable);
+            startInfo.WorkingDirectory = Path.Combine(folder, aiInfo.WorkingDirectory);
+            startInfo.FileName = Path.Combine(folder, aiInfo.WorkingDirectory, aiInfo.Executable);
             startInfo.Arguments = aiInfo.CommandLine;
             m_process.Start();
             m_process.OutputDataReceived += onOutputDataReceived; ;
@@ -105,7 +105,7 @@ namespace GameEngine
         private readonly Process m_process = new Process();
 
         // The most recent message received from the AI...
-        private string? m_aiOutput = null;
+        private string m_aiOutput = null;
 
         #endregion
     }

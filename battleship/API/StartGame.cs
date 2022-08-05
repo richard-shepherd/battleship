@@ -3,7 +3,7 @@
     /// <summary>
     /// The game-engine message and AI response for the START_GAME event.
     /// </summary>
-    public class StartGame
+    public class StartGame : MessageBase
     {
         #region Game engine message
 
@@ -13,7 +13,7 @@
         /// Tells AIs about the size of the board and requests that they place ships
         /// on the board for the start of the game.
         /// </remarks>
-        public class Message
+        public class Message : MessageBase
         {
             /// <summary>
             /// Holds the size of the board.
@@ -69,9 +69,12 @@
             }
 
             /// <summary>
-            /// Gets or sets the event name.
+            /// Constructor.
             /// </summary>
-            public string EventName { get; set; } = "START_GAME";
+            public Message()
+            {
+                EventName = "START_GAME";
+            }
 
             /// <summary>
             /// Gets or sets the size of the board.
@@ -104,7 +107,7 @@
         /// The AI tells the game where where to place ships for the start
         /// of the game.
         /// </remarks>
-        public class AIResponse
+        public class AIResponse : MessageBase
         {
             /// <summary>
             /// Initial game placement for one ship.
@@ -128,9 +131,12 @@
             }
 
             /// <summary>
-            /// Gets or sets the event name.
+            /// Constructor.
             /// </summary>
-            public string EventName { get; set; } = "START_GAME";
+            public AIResponse()
+            {
+                EventName = "START_GAME";
+            }
 
             /// <summary>
             /// Gets or sets the list of ship placements requested by the AI for the start of the game.
