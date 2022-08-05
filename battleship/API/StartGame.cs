@@ -3,7 +3,7 @@
     /// <summary>
     /// The game-engine message and AI response for the START_GAME event.
     /// </summary>
-    public class StartGame : MessageBase
+    public class StartGame
     {
         #region Game engine message
 
