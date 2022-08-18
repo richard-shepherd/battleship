@@ -56,6 +56,65 @@ Validating AI updates
 
 
 
+How do we represent the board?
+------------------------------
+- The Game needs to keep track of the board
+  - To check which ships (or parts of ships) have been hit
+  - To know where drones and mines are
+
+- For ships, we really need to keep track of the *ship-parts* themselves
+  - Not so much the board, as the ships can move
+
+- Is it worth having a board object in memory
+  - eg, with each square being some object?
+
+- I suggest NO
+  - For larger boards, this could be quite sparsely filled
+  - So maybe it is better to just keep track of the objects themselves
+
+- Should we map the objects into a sparse board?
+  - eg (4, 5) -> ship[1].part[2]
+
+- This would mean that when a shell (etc) is fired, we can easily check for a hit
+  - Without having to loop over every ship for every shell 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
