@@ -30,7 +30,7 @@
         {
             if(m_aiFolders.TryGetValue(aiName, out var aiFolder))
             {
-                return new AIProcess(aiFolder);
+                return new AIProcess(aiName, aiFolder);
             }
             throw new Exception($"AI {aiName} could not be found");
         }

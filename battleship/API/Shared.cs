@@ -49,6 +49,14 @@
             /// Gets or sets the 1-based Y coordinate.
             /// </summary>
             public int Y { get; set; } = 0;
+
+            /// <summary>
+            /// Returns the coordinates as a tuple.
+            /// </summary>
+            public (int X, int Y) toTuple()
+            {
+                return (X, Y);
+            }
         }
 
         /// <summary>
@@ -59,6 +67,16 @@
             {ShipTypeEnum.CARRIER, 5 },
             {ShipTypeEnum.BATTLESHIP, 4 },
             {ShipTypeEnum.MINELAYER, 3 }
+        };
+
+        /// <summary>
+        /// Dictionary of ship-type enum to the type of shot fired by the ship.
+        /// </summary>
+        public static Dictionary<ShipTypeEnum, ShotTypeEnum> ShipWeapons { get; set; } = new Dictionary<ShipTypeEnum, ShotTypeEnum>
+        {
+            {ShipTypeEnum.CARRIER, ShotTypeEnum.DRONE },
+            {ShipTypeEnum.BATTLESHIP, ShotTypeEnum.SHELL },
+            {ShipTypeEnum.MINELAYER, ShotTypeEnum.MINE }
         };
     }
 }

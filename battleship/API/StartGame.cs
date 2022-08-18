@@ -40,6 +40,11 @@
             }
 
             /// <summary>
+            /// Gets or sets the name of the opponent AI.
+            /// </summary>
+            public string OpponentAIName { get; set; } = "";
+
+            /// <summary>
             /// Gets or sets the size of the board.
             /// </summary>
             public BoardSizeType BoardSize { get; set; } = new BoardSizeType();

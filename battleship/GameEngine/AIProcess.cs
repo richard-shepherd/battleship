@@ -15,23 +15,14 @@ namespace GameEngine
         #region Properties
 
         /// <summary>
+        /// Gets the AI's name.
+        /// </summary>
+        public string Name => m_name;
+
+        /// <summary>
         /// Gets whether we have an output / response message from the AI.
         /// </summary>
         public bool HasOutput => (m_aiOutput != null);
-
-        /// <summary>
-        /// Gets the output / response from the AI.
-        /// NOTE: Once read, this clears the output. So it can only be read once.
-        /// </summary>
-        public string Output
-        {
-            get
-            {
-                var output = m_aiOutput;
-                m_aiOutput = null;
-                return output;
-            }
-        }
 
         #endregion
 
@@ -40,8 +31,9 @@ namespace GameEngine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AIProcess(string folder)
+        public AIProcess(string name, string folder)
         {
+            m_name = name;
             m_folder = folder;
 
             // We load and parse the AI.info file...
@@ -67,6 +59,17 @@ namespace GameEngine
         {
             var json = Utils.toJSON(message);
             m_process.StandardInput.WriteLine(json);
+        }
+
+        /// <summary>
+        /// Returns the AI output parsed as T.
+        /// NOTE: Once read, this clears the output. So it can only be read once.
+        /// </summary>
+        public T getOutputAs<T>()
+        {
+            var output = m_aiOutput;
+            m_aiOutput = null;
+            return Utils.fromJSON<T>(output);
         }
 
         #endregion
@@ -121,7 +124,8 @@ namespace GameEngine
 
         #region Private data
 
-        // The AI folder (an indication of the AI name)...
+        // Construction params...
+        private readonly string m_name;
         private readonly string m_folder;
 
         // The process we spawn to run the AI...
