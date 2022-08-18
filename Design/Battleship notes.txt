@@ -325,6 +325,202 @@ Info about shots fired
 - But initially, let's say that we do not provide this info
 
 
+Ships with different capabilities
+---------------------------------
+- Lawrence's idea (and I think it is a good one!)
+
+- Different ships can perform different functions
+  - So choosing different ships means something
+
+- Ship types and capabilities
+  - 5: Carrier:     Launches drones
+  - 4: Battleship:  Fires shells
+  - 3: Destroyer:   Fires shells
+  - 2: Minelayer:   Places mines
+  - 1: Patrol boat: Fires shells
+
+- If we do this, it means that players should choose which types of ships they deploy
+  - So they would be given a number of squares to cover (eg, 20) and then choose which types
+    of ships, covering the number of squares
+
+- BUT: If we do this, is there a large advantage to just placing lots of small ships and no big ships?
+  - They can be spread out, so they are harder to find
+  - ie, so you cannot hit one square, and then fire around it to hit the whole ship
+
+- In particular, with the capabilities above, is there any advantage to a battleship compared
+  with four patrol boats?
+  - I think NO as it is suggested above
+  - So this does not look quite right
+  - You might have the game of Battleship without a battleship!!!
+
+- Idea 1: You have to have one of each ship *plus* some you select at discretion
+
+- Idea 2: We change the capabilities of the ships to make the larger ships more desirable
+  - Larger ships fire more accurately?
+  - Larger ships can fire even if the ship is damaged?
+
+- Idea 3: We do not have the smallest 1-square ship
+  - I quite like this
+
+- But with idea 3, it would still be good for the battleship to be more compelling
+
+- Idea 4: You must have at least one battleship!
+
+- Idea 5: We do not have the Destroyer
+  - Instead we *do* have a 1-square ship: the Submarine
+  - This can only fire shells "when it surfaces" every other turn
+  - ie, we make the 1-square ship less powerful (rather than the battleship more powerful)
+
+- Ship types and capabilities
+  - 5: Carrier:    Launches drones
+  - 4: Battleship: Fires shells
+  - 3: Minelayer:  Places mines
+  - 1: Submarine:  Fires shells (every other turn) (or gets 0.5 shots per turn)
+
+
+How does firing work with different ship capabilities?
+------------------------------------------------------
+- You have firing points based on the number of guns
+
+- Say you have 20 squares and allocate:
+  - 1 x Carrier    (5)
+  - 2 x Battleship (8)
+  - 2 x Minelayer  (6)
+  - 1 x Submarine  (1)
+
+- You have 19.5 shots in the first round
+  - Rounded down to 19 shots
+
+- BUT: You cannot (say) fire 19 shells
+  - Because you only have 8.5 shell-firing ships
+  - ie, 8 squares of Battleships + 1 square of submarine
+
+- Should you accumulate shells, mines and drones independently?
+  - You accumulate as: number of squares which can fire divided by cost
+
+- Costs:
+  - Shells: 1
+  - Mine:   5
+  - Drone:  5
+
+- Round 1:
+  - Shells: 8.5 (8.5 squares / cost=1)
+  - Mines:  1.2 (6 squares / cost=5)
+  - Drones: 1.0 (5 squares / cost=5)
+
+
+- You fire 8 shells, 1 mine and one drone
+
+- You are not hit
+
+- Round 2:
+  - Shells: 9.0 = 8.5 new shots + 0.5 carried over
+  - Mines:  1.4 = 1.2 new shots + 0.2 carried over
+  - Drones: 1.0 = 1.0 new shots + 0.0 carried over
+
+- The game will tell you at the beginning of each round how many shots of each type you can take
+
+
+Are submarines still too powerful / useful?
+-------------------------------------------
+- Say you go for an all-submarine strategy
+  - eg, 20 submarines
+
+- This lets you spread out the ships
+  - So salvos become relatively useless
+  - And in fact worse than useless - a waste of ammo and turns
+
+- You cannot use drones or mines in this scenario
+  - But if the spread-out strategy is so useful, maybe you do not need to?
+
+
+
+Idea 6
+------
+- We do not have a 1-square ship, only:
+  - 5: Carrier:    Launches drones
+  - 4: Battleship: Fires shells
+  - 3: Minelayer:  Places mines
+
+- At the start of the game, you can place ship *up to* the number of squares specified
+  - So if 20 squares are specified, you can fill only 19
+  - Or even only (say) 4
+
+- Is there any advantage to placing fewer ships
+  - I think NO
+  - As this is a bit like going to the later stage of the game directly
+    when you have already lost a number of ships
+
+- What about fuel though?
+  - If you have one ship, but lots of fuel this would mean that you can move around a lot
+  - That is: if fuel is global and you get a fixed amount at the start of the game
+  - Maybe fuel should not be global
+
+
+
+'Unlimited' movement + fuel v2
+------------------------------
+- Ships can move as far as they like in each turn
+  - But larger movements cost more fuel
+
+- This helps ships to escape salvos if one part has been hit
+  - Otherwise they might be too easy to kill after an initial hit
+
+- Let's say that fuel is local to each ship - not global
+
+- Movement cost is calculated by looking at each square in the starting position and each corresponding
+  square in the destination position and calculating the distance using Pythagoras
+
+- This means that sideways movement is as cheap as straight line movement
+  - Maybe that's not such a bad thing
+
+- If bigger ships have more fuel than smaller ships, then each ship can move the same distance
+  - Which seems reasonable
+
+- Fuel is local
+  - So a ship can run out of fuel
+  - And can no longer move
+
+
+Movement and mines
+------------------
+- If a ship moves a number of squares, does it hit mines 'along the way'?
+
+- Start position:
+  A: ...BBBB...
+  B: ....m.....
+  C: ..........
+
+- End position:  
+  A: ..........
+  B: ....m.....
+  C: ...BBBB...
+
+- Should the ship be hit by the mine as it moves from row A to row C?
+  - Ideally YES
+
+- But for some movement, it might be tricky to work out which squares each ship-square travelled through
+
+
+Do you lose fuel when you are hit?
+----------------------------------
+- This might be rather nice
+
+- For example, if you have a battleship (4 squares) and one square is hit, you lose 1/4 of your remaining fuel
+
+- So ships become more crippled as they are hit
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -12,9 +12,7 @@
         {
             CARRIER,
             BATTLESHIP,
-            DESTROYER,
-            CRUISER,
-            PATROL_BOAT
+            MINELAYER
         }
 
         /// <summary>
@@ -52,5 +50,15 @@
             /// </summary>
             public int Y { get; set; } = 0;
         }
+
+        /// <summary>
+        /// Dictionary of ship-type enum to the size of each ship.
+        /// </summary>
+        public static Dictionary<ShipTypeEnum, int> ShipSizes { get; set; } = new Dictionary<ShipTypeEnum, int>
+        {
+            {ShipTypeEnum.CARRIER, 5 },
+            {ShipTypeEnum.BATTLESHIP, 4 },
+            {ShipTypeEnum.MINELAYER, 3 }
+        };
     }
 }

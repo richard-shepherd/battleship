@@ -32,27 +32,6 @@
             }
 
             /// <summary>
-            /// The name and size of a ship to be placed on the board.
-            /// </summary>
-            public class ShipInfo
-            {
-                /// <summary>
-                /// Gets or sets the ship type, eg CARRIER, BATTLESHIP etc.
-                /// </summary>
-                public Shared.ShipTypeEnum ShipType { get; set; }
-
-                /// <summary>
-                /// Gets or sets the index for this ship. This can be used when identifying the ship for game actions.
-                /// </summary>
-                public int ShipIndex { get; set; } = 0;
-
-                /// <summary>
-                /// Gets or sets the size of the ship - the number of squares it occupies.
-                /// </summary>
-                public int Size { get; set; } = 0;
-            }
-
-            /// <summary>
             /// The cost to fire a shot.
             /// </summary>
             public class ShotCost
@@ -82,19 +61,9 @@
             public BoardSizeType BoardSize { get; set; } = new BoardSizeType();
 
             /// <summary>
-            /// Gets or sets the list of ships which the AI should place on the board.
+            /// Gets or sets the number of board squares that the AI should fill with ships.
             /// </summary>
-            public List<ShipInfo> ShipInfos { get; set; } = new List<ShipInfo>();
-
-            /// <summary>
-            /// Gets or sets the list of shot-costs, ie the cost to fire the various different types of shot.
-            /// </summary>
-            public List<ShotCost> ShotCosts { get; set; } = new List<ShotCost>();
-
-            /// <summary>
-            /// Gets or sets the amount of fuel available at the start of the game.
-            /// </summary>
-            public int Fuel { get; set; } = 100;
+            public int ShipSquares { get; set; } = 20;
         }
 
         #endregion
@@ -104,8 +73,7 @@
         /// <summary>
         /// Response from AIs to the START_GAME notification.
         /// </summary><remarks>
-        /// The AI tells the game where where to place ships for the start
-        /// of the game.
+        /// The AI tells the game where where to place ships for the start of the game.
         /// </remarks>
         public class AIResponse : MessageBase
         {
@@ -115,9 +83,9 @@
             public class ShipPlacement
             {
                 /// <summary>
-                /// Gets or sets the index of the ship to place.
+                /// Gets or sets the type of ship being placed on the board.
                 /// </summary>
-                public int ShipIndex { get; set; } = 0;
+                public Shared.ShipTypeEnum ShipType { get; set; }
 
                 /// <summary>
                 /// Gets or sets the 1-based coordinates of the top-left square where the ship should be placed.

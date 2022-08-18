@@ -18,18 +18,7 @@ namespace DevTestApp
             var startGame = new API.StartGame.Message();
             startGame.BoardSize.X = 100;
             startGame.BoardSize.Y = 100;
-            startGame.ShipInfos.Add(new API.StartGame.Message.ShipInfo
-            {
-                ShipIndex = 0,
-                ShipType = API.Shared.ShipTypeEnum.CARRIER,
-                Size = 5
-            });
-            startGame.ShipInfos.Add(new API.StartGame.Message.ShipInfo
-            {
-                ShipIndex = 1,
-                ShipType = API.Shared.ShipTypeEnum.BATTLESHIP,
-                Size = 4
-            });
+            startGame.ShipSquares = 20;
 
             ai.sendMessage(startGame);
             Utils.wait(() => ai.HasOutput, 5000);

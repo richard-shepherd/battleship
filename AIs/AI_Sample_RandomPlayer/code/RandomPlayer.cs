@@ -81,35 +81,43 @@ namespace AI_Sample_RandomPlayer
 
             // In response to the START_GAME message, we need to place our ships on the board...
             var response = new API.StartGame.AIResponse();
-            foreach(var shipInfo in m_gameInfo.ShipInfos)
-            {
-                // We create a ship to place on the board and set its index...
-                var shipPlacement = new API.StartGame.AIResponse.ShipPlacement();
-                shipPlacement.ShipIndex = shipInfo.ShipIndex;
 
-                // We decide its orientation...
-                shipPlacement.Orientation = (m_rnd.NextDouble() > 0.5) ? API.Shared.OrientationEnum.HORIZONTAL : API.Shared.OrientationEnum.VERTICAL;
-
-                // We assign its (1-based) top-left point...
-                switch(shipPlacement.Orientation)
-                {
-                    case API.Shared.OrientationEnum.HORIZONTAL:
-                        shipPlacement.TopLeft.X = m_rnd.Next(1, m_gameInfo.BoardSize.X - shipInfo.Size + 1);
-                        shipPlacement.TopLeft.Y = m_rnd.Next(1, m_gameInfo.BoardSize.Y);
-                        break;
-
-                    case API.Shared.OrientationEnum.VERTICAL:
-                        shipPlacement.TopLeft.X = m_rnd.Next(1, m_gameInfo.BoardSize.X);
-                        shipPlacement.TopLeft.Y = m_rnd.Next(1, m_gameInfo.BoardSize.Y - shipInfo.Size + 1);
-                        break;
-                }
-
-                // We add the ship to the response...
-                response.ShipPlacements.Add(shipPlacement);
-            }
+            // We add ships...
+            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.CARRIER));
+            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.BATTLESHIP));
+            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.BATTLESHIP));
+            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.MINELAYER));
+            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.MINELAYER));
 
             // We send the response...
             sendMessage(response);
+        }
+
+        /// <summary>
+        /// Creates a ship to be placed on the board at the start of the game.
+        /// </summary>
+        private API.StartGame.AIResponse.ShipPlacement createShip(API.Shared.ShipTypeEnum shipType)
+        {
+            var shipPlacement = new API.StartGame.AIResponse.ShipPlacement();
+            shipPlacement.ShipType = shipType;
+            shipPlacement.Orientation = (m_rnd.NextDouble() > 0.5) ? API.Shared.OrientationEnum.HORIZONTAL : API.Shared.OrientationEnum.VERTICAL;
+
+            // We assign its (1-based) top-left point...
+            var shipSize = API.Shared.ShipSizes[shipPlacement.ShipType];
+            switch (shipPlacement.Orientation)
+            {
+                case API.Shared.OrientationEnum.HORIZONTAL:
+                    shipPlacement.TopLeft.X = m_rnd.Next(1, m_gameInfo.BoardSize.X - shipSize + 1);
+                    shipPlacement.TopLeft.Y = m_rnd.Next(1, m_gameInfo.BoardSize.Y);
+                    break;
+
+                case API.Shared.OrientationEnum.VERTICAL:
+                    shipPlacement.TopLeft.X = m_rnd.Next(1, m_gameInfo.BoardSize.X);
+                    shipPlacement.TopLeft.Y = m_rnd.Next(1, m_gameInfo.BoardSize.Y - shipSize + 1);
+                    break;
+            }
+
+            return shipPlacement;
         }
 
         /// <summary>
