@@ -32,22 +32,6 @@
             }
 
             /// <summary>
-            /// The cost to fire a shot.
-            /// </summary>
-            public class ShotCost
-            {
-                /// <summary>
-                /// Gets or sets the shot type, eg SHELL, MINE etc.
-                /// </summary>
-                public Shared.ShotTypeEnum ShotType { get; set; }
-
-                /// <summary>
-                /// Gets or sets the cost of firing the shot.
-                /// </summary>
-                public int Cost { get; set; } = 1;
-            }
-
-            /// <summary>
             /// Constructor.
             /// </summary>
             public Message()
