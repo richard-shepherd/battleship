@@ -17,6 +17,11 @@
         /// </summary>
         public bool IsDamaged => m_isDamaged;
 
+        /// <summary>
+        /// Gets the type of shot fired by this ship-part.
+        /// </summary>
+        public API.Shared.ShotTypeEnum ShotType => m_parent.ShotType;
+
         #endregion
 
         #region Public methods

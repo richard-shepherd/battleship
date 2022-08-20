@@ -37,12 +37,12 @@
         /// </summary>
         public void startGame_sendMessage(int boardSize, int shipSquares, string opponentName)
         {
-            var startGameMessage = new API.StartGame.Message();
-            startGameMessage.BoardSize.X = boardSize;
-            startGameMessage.BoardSize.Y = boardSize;
-            startGameMessage.ShipSquares = shipSquares;
-            startGameMessage.OpponentAIName = opponentName;
-            m_ai.sendMessage(startGameMessage);
+            var message = new API.StartGame.Message();
+            message.BoardSize.X = boardSize;
+            message.BoardSize.Y = boardSize;
+            message.ShipSquares = shipSquares;
+            message.OpponentAIName = opponentName;
+            m_ai.sendMessage(message);
         }
 
         /// <summary>
@@ -62,8 +62,16 @@
         {
             // We update the number of shots of each type which are available - including
             // any accumulated unused shots from previous turns...
-            var undamagedParts = m_board.UndamagedParts;
+            m_shellsAvailable += additionShotsThisTurn(API.Shared.ShotTypeEnum.SHELL);
+            m_minesAvailable += additionShotsThisTurn(API.Shared.ShotTypeEnum.MINE);
+            m_dronesAvailable += additionShotsThisTurn(API.Shared.ShotTypeEnum.DRONE);
 
+            // We let the AI know how many shots of each type are available and request it to fire its weapons...
+            var message = new API.FireWeapons.Message();
+            message.AvailableShells = (int)m_shellsAvailable;
+            message.AvailableMines = (int)m_minesAvailable;
+            message.AvailableDrones = (int)m_dronesAvailable;
+            m_ai.sendMessage(message);
         }
 
         /// <summary>
@@ -89,6 +97,24 @@
         }
 
         protected bool IsDisposed { get; private set; }
+
+        #endregion
+
+        #region Private functions
+
+        /// <summary>
+        /// Returns the number of additional shots accumulated this turn for the shot-type specified.
+        /// </summary>
+        private double additionShotsThisTurn(API.Shared.ShotTypeEnum shotType)
+        {
+            // We find the number of undamaged parts capable of firing the requested shot-type...
+            var numShipParts = m_board.UndamagedParts.Where(x => x.ShotType == shotType).Count();
+
+            // We find the cost to fire this shot...
+            var cost = API.Shared.ShotCosts[shotType];
+
+            return numShipParts / cost;
+        }
 
         #endregion
 

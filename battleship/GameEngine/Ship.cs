@@ -12,6 +12,11 @@
         /// </summary>
         public List<ShipPart> ShipParts => m_shipParts;
 
+        /// <summary>
+        /// Gets the type of shot fired by this ship.
+        /// </summary>
+        public API.Shared.ShotTypeEnum ShotType => m_shotType;
+
         #endregion
 
         #region Public methods

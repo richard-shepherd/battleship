@@ -28,17 +28,19 @@
             }
 
             /// <summary>
-            /// Gets or sets the number of shots that the AI can take for each shot type, for example:
-            /// SHELL: 10
-            /// MINE:   2
-            /// DRONE:  3
-            /// </summary><remarks>
-            /// The number of shots available includes any unused shots (or partial shots) 'saved up' from previous rounds.
-            /// Only the integer number of shots which can be fired in this round is reported. The game engine is keeping
-            /// track of any partial shots being accumulated. For example, if the number of mines available is 2.8 as 
-            /// recorded in the game engine, it is reported as 2 here.
-            /// </remarks>
-            public Dictionary<Shared.ShotTypeEnum, int> AvailableShots { get; set; } = new Dictionary<Shared.ShotTypeEnum, int>();
+            /// Gets or sets the number of shells which can be fired this turn.
+            /// </summary>
+            public int AvailableShells { get; set; } = 0;
+
+            /// <summary>
+            /// Gets or sets the number of mines which can be fired this turn.
+            /// </summary>
+            public int AvailableMines { get; set; } = 0;
+
+            /// <summary>
+            /// Gets or sets the number of drones which can be fired this turn.
+            /// </summary>
+            public int AvailableDrones { get; set; } = 0;
         }
 
         #endregion

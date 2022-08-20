@@ -16,14 +16,10 @@ namespace AI_Sample_RandomPlayer
         {
             try
             {
-                // We set up the logger...
-                Logger.onMessageLogged += (sender, logArgs) =>
-                {
-                    Console.WriteLine(logArgs.Message);
-                };
+                // We st up the logger...
+                setupLogger();
 
-                // Creates and runs the AI. The run method runs a loop for one game
-                // until the game is over...
+                // Creates and runs the AI. The run method runs a loop for one game until the game is over...
                 new RandomPlayer().run();
             }
             catch (Exception ex)
@@ -37,6 +33,48 @@ namespace AI_Sample_RandomPlayer
         #region Private functions
 
         /// <summary>
+        /// Redirects logged messages to a file.
+        /// </summary>
+        private static void setupLogger()
+        {
+            try
+            {
+                // We create the log folder...
+                Directory.CreateDirectory("Logs");
+
+                // We delete any old files...
+                var cutoff = DateTime.Now - TimeSpan.FromMinutes(1);
+                var logFiles = new DirectoryInfo("Logs").EnumerateFiles("*.log").ToList();
+                foreach (var logFile in logFiles)
+                {
+                    if (logFile.LastWriteTime < cutoff)
+                    {
+                        logFile.Delete();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // We do not do anything here. If we are running two versions of this AI,
+                // they can conflict trying to set up the log folder. We ignore these conflicts.
+            }
+
+            // We log messages...
+            var logFilePath = Path.Combine("Logs", $"RandomPlayer_{Environment.ProcessId}.log");
+            Logger.onMessageLogged += (sender, logArgs) =>
+            {
+                try
+                {
+                    File.AppendAllText(logFilePath, $"{DateTime.Now:HH:mm:ss.fff}: {logArgs.Message}{Environment.NewLine}{Environment.NewLine}");
+                }
+                catch (Exception)
+                {
+                    // We ignore exceptions generated while logging. It may not be a good idea to try to log them in this case!
+                }
+            };
+        }
+
+        /// <summary>
         /// Runs the main loop of the AI.
         /// </summary>
         private void run()
@@ -45,11 +83,16 @@ namespace AI_Sample_RandomPlayer
             while(!m_shutdown)
             {
                 var message = Console.ReadLine();
+                Logger.log($"RX->{message}");
                 var messageBase = Utils.fromJSON<API.MessageBase>(message);
                 switch(messageBase.EventName)
                 {
                     case "START_GAME":
                         onStartGame(message);
+                        break;
+
+                    case "FIRE_WEAPONS":
+                        onFireWeapons(message);
                         break;
 
                     case "SHUTDOWN":
@@ -68,6 +111,7 @@ namespace AI_Sample_RandomPlayer
         private void sendMessage(object message)
         {
             var json = Utils.toJSON(message);
+            Logger.log($"TX<-{json}");
             Console.WriteLine(json);
         }
 
@@ -91,6 +135,42 @@ namespace AI_Sample_RandomPlayer
 
             // We send the response...
             sendMessage(response);
+        }
+
+        /// <summary>
+        /// Called when we receive the FIRE_WEAPONS message.
+        /// </summary>
+        private void onFireWeapons(string message)
+        {
+            // We deserialize the message from the game. This tells us how many shots
+            // of each type are available...
+            var weaponsInfo = Utils.fromJSON<API.FireWeapons.Message>(message);
+
+            // We fire each weapon into a random square on the board...
+            var response = new API.FireWeapons.AIResponse();
+            response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.SHELL, weaponsInfo.AvailableShells));
+            response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.MINE, weaponsInfo.AvailableMines));
+            response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.DRONE, weaponsInfo.AvailableDrones));
+
+            // We send the response...
+            sendMessage(response);
+        }
+
+        /// <summary>
+        /// Creates a shot of the type specified, targetting a random square on the board.
+        /// </summary>
+        private List<API.FireWeapons.AIResponse.Shot> createRandomShots(API.Shared.ShotTypeEnum shotType, int numShots)
+        {
+            var shots = new List<API.FireWeapons.AIResponse.Shot>();
+            for(var i=0; i<numShots; ++i)
+            {
+                var shot = new API.FireWeapons.AIResponse.Shot();
+                shot.TargetSquare.X = m_rnd.Next(1, m_gameInfo.BoardSize.X + 1);
+                shot.TargetSquare.Y = m_rnd.Next(1, m_gameInfo.BoardSize.Y + 1);
+                shot.ShotType = shotType;
+                shots.Add(shot);
+            }
+            return shots;
         }
 
         /// <summary>
