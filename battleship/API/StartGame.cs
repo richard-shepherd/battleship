@@ -5,6 +5,13 @@
     /// </summary>
     public class StartGame
     {
+        #region Event name
+
+        // The event name sent with messages to and from the AIs...
+        public static string EventName = "START_GAME";
+
+        #endregion
+
         #region Game engine message
 
         /// <summary>
@@ -15,6 +22,14 @@
         /// </remarks>
         public class Message : MessageBase
         {
+            /// <summary>
+            /// Constructor.
+            /// </summary>
+            public Message()
+            {
+                EventName = StartGame.EventName;
+            }
+
             /// <summary>
             /// Holds the size of the board.
             /// </summary>
@@ -29,14 +44,6 @@
                 /// Gets or sets the size of the board in the y-axis.
                 /// </summary>
                 public int Y { get; set; } = 100;
-            }
-
-            /// <summary>
-            /// Constructor.
-            /// </summary>
-            public Message()
-            {
-                EventName = "START_GAME";
             }
 
             /// <summary>
@@ -67,6 +74,14 @@
         public class AIResponse : MessageBase
         {
             /// <summary>
+            /// Constructor.
+            /// </summary>
+            public AIResponse()
+            {
+                EventName = StartGame.EventName;
+            }
+
+            /// <summary>
             /// Initial game placement for one ship.
             /// </summary>
             public class ShipPlacement
@@ -85,14 +100,6 @@
                 /// Gets or sets the orientation of the ship, ie VERTICAL or HORIZONTAL
                 /// </summary>
                 public Shared.OrientationEnum Orientation { get; set; } = Shared.OrientationEnum.HORIZONTAL;
-            }
-
-            /// <summary>
-            /// Constructor.
-            /// </summary>
-            public AIResponse()
-            {
-                EventName = "START_GAME";
             }
 
             /// <summary>

@@ -3,8 +3,15 @@
     /// <summary>
     /// The game-engine message and AI response for the FIRE_WEAPONS event.
     /// </summary>
-    internal class FireWeapons
+    public class FireWeapons
     {
+        #region Event name
+
+        // The event name sent with messages to and from the AIs...
+        public static string EventName = "FIRE_WEAPONS";
+
+        #endregion
+
         #region Game engine message
 
         /// <summary>
@@ -17,7 +24,7 @@
             /// </summary>
             public Message()
             {
-                EventName = "FIRE_WEAPONS";
+                EventName = FireWeapons.EventName;
             }
 
             /// <summary>
@@ -48,7 +55,7 @@
             /// </summary>
             public AIResponse()
             {
-                EventName = "FIRE_WEAPONS";
+                EventName = FireWeapons.EventName;
             }
 
             /// <summary>

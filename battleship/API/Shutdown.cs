@@ -5,6 +5,13 @@
     /// </summary>
     public class Shutdown
     {
+        #region Event name
+
+        // The event name sent with messages to and from the AIs...
+        public static string EventName = "SHUTDOWN";
+
+        #endregion
+
         #region Game engine message
 
         /// <summary>
@@ -17,7 +24,7 @@
             /// </summary>
             public Message() 
             {
-                EventName = "SHUTDOWN";
+                EventName = Shutdown.EventName;
             }
         }
 
@@ -37,7 +44,7 @@
             /// </summary>
             public AIResponse()
             {
-                EventName = "SHUTDOWN";
+                EventName = Shutdown.EventName;
             }
         }
 

@@ -16,6 +16,15 @@
     /// </remarks>
     internal class Board
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets the collection of undamaged parts across all ships on the board.
+        /// </summary>
+        public IEnumerable<ShipPart> UndamagedParts => m_ships.SelectMany(x => x.ShipParts).Where(x => !x.IsDamaged);
+
+        #endregion
+
         #region Public methods
 
         /// <summary>

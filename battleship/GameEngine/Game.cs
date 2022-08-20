@@ -1,6 +1,4 @@
-﻿using Utility;
-
-namespace GameEngine
+﻿namespace GameEngine
 {
     /// <summary>
     /// Manages a game of Battleship between two AIs.
@@ -12,40 +10,33 @@ namespace GameEngine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Game(AIManager aiManager, string ai1_Name, string ai2_Name, int boardSize, int shipQuares)
+        public Game(AIManager aiManager, string ai1_Name, string ai2_Name, int boardSize, int shipSquares)
         {
             m_aiManager = aiManager;
             m_ai1_Name = ai1_Name;
             m_ai2_Name = ai2_Name;
             m_boardSize = boardSize;
-            m_shipQuares = shipQuares;
+            m_shipSquares = shipSquares;
 
-            // We create the two AIs and set up the boards...
-            var startGameMessage = new API.StartGame.Message();
-            startGameMessage.BoardSize.X = m_boardSize;
-            startGameMessage.BoardSize.Y = m_boardSize;
-            startGameMessage.ShipSquares = m_shipQuares;
+            // We create the two players, and send the START_GAME message to them...
+            m_player1 = new Player(aiManager, ai1_Name);
+            m_player2 = new Player(aiManager, ai2_Name);
+            m_player1.startGame_sendMessage(boardSize, shipSquares, ai2_Name);
+            m_player2.startGame_sendMessage(boardSize, shipSquares, ai1_Name);
 
-            // We send the start-game message to AI1...
-            m_ai1 = m_aiManager.createAIProcess(m_ai1_Name);
-            startGameMessage.OpponentAIName = ai2_Name;
-            m_ai1.sendMessage(startGameMessage);
+            // We wait for responses, and set up the board for each player...
+            GameUtils.waitForAIReponses(m_player1, m_player2, START_GAME_TIMEOUT, API.StartGame.EventName);
+            m_player1.startGame_processResponse();
+            m_player2.startGame_processResponse();
+        }
 
-            // We send the start-game message to AI2...
-            m_ai2 = m_aiManager.createAIProcess(m_ai2_Name);
-            startGameMessage.OpponentAIName = ai1_Name;
-            m_ai2.sendMessage(startGameMessage);
-
-            // We wait for responses...
-            GameUtils.waitForAIReponses(m_ai1, m_ai2, START_GAME_TIMEOUT, startGameMessage.EventName);
-
-            // We create the board for AI1...
-            var ai1Response = m_ai1.getOutputAs<API.StartGame.AIResponse>();
-            m_board1 = new Board(ai1Response.ShipPlacements);
-
-            // We create the board for AI2...
-            var ai2Response = m_ai2.getOutputAs<API.StartGame.AIResponse>();
-            m_board2 = new Board(ai2Response.ShipPlacements);
+        /// <summary>
+        /// Plays one turn of the game.
+        /// </summary>
+        public void playTurn()
+        {
+            // Requests the players to fire their weapons, and processes the responses...
+            fireWeapons();
         }
 
         #endregion
@@ -56,14 +47,33 @@ namespace GameEngine
         {
             if (IsDisposed) return;
 
-            // We clean up the AI processes...
-            m_ai1.Dispose();
-            m_ai2.Dispose();
+            // We clean up the players...
+            m_player1.Dispose();
+            m_player2.Dispose();
 
             IsDisposed = true;
         }
 
         protected bool IsDisposed { get; private set; }
+
+        #endregion
+
+        #region Private functions
+
+        /// <summary>
+        /// Requests the players to fire their weapons, and processes the responses.
+        /// </summary>
+        private void fireWeapons()
+        {
+            // We request each AI to fire its weapons, and wait for both responses...
+            m_player1.fireWeapons_sendMessage();
+            m_player2.fireWeapons_sendMessage();
+            GameUtils.waitForAIReponses(m_player1, m_player2, TURN_TIMEOUT, API.FireWeapons.EventName);
+
+            // We process the responses...
+            m_player1.fireWeapons_processResponse();
+            m_player2.fireWeapons_processResponse();
+        }
 
         #endregion
 
@@ -74,18 +84,15 @@ namespace GameEngine
         private readonly string m_ai1_Name;
         private readonly string m_ai2_Name;
         private readonly int m_boardSize;
-        private readonly int m_shipQuares;
+        private readonly int m_shipSquares;
 
-        // The process and board for AI1...
-        private readonly AIProcess m_ai1;
-        private readonly Board m_board1;
-
-        // The process and board for AI2...
-        private readonly AIProcess m_ai2;
-        private readonly Board m_board2;
+        // The two players...
+        private readonly Player m_player1;
+        private readonly Player m_player2;
 
         // Constants...
         private const int START_GAME_TIMEOUT = 30000;
+        private const int TURN_TIMEOUT = 1000;
 
         #endregion
     }

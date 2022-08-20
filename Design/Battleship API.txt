@@ -27,8 +27,8 @@ Action=START_GAME
 
 
 
-Action=LIGHT_EM_UP
-------------------
+Action=FIRE_WEAPONS
+-------------------
 - Sent at the start of each turn to allow AIs to fire at the enemy
 
 - Message from game engine
