@@ -1,4 +1,6 @@
-﻿namespace API
+﻿using Newtonsoft.Json;
+
+namespace API
 {
     /// <summary>
     /// Base class for messages - both from the game engine and from AI responses.
@@ -11,6 +13,7 @@
         /// <summary>
         /// Gets or sets the event name.
         /// </summary>
+        [JsonProperty(Order = -2)]
         public string EventName { get; set; } = "";
     }
 }
