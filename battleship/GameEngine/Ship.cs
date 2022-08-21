@@ -1,4 +1,6 @@
-﻿namespace GameEngine
+﻿using Utility;
+
+namespace GameEngine
 {
     /// <summary>
     /// Holds details of one ship.
@@ -13,9 +15,24 @@
         public List<ShipPart> ShipParts => m_shipParts;
 
         /// <summary>
+        /// Gets the ship type - eg, CARRIER, BATTLESHIP etc.
+        /// </summary>
+        public API.Shared.ShipTypeEnum ShipType => m_shipType;
+
+        /// <summary>
         /// Gets the type of shot fired by this ship.
         /// </summary>
         public API.Shared.ShotTypeEnum ShotType => m_shotType;
+
+        /// <summary>
+        /// Gets the collection of undamaged parts for this ship
+        /// </summary>
+        public IEnumerable<ShipPart> UndamagedParts => ShipParts.Where(x => !x.IsDamaged);
+
+        /// <summary>
+        /// Gets whether the ship is destroyed - ie, if all of its parts have been hit.
+        /// </summary>
+        public bool IsDestroyed => UndamagedParts.None();
 
         #endregion
 

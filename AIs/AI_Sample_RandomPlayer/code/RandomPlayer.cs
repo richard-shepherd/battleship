@@ -95,6 +95,10 @@ namespace AI_Sample_RandomPlayer
                         onFireWeapons(message);
                         break;
 
+                    case "STATUS_UPDATE":
+                        onStatusUpdate(message);
+                        break;
+
                     case "SHUTDOWN":
                         onShutdown();
                         break;
@@ -154,6 +158,20 @@ namespace AI_Sample_RandomPlayer
 
             // We send the response...
             sendMessage(response);
+        }
+
+        /// <summary>
+        /// Called when we receive the STATUS_UPDATE message.
+        /// </summary>
+        private void onStatusUpdate(string message)
+        {
+            // More sophisticated AIs might do something here with the status update.
+            // For example, noting if any of their shots have hit the opponent and then
+            // targetting the area around the hit. As this AI plays randomly it does not
+            // do anything with this update.
+
+            // We ACK the message...
+            sendMessage(new API.StatusUpdate.AIResponse());
         }
 
         /// <summary>

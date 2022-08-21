@@ -33,9 +33,18 @@
         }
 
         /// <summary>
+        /// Returns the ship-part at the 1-based (x, y) coordinates on the board.
+        /// Returns null if there is no ship-part at the location.
+        /// </summary>
+        public ShipPart getShipPart(int x, int y)
+        {
+            return m_board.getShipPart(x, y);
+        }
+
+        /// <summary>
         /// Sends the START_GAME message to the AI, requesting initial ship placements.
         /// </summary>
-        public void startGame_sendMessage(int boardSize, int shipSquares, string opponentName)
+        public void startGame_SendMessage(int boardSize, int shipSquares, string opponentName)
         {
             var message = new API.StartGame.Message();
             message.BoardSize.X = boardSize;
@@ -49,7 +58,7 @@
         /// Processes the response from the AI to the START_GAME message, including setting up the
         /// board with the initial ship placements.
         /// </summary>
-        public void startGame_processResponse()
+        public void startGame_ProcessResponse()
         {
             var aiResponse = m_ai.getOutputAs<API.StartGame.AIResponse>();
             m_board = new Board(aiResponse.ShipPlacements);
@@ -58,7 +67,7 @@
         /// <summary>
         /// Sends the FIRE_WEAPONS message to the AI.
         /// </summary>
-        public void fireWeapons_sendMessage()
+        public void fireWeapons_SendMessage()
         {
             // We update the number of shots of each type which are available - including
             // any accumulated unused shots from previous turns...
@@ -76,26 +85,32 @@
 
         /// <summary>
         /// Processes the reponse from the AI to the FIRE_WEAPONS message.
-        /// </summary>
-        public void fireWeapons_processResponse(Player opponent)
+        /// </summary><remarks>
+        /// The DamageReport returned includes:
+        /// - Shots fired by this player
+        /// - Damage taken by the opponent
+        /// </remarks>
+        public API.StatusUpdate.Message.DamageReport fireWeapons_ProcessResponse(Player opponent)
         {
             // We parse the response from the AI...
             var aiResponse = m_ai.getOutputAs<API.FireWeapons.AIResponse>();
 
-            // We process each shot and 
-
+            // We process each shot and fill in the damage-report...
+            var damageReport = new API.StatusUpdate.Message.DamageReport();
             foreach(var shot in aiResponse.Shots)
             {
                 switch(shot.ShotType)
                 {
                     case API.Shared.ShotTypeEnum.SHELL:
-
+                        processShot_Shell(damageReport, opponent, shot);
                         break;
 
                     default:
                         throw new Exception($"Unhandled shot-type: {shot.ShotType}");
                 }
             }
+
+            return damageReport;
         }
 
         #endregion
@@ -130,6 +145,53 @@
             var cost = API.Shared.ShotCosts[shotType];
 
             return numShipParts / cost;
+        }
+
+        /// <summary>
+        /// Processes a SHELL shot fired by the player.
+        /// </summary>
+        private void processShot_Shell(API.StatusUpdate.Message.DamageReport damageReport, Player opponent, API.FireWeapons.AIResponse.Shot shot)
+        {
+            // We confirm that we have enough shells to fire this shot. If not, we ignore the shot...
+            if(m_shellsAvailable < 1.0)
+            {
+                return;
+            }
+
+            // We remove the shell from our inventory...
+            m_shellsAvailable -= 1.0;
+
+            // We add the shot to the damage report...
+            var shotInfo = new API.StatusUpdate.Message.ShotInfo();
+            shotInfo.TargetSquare = shot.TargetSquare;
+            damageReport.ShotInfos.Add(shotInfo);
+
+            // We check if the shell hit an opponent ship...
+            var shipPart = opponent.getShipPart(shot.TargetSquare.X, shot.TargetSquare.Y);
+            if(shipPart == null)
+            {
+                // There was no ship at the target square...
+                shotInfo.ShotStatus = API.StatusUpdate.Message.ShotStatusEnum.MISS;
+                return;
+            }
+
+            // There is a ship-part at the target square. We check if we have hit an already damaged part...
+            if(shipPart.IsDamaged)
+            {
+                // Hitting an already damaged part counts as a miss...
+                shotInfo.ShotStatus = API.StatusUpdate.Message.ShotStatusEnum.MISS;
+                return;
+            }
+
+            // We have hit a ship part...
+            shotInfo.ShotStatus = API.StatusUpdate.Message.ShotStatusEnum.HIT;
+
+            // We check if the whole ship has been destroyed...
+            var ship = shipPart.Ship;
+            if (ship.IsDestroyed)
+            {
+                damageReport.DestroyedShips.Add(ship.ShipType);
+            }
         }
 
         #endregion

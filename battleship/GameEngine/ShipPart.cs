@@ -22,6 +22,11 @@
         /// </summary>
         public API.Shared.ShotTypeEnum ShotType => m_parent.ShotType;
 
+        /// <summary>
+        /// Gets the ship of which this ship-part is a part.
+        /// </summary>
+        public Ship Ship => m_parent;
+
         #endregion
 
         #region Public methods

@@ -1,4 +1,6 @@
-﻿namespace GameEngine
+﻿using Utility;
+
+namespace GameEngine
 {
     /// <summary>
     /// Holds the board for one player.
@@ -21,7 +23,24 @@
         /// <summary>
         /// Gets the collection of undamaged parts across all ships on the board.
         /// </summary>
-        public IEnumerable<ShipPart> UndamagedParts => m_ships.SelectMany(x => x.ShipParts).Where(x => !x.IsDamaged);
+        public IEnumerable<ShipPart> UndamagedParts => m_ships.SelectMany(x => x.UndamagedParts);
+
+        /// <summary>
+        /// Gets the number of ships on the board.
+        /// </summary>
+        public int ShipCount => m_ships.Count;
+
+        /// <summary>
+        /// Gets the number of active ships.
+        /// </summary><remarks>
+        /// An active ship is one which is not destoyed, though it may have some damaged parts.
+        /// </remarks>
+        public int ActiveShipCount => m_ships.Where(x => !x.IsDestroyed).Count();
+
+        /// <summary>
+        /// Gets whether the fleet is destroyed - ie, all parts of all ships have been hit.
+        /// </summary>
+        public bool FleetIsDestroyed => UndamagedParts.None();
 
         #endregion
 
@@ -38,6 +57,22 @@
                 m_ships.Add(new Ship(shipPlacement));
             }
             updateShipPartLocations();
+        }
+
+        /// <summary>
+        /// Returns the ship-part at the 1-based (x, y) coordinates on the board.
+        /// Returns null if there is no ship-part at the location.
+        /// </summary>
+        public ShipPart getShipPart(int x, int y)
+        {
+            if(m_shipPartLocations.TryGetValue((x, y), out var shipPart))
+            {
+                return shipPart;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #endregion

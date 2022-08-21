@@ -48,7 +48,7 @@
                 /// <summary>
                 /// Gets or sets the targetted square.
                 /// </summary>
-                public Shared.BoardSquareCoordinates BoardSquare { get; set; } = new Shared.BoardSquareCoordinates();
+                public Shared.BoardSquareCoordinates TargetSquare { get; set; } = new Shared.BoardSquareCoordinates();
 
                 /// <summary>
                 /// Gets or sets whether the shot hit or missed.
@@ -57,9 +57,9 @@
             }
 
             /// <summary>
-            /// An update on damage caused by shells and mines.
+            /// Damage caused by shells and mines.
             /// </summary>
-            public class DamageUpdate
+            public class DamageReport
             {
                 /// <summary>
                 /// Gets or sets the collection of shots taken and whether they hit or missed.
@@ -86,20 +86,20 @@
             }
 
             /// <summary>
-            /// Gets or sets an update to the damage caused by the player.
+            /// Gets or sets the report of damage caused by the player.
             /// </summary><remarks>
             /// - ShotInfos are shots made by the player
             /// - DestroyedShips, TotalShips and ShipsRemaining refer to the opponent's ships
             /// </remarks>
-            public DamageUpdate Player { get; set; } = new DamageUpdate();
+            public DamageReport Player { get; set; } = new DamageReport();
 
             /// <summary>
-            /// Gets or sets an update to the damage caused by the opponent.
+            /// Gets or sets the report of damage caused by the opponent.
             /// </summary><remarks>
             /// - ShotInfos are shots made by the opponent
             /// - DestroyedShips, TotalShips and ShipsRemaining refer to the player's ships
             /// </remarks>
-            public DamageUpdate Opponent { get; set; } = new DamageUpdate();
+            public DamageReport Opponent { get; set; } = new DamageReport();
         }
 
         #endregion
