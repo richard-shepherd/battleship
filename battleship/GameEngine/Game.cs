@@ -71,8 +71,8 @@
             GameUtils.waitForAIReponses(m_player1, m_player2, TURN_TIMEOUT, API.FireWeapons.EventName);
 
             // We process the responses...
-            m_player1.fireWeapons_processResponse();
-            m_player2.fireWeapons_processResponse();
+            m_player1.fireWeapons_processResponse(m_player2);
+            m_player2.fireWeapons_processResponse(m_player1);
         }
 
         #endregion

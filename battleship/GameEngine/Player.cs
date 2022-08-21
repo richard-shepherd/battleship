@@ -77,9 +77,25 @@
         /// <summary>
         /// Processes the reponse from the AI to the FIRE_WEAPONS message.
         /// </summary>
-        public void fireWeapons_processResponse()
+        public void fireWeapons_processResponse(Player opponent)
         {
+            // We parse the response from the AI...
+            var aiResponse = m_ai.getOutputAs<API.FireWeapons.AIResponse>();
 
+            // We process each shot and 
+
+            foreach(var shot in aiResponse.Shots)
+            {
+                switch(shot.ShotType)
+                {
+                    case API.Shared.ShotTypeEnum.SHELL:
+
+                        break;
+
+                    default:
+                        throw new Exception($"Unhandled shot-type: {shot.ShotType}");
+                }
+            }
         }
 
         #endregion

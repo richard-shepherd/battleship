@@ -54,7 +54,7 @@ Processing
 
 Action=STATUS_UPDATE
 --------------------
-- Sent after the LIGHT_EM_UP phase to let AIs know if they have hit opponents and if they have been hit themselves
+- Sent after the FIRE_WEAPONS phase to let AIs know if they have hit opponents and if they have been hit themselves
 
 - Message from game engine
   - Hits on opponent
@@ -68,7 +68,7 @@ Action=STATUS_UPDATE
 - NOTE: The 'opponent' and 'player' sections will be sent in the opposite order to each AI
 
 - Response from AI
-  - None
+  - Ack
 
 
 Action=MOVE
