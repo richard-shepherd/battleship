@@ -39,7 +39,7 @@ namespace Utility
         }
 
         /// <summary>
-        /// Waits for an asynchronous condition to be met, checking it at 1ms intervals.
+        /// Waits for an asynchronous condition to be met.
         /// Returns true if the condition was met, or false if the condition was not met 
         /// by the timeout.
         /// </summary>
@@ -57,7 +57,6 @@ namespace Utility
                 {
                     return false;
                 }
-                Thread.Sleep(1);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace GameEngine
+﻿using Utility;
+
+namespace GameEngine
 {
     /// <summary>
     /// Manages one game player.
@@ -28,10 +30,13 @@
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Player(AIManager aiManager, string aiName)
+        public Player(AIManager aiManager, int boardSize, int shipSquares, string aiName, string opponentAIName)
         {
             m_aiManager = aiManager;
+            m_boardSize = boardSize;
+            m_shipSquares = shipSquares;
             m_aiName = aiName;
+            m_opponentAIName = opponentAIName;
 
             // We create the AI...
             m_ai = m_aiManager.createAIProcess(m_aiName);
@@ -40,13 +45,13 @@
         /// <summary>
         /// Sends the START_GAME message to the AI, requesting initial ship placements.
         /// </summary>
-        public void startGame_SendMessage(int boardSize, int shipSquares, string opponentName)
+        public void startGame_SendMessage()
         {
             var message = new API.StartGame.Message();
-            message.BoardSize.X = boardSize;
-            message.BoardSize.Y = boardSize;
-            message.ShipSquares = shipSquares;
-            message.OpponentAIName = opponentName;
+            message.BoardSize.X = m_boardSize;
+            message.BoardSize.Y = m_boardSize;
+            message.ShipSquares = m_shipSquares;
+            message.OpponentAIName = m_opponentAIName;
             m_ai.sendMessage(message);
         }
 
@@ -56,8 +61,19 @@
         /// </summary>
         public void startGame_ProcessResponse()
         {
+            // We parse the response...
             var aiResponse = m_ai.getOutputAs<API.StartGame.AIResponse>();
-            m_board = new Board(aiResponse.ShipPlacements);
+
+            // We validate the ship placements...
+            Logger.log($"Validating ship placement for {m_aiName}");
+            var validShipPlacement = BoardUtils.validateShipPlacement(m_boardSize, m_shipSquares, aiResponse.ShipPlacements);
+            if(!validShipPlacement)
+            {
+                throw new ShipPlacementValidationException($"{m_aiName}: invalid ship placement");
+            }
+
+            // The ship placements are valid, so we set up the board...
+            m_board = new Board(m_boardSize, aiResponse.ShipPlacements);
         }
 
         /// <summary>
@@ -274,7 +290,10 @@
 
         // Construction params...
         private readonly AIManager m_aiManager;
+        private readonly int m_boardSize;
+        private readonly int m_shipSquares;
         private readonly string m_aiName;
+        private readonly string m_opponentAIName;
 
         // The AI process...
         private readonly AIProcess m_ai;

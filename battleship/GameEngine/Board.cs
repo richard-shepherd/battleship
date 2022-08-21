@@ -57,8 +57,10 @@ namespace GameEngine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Board(List<API.StartGame.AIResponse.ShipPlacement> shipPlacements)
+        public Board(int boardSize, List<API.StartGame.AIResponse.ShipPlacement> shipPlacements)
         {
+            m_boardSize = boardSize;
+
             // We add ships to the board based on the AI's ship-placement requests...
             foreach(var shipPlacement in shipPlacements)
             {
@@ -119,6 +121,9 @@ namespace GameEngine
         #endregion
 
         #region Private data
+
+        // Construction params...
+        private readonly int m_boardSize;
 
         // The list of the AI's ships. The order (and indexes) in this list are the same as in the list
         // of ships supplied by the AI in response the the START_GAME message...

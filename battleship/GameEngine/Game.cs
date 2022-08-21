@@ -48,10 +48,10 @@
             m_shipSquares = shipSquares;
 
             // We create the two players, and send the START_GAME message to them...
-            m_player1 = new Player(aiManager, ai1_Name);
-            m_player2 = new Player(aiManager, ai2_Name);
-            m_player1.startGame_SendMessage(boardSize, shipSquares, ai2_Name);
-            m_player2.startGame_SendMessage(boardSize, shipSquares, ai1_Name);
+            m_player1 = new Player(aiManager, boardSize, shipSquares, ai1_Name, ai2_Name);
+            m_player2 = new Player(aiManager, boardSize, shipSquares, ai2_Name, ai1_Name);
+            m_player1.startGame_SendMessage();
+            m_player2.startGame_SendMessage();
 
             // We wait for responses, and set up the board for each player...
             GameUtils.waitForAIReponses(m_player1, m_player2, START_GAME_TIMEOUT, API.StartGame.EventName);

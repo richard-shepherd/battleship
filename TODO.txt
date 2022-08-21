@@ -4,3 +4,15 @@
   - Make sure the placement does not include more ships than are allowed by the number of squares specified
   - Make sure they are all on the board
   - Make sure that they do not overlap
+
+- Add the Kraken
+  - Game ends if we have N turns without any hits
+
+- Drone TTL
+
+- Mine TTL
+
+- CPU is zero when running games
+  - Why is it slow?
+  - Is it logging?
+  - Is the wait-for-reply slow? YES!
