@@ -16,6 +16,11 @@
         /// </summary>
         public AIProcess AI => m_ai;
 
+        /// <summary>
+        /// Gets the board for the player.
+        /// </summary>
+        public Board Board => m_board;
+
         #endregion
 
         #region Public methods
@@ -30,15 +35,6 @@
 
             // We create the AI...
             m_ai = m_aiManager.createAIProcess(m_aiName);
-        }
-
-        /// <summary>
-        /// Returns the ship-part at the 1-based (x, y) coordinates on the board.
-        /// Returns null if there is no ship-part at the location.
-        /// </summary>
-        public ShipPart getShipPart(int x, int y)
-        {
-            return m_board.getShipPart(x, y);
         }
 
         /// <summary>
@@ -105,10 +101,15 @@
                         processShot_Shell(damageReport, opponent, shot);
                         break;
 
-                    default:
-                        throw new Exception($"Unhandled shot-type: {shot.ShotType}");
+                    // TODO: PUT THIS BACK!!!
+                    //default:
+                    //    throw new Exception($"Unhandled shot-type: {shot.ShotType}");
                 }
             }
+
+            // We note the number of opponent's ships and the number remaining...
+            damageReport.TotalShips = opponent.Board.ShipCount;
+            damageReport.ShipsRemaining = opponent.Board.ActiveShipCount;
 
             return damageReport;
         }
@@ -167,7 +168,7 @@
             damageReport.ShotInfos.Add(shotInfo);
 
             // We check if the shell hit an opponent ship...
-            var shipPart = opponent.getShipPart(shot.TargetSquare.X, shot.TargetSquare.Y);
+            var shipPart = opponent.Board.getShipPart(shot.TargetSquare.X, shot.TargetSquare.Y);
             if(shipPart == null)
             {
                 // There was no ship at the target square...
@@ -185,6 +186,7 @@
 
             // We have hit a ship part...
             shotInfo.ShotStatus = API.StatusUpdate.Message.ShotStatusEnum.HIT;
+            shipPart.IsDamaged = true;
 
             // We check if the whole ship has been destroyed...
             var ship = shipPart.Ship;

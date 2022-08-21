@@ -153,8 +153,9 @@ namespace AI_Sample_RandomPlayer
             // We fire each weapon into a random square on the board...
             var response = new API.FireWeapons.AIResponse();
             response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.SHELL, weaponsInfo.AvailableShells));
-            response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.MINE, weaponsInfo.AvailableMines));
-            response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.DRONE, weaponsInfo.AvailableDrones));
+            // TODO: PUT THIS BACK!!!
+            //response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.MINE, weaponsInfo.AvailableMines));
+            //response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.DRONE, weaponsInfo.AvailableDrones));
 
             // We send the response...
             sendMessage(response);

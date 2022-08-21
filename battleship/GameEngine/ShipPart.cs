@@ -13,9 +13,9 @@
         public (int X, int Y) BoardPositionTuple => m_boardPosition.toTuple();
 
         /// <summary>
-        /// Gets whether this ship-part is damaged.
+        /// Gets or sets whether this ship-part is damaged.
         /// </summary>
-        public bool IsDamaged => m_isDamaged;
+        public bool IsDamaged { get; set; } = false;
 
         /// <summary>
         /// Gets the type of shot fired by this ship-part.
@@ -57,9 +57,6 @@
 
         // The 1-based position on the board of this ship-part...
         private readonly API.Shared.BoardSquareCoordinates m_boardPosition = new API.Shared.BoardSquareCoordinates();
-
-        // Set to true once the ship-part has been hit and is damaged...
-        private bool m_isDamaged = false;
 
         #endregion
     }

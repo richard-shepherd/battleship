@@ -5,6 +5,35 @@
     /// </summary>
     internal class Game
     {
+        #region Public types
+
+        /// <summary>
+        /// Enum for the game status - whether is it still playing, has been won by
+        /// one of the AIs or has ended in a draw.
+        /// </summary>
+        public enum GameStatusEnum
+        {
+            PLAYING,
+            WIN,
+            DRAW
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the game status.
+        /// </summary>
+        public GameStatusEnum GameStatus { get; private set; } = GameStatusEnum.PLAYING;
+
+        /// <summary>
+        /// Gets the name of the winning AI.
+        /// </summary>
+        public string WinningAIName { get; private set; } = "";
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -38,6 +67,9 @@
             // Requests the players to fire their weapons, processes the responses and sends
             // a status update to the AIs...
             fireWeapons();
+
+            // We check to see if the game has been won...
+            updateGameStatus();
         }
 
         #endregion
@@ -60,6 +92,40 @@
         #endregion
 
         #region Private functions
+
+        /// <summary>
+        /// Updates the game status - checking for a win or a draw.
+        /// </summary>
+        private void updateGameStatus()
+        {
+            var fleetDestroyed_Player1 = m_player1.Board.FleetIsDestroyed;
+            var fleetDestroyed_Player2 = m_player2.Board.FleetIsDestroyed;
+
+            // We check if both players still have active ships...
+            if(!fleetDestroyed_Player1 && !fleetDestroyed_Player2)
+            {
+                GameStatus = GameStatusEnum.PLAYING;
+                return;
+            }
+
+            // We check if both players' fleets have been destroyed in the same turn...
+            if(fleetDestroyed_Player1 && fleetDestroyed_Player2)
+            {
+                GameStatus = GameStatusEnum.DRAW;
+                return;
+            }
+
+            // We have a winner...
+            GameStatus = GameStatusEnum.WIN;
+            if(fleetDestroyed_Player1)
+            {
+                WinningAIName = m_ai2_Name;
+            }
+            if (fleetDestroyed_Player2)
+            {
+                WinningAIName = m_ai1_Name;
+            }
+        }
 
         /// <summary>
         /// Requests the players to fire their weapons, processes the responses and sends
@@ -96,6 +162,8 @@
 
             // We wait for the AIs to ACK the status update...
             GameUtils.waitForAIReponses(m_player1, m_player2, TURN_TIMEOUT, API.StatusUpdate.EventName);
+            m_player1.AI.getOutputAs<API.StatusUpdate.AIResponse>();
+            m_player2.AI.getOutputAs<API.StatusUpdate.AIResponse>();
         }
 
         #endregion
