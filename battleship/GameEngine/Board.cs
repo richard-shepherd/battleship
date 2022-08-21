@@ -42,6 +42,14 @@ namespace GameEngine
         /// </summary>
         public bool FleetIsDestroyed => UndamagedParts.None();
 
+        /// <summary>
+        /// Gets whether any of the ships has offensive weapons.
+        /// </summary><remarks>
+        /// This is used to help determine a particular type of draw - where both players have
+        /// ships remaining, but where neither player can fire offensive weapons.
+        /// </remarks>
+        public bool FleetHasOffensiveWeapons => m_ships.Any(x => x.HasOffensiveWeapons);
+
         #endregion
 
         #region Public methods
@@ -75,6 +83,22 @@ namespace GameEngine
             }
         }
 
+        /// <summary>
+        /// Adds a mine to the board.
+        /// </summary>
+        public void addMine(API.Shared.BoardSquareCoordinates boardPosition)
+        {
+            m_mineLocations[boardPosition.toTuple()] = new Mine(this, boardPosition);
+        }
+
+        /// <summary>
+        /// Adds a drone to the board.
+        /// </summary>
+        public void addDrone(API.Shared.BoardSquareCoordinates boardPosition)
+        {
+            m_drones.Add(new Drone(this, boardPosition));
+        }
+
         #endregion
 
         #region Private functions
@@ -102,6 +126,14 @@ namespace GameEngine
 
         // The collection of the AI's ship-parts, keyed by their 1-based position on the board...
         private readonly Dictionary<(int X, int Y), ShipPart> m_shipPartLocations = new Dictionary<(int X, int Y), ShipPart>();
+
+        // The collection of active mines, keyed by their 1-based position on the board.
+        // Note: As this is a dictionary by location, this means that a newer mine placed in the same location as
+        //       an existing mine with replace the previous one.
+        private readonly Dictionary<(int X, int Y), Mine> m_mineLocations = new Dictionary<(int X, int Y), Mine>();
+
+        // The collection of active drones...
+        private readonly HashSet<Drone> m_drones = new HashSet<Drone>();
 
         #endregion
     }

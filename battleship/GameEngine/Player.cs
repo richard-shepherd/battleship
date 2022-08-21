@@ -101,9 +101,16 @@
                         processShot_Shell(damageReport, opponent, shot);
                         break;
 
-                    // TODO: PUT THIS BACK!!!
-                    //default:
-                    //    throw new Exception($"Unhandled shot-type: {shot.ShotType}");
+                    case API.Shared.ShotTypeEnum.MINE:
+                        processShot_Mine(damageReport, opponent, shot);
+                        break;
+
+                    case API.Shared.ShotTypeEnum.DRONE:
+                        processShot_Drone(damageReport, opponent, shot);
+                        break;
+
+                    default:
+                        throw new Exception($"Unhandled shot-type: {shot.ShotType}");
                 }
             }
 
@@ -153,13 +160,11 @@
         /// </summary>
         private void processShot_Shell(API.StatusUpdate.Message.DamageReport damageReport, Player opponent, API.FireWeapons.AIResponse.Shot shot)
         {
-            // We confirm that we have enough shells to fire this shot. If not, we ignore the shot...
-            if(m_shellsAvailable < 1.0)
+            // We confirm that we have enough shells available. If not, we ignore it. If so we remove it from the inventory...
+            if (m_shellsAvailable < 1.0)
             {
                 return;
             }
-
-            // We remove the shell from our inventory...
             m_shellsAvailable -= 1.0;
 
             // We add the shot to the damage report...
@@ -168,32 +173,99 @@
             damageReport.ShotInfos.Add(shotInfo);
 
             // We check if the shell hit an opponent ship...
+            var hitStatus = checkForHit(opponent, shot);
+            var shotStatus = hitStatus.ShotStatus;
+            shotInfo.ShotStatus = shotStatus;
+
+            // If we hit a ship, we check if the whole ship has been destroyed...
+            if(shotStatus == API.StatusUpdate.Message.ShotStatusEnum.HIT)
+            {
+                var ship = hitStatus.ShipPart.Ship;
+                if (ship.IsDestroyed)
+                {
+                    damageReport.DestroyedShips.Add(ship.ShipType);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if the shot specified has hit one of the opponent's ships.
+        /// Returns HIT or MISS.
+        /// </summary><remarks>
+        /// If the shot has hit a ship, the ship-part it hit is marked as damaged.
+        /// </remarks>
+        private (API.StatusUpdate.Message.ShotStatusEnum ShotStatus, ShipPart ShipPart) checkForHit(Player opponent, API.FireWeapons.AIResponse.Shot shot)
+        {
+            // We check if the shell hit an opponent ship...
             var shipPart = opponent.Board.getShipPart(shot.TargetSquare.X, shot.TargetSquare.Y);
-            if(shipPart == null)
+            if (shipPart == null)
             {
                 // There was no ship at the target square...
-                shotInfo.ShotStatus = API.StatusUpdate.Message.ShotStatusEnum.MISS;
-                return;
+                return (API.StatusUpdate.Message.ShotStatusEnum.MISS, null);
             }
 
             // There is a ship-part at the target square. We check if we have hit an already damaged part...
-            if(shipPart.IsDamaged)
+            if (shipPart.IsDamaged)
             {
                 // Hitting an already damaged part counts as a miss...
-                shotInfo.ShotStatus = API.StatusUpdate.Message.ShotStatusEnum.MISS;
-                return;
+                return (API.StatusUpdate.Message.ShotStatusEnum.MISS, null);
             }
 
             // We have hit a ship part...
-            shotInfo.ShotStatus = API.StatusUpdate.Message.ShotStatusEnum.HIT;
             shipPart.IsDamaged = true;
+            return (API.StatusUpdate.Message.ShotStatusEnum.HIT, shipPart);
+        }
 
-            // We check if the whole ship has been destroyed...
-            var ship = shipPart.Ship;
-            if (ship.IsDestroyed)
+        /// <summary>
+        /// Processes a MINE laid by the player.
+        /// </summary>
+        private void processShot_Mine(API.StatusUpdate.Message.DamageReport damageReport, Player opponent, API.FireWeapons.AIResponse.Shot shot)
+        {
+            // We confirm that we have enough mines available. If not, we ignore it. If so we remove it from the inventory...
+            if (m_minesAvailable < 1.0)
             {
-                damageReport.DestroyedShips.Add(ship.ShipType);
+                return;
             }
+            m_minesAvailable -= 1.0;
+
+            // We check if the mine has hit a ship.
+            var hitStatus = checkForHit(opponent, shot);
+            var shotStatus = hitStatus.ShotStatus;
+            if(shotStatus == API.StatusUpdate.Message.ShotStatusEnum.HIT)
+            {
+                // The mine hit a ship, so we add this to the damage report...
+                var shotInfo = new API.StatusUpdate.Message.ShotInfo();
+                shotInfo.TargetSquare = shot.TargetSquare;
+                shotInfo.ShotStatus = shotStatus;
+                damageReport.ShotInfos.Add(shotInfo);
+                var ship = hitStatus.ShipPart.Ship;
+                if (ship.IsDestroyed)
+                {
+                    damageReport.DestroyedShips.Add(ship.ShipType);
+                }
+            }
+            else
+            {
+                // The mine did not hit a ship, so we add it to the opponent's board to 'lurk'
+                // in case a ship moves onto its square...
+                opponent.Board.addMine(shot.TargetSquare);
+            }
+        }
+
+        /// <summary>
+        /// Processes a DRONE placed by the player.
+        /// </summary>
+        private void processShot_Drone(API.StatusUpdate.Message.DamageReport damageReport, Player opponent, API.FireWeapons.AIResponse.Shot shot)
+        {
+            // We confirm that we have enough drones available. If not, we ignore it. If so we remove it from the inventory...
+            if (m_dronesAvailable < 1.0)
+            {
+                return;
+            }
+            m_dronesAvailable -= 1.0;
+
+            // We place the drone on the opponent's board...
+            opponent.Board.addDrone(shot.TargetSquare);
         }
 
         #endregion

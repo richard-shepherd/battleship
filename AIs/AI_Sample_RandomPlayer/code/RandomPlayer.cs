@@ -82,8 +82,12 @@ namespace AI_Sample_RandomPlayer
             // We run the game loop, waiting for messages for the game engine and processing them...
             while(!m_shutdown)
             {
+                // We read the next game message from STDIN and log it...
                 var message = Console.ReadLine();
                 Logger.log($"RX->{message}");
+
+                // We decode the message header to get the EventName and call an event-specific function
+                // to decode and process the full message...
                 var messageBase = Utils.fromJSON<API.MessageBase>(message);
                 switch(messageBase.EventName)
                 {
@@ -153,9 +157,8 @@ namespace AI_Sample_RandomPlayer
             // We fire each weapon into a random square on the board...
             var response = new API.FireWeapons.AIResponse();
             response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.SHELL, weaponsInfo.AvailableShells));
-            // TODO: PUT THIS BACK!!!
-            //response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.MINE, weaponsInfo.AvailableMines));
-            //response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.DRONE, weaponsInfo.AvailableDrones));
+            response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.MINE, weaponsInfo.AvailableMines));
+            response.Shots.AddRange(createRandomShots(API.Shared.ShotTypeEnum.DRONE, weaponsInfo.AvailableDrones));
 
             // We send the response...
             sendMessage(response);

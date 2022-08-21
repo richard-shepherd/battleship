@@ -27,6 +27,11 @@
         /// </summary>
         public Ship Ship => m_parent;
 
+        /// <summary>
+        /// Gets whether the ship-part has undamaged offensive weapons.
+        /// </summary>
+        public bool HasOffensiveWeapons => (ShotType != API.Shared.ShotTypeEnum.DRONE && !IsDamaged);
+
         #endregion
 
         #region Public methods

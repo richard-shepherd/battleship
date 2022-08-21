@@ -101,8 +101,16 @@
             var fleetDestroyed_Player1 = m_player1.Board.FleetIsDestroyed;
             var fleetDestroyed_Player2 = m_player2.Board.FleetIsDestroyed;
 
+            // We check if both players' fleets have offensive weapons...
+            if (!m_player1.Board.FleetHasOffensiveWeapons && !m_player2.Board.FleetHasOffensiveWeapons)
+            {
+                // Neither fleet has any offensive weapons (shells or mines) so we draw the game...
+                GameStatus = GameStatusEnum.DRAW;
+                return;
+            }
+
             // We check if both players still have active ships...
-            if(!fleetDestroyed_Player1 && !fleetDestroyed_Player2)
+            if (!fleetDestroyed_Player1 && !fleetDestroyed_Player2)
             {
                 GameStatus = GameStatusEnum.PLAYING;
                 return;

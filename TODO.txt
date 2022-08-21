@@ -1,5 +1,6 @@
 - Write AIs/readme.txt on how to add an AI
 
 - Validate ship positions: 
+  - Make sure the placement does not include more ships than are allowed by the number of squares specified
   - Make sure they are all on the board
   - Make sure that they do not overlap

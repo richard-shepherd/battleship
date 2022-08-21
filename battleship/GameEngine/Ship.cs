@@ -27,12 +27,20 @@ namespace GameEngine
         /// <summary>
         /// Gets the collection of undamaged parts for this ship
         /// </summary>
-        public IEnumerable<ShipPart> UndamagedParts => ShipParts.Where(x => !x.IsDamaged);
+        public IEnumerable<ShipPart> UndamagedParts => m_shipParts.Where(x => !x.IsDamaged);
 
         /// <summary>
         /// Gets whether the ship is destroyed - ie, if all of its parts have been hit.
         /// </summary>
         public bool IsDestroyed => UndamagedParts.None();
+
+        /// <summary>
+        /// Gets whether the ship can fire offensive weapons, ie shells or mines.
+        /// </summary><remarks>
+        /// This is used to help determine a particular type of draw - where both players have
+        /// ships remaining, but where neither player can fire offensive weapons.
+        /// </remarks>
+        public bool HasOffensiveWeapons => m_shipParts.Any(x => x.HasOffensiveWeapons);
 
         #endregion
 
