@@ -21,6 +21,11 @@ namespace GameEngine
         #region Properties
 
         /// <summary>
+        /// Gets the list of ships on the board.
+        /// </summary>
+        public List<Ship> Ships => m_ships;
+
+        /// <summary>
         /// Gets the collection of undamaged parts across all ships on the board.
         /// </summary>
         public IEnumerable<ShipPart> UndamagedParts => m_ships.SelectMany(x => x.UndamagedParts);

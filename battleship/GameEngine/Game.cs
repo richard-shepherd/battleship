@@ -68,8 +68,15 @@
             // a status update to the AIs...
             fireWeapons();
 
-            // We check to see if the game has been won...
+            // We check to see if the game has ended...
             updateGameStatus();
+            if(GameStatus != GameStatusEnum.PLAYING)
+            {
+                return;
+            }
+
+            // We allow players to move their ships...
+            moveShips();
 
             // Checks TTL for mines and drones...
             checkTTL();
@@ -95,6 +102,21 @@
         #endregion
 
         #region Private functions
+
+        /// <summary>
+        /// Sends the MOVE event to AIs and processes the responses.
+        /// </summary>
+        private void moveShips()
+        {
+            // We ask the AIs if they want to move their ships, and wait for both responses...
+            m_player1.moveShips_SendMessage();
+            m_player2.moveShips_SendMessage();
+            GameUtils.waitForAIReponses(m_player1, m_player2, TURN_TIMEOUT, API.Move.EventName);
+
+            // We process the responses...
+            m_player1.moveShips_ProcessResponse();
+            m_player2.moveShips_ProcessResponse();
+        }
 
         /// <summary>
         /// Updates the game status - checking for a win or a draw.

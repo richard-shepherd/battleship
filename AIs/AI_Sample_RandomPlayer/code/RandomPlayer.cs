@@ -103,6 +103,10 @@ namespace AI_Sample_RandomPlayer
                         onStatusUpdate(message);
                         break;
 
+                    case "MOVE":
+                        onMove(message);
+                        break;
+
                     case "SHUTDOWN":
                         onShutdown();
                         break;
@@ -220,6 +224,22 @@ namespace AI_Sample_RandomPlayer
             }
 
             return shipPlacement;
+        }
+
+        /// <summary>
+        /// Called when we receive the MOVE message.
+        /// </summary>
+        private void onMove(string message)
+        {
+            // We deserialize the message from the game-engine. This tells us the current 
+            // position of our ships and the fuel available for movement...
+            var moveInfo = Utils.fromJSON<API.Move.Message>(message);
+
+            // We randomly move ships...
+            var response = new API.Move.AIResponse();
+            // TODO: Add some random movement
+
+            sendMessage(response);
         }
 
         /// <summary>

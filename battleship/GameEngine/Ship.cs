@@ -15,9 +15,19 @@ namespace GameEngine
         public List<ShipPart> ShipParts => m_shipParts;
 
         /// <summary>
+        /// Gets the ship placement.
+        /// </summary>
+        public API.Shared.ShipPlacement ShipPlacement => m_shipPlacement;
+
+        /// <summary>
+        /// Gets the fuel available for movement.
+        /// </summary>
+        public int Fuel => m_fuel;
+
+        /// <summary>
         /// Gets the ship type - eg, CARRIER, BATTLESHIP etc.
         /// </summary>
-        public API.Shared.ShipTypeEnum ShipType => m_shipType;
+        public API.Shared.ShipTypeEnum ShipType => m_shipPlacement.ShipType;
 
         /// <summary>
         /// Gets the type of shot fired by this ship.
@@ -51,21 +61,24 @@ namespace GameEngine
         /// </summary>
         public Ship(API.Shared.ShipPlacement shipPlacement)
         {
-            m_shipType = shipPlacement.ShipType;
-            m_topLeft = shipPlacement.TopLeft;
-            m_orientation = shipPlacement.Orientation;
+            m_shipPlacement = shipPlacement;
 
             // We find the weapon type from the ship type...
-            m_shotType = API.Shared.ShipWeapons[m_shipType];
+            m_shotType = API.Shared.ShipWeapons[shipPlacement.ShipType];
 
             // We create the parts of the ship (one for each square the ship occupies) and set up their initial
             // positions on the board...
-            m_shipSize = API.Shared.ShipSizes[m_shipType];
+            m_shipSize = API.Shared.ShipSizes[shipPlacement.ShipType];
             for(var i=0; i < m_shipSize; ++i)
             {
                 m_shipParts.Add(new ShipPart(this));
             }
             updatePartPositions();
+
+            // We set the initial amount of fuel available. This depends on the ship size, as
+            // when we move a ship we do this by calculating howmuch fuel it takes to move each
+            // part to the new location...
+            m_fuel = m_shipSize * 20;
         }
 
         #endregion
@@ -77,16 +90,19 @@ namespace GameEngine
         /// </summary>
         private void updatePartPositions()
         {
+            var orientation = m_shipPlacement.Orientation;
+            var x = m_shipPlacement.TopLeft.X;
+            var y = m_shipPlacement.TopLeft.Y;
             for (var i = 0; i < m_shipSize; ++i)
             {
-                switch(m_orientation)
+                switch(orientation)
                 {
                     case API.Shared.OrientationEnum.HORIZONTAL:
-                        m_shipParts[i].setBoardPosition(m_topLeft.X + i, m_topLeft.Y);
+                        m_shipParts[i].setBoardPosition(x + i, y);
                         break;
 
                     case API.Shared.OrientationEnum.VERTICAL:
-                        m_shipParts[i].setBoardPosition(m_topLeft.X, m_topLeft.Y + i);
+                        m_shipParts[i].setBoardPosition(x, y + i);
                         break;
                 }
             }
@@ -96,19 +112,20 @@ namespace GameEngine
 
         #region Private data
 
-        // The type of ship, and type of shots it fires...
-        private readonly API.Shared.ShipTypeEnum m_shipType;
+        // Construction params...
+        private readonly API.Shared.ShipPlacement m_shipPlacement;
+            
+        // The type of shots fired by the ship...
         private readonly API.Shared.ShotTypeEnum m_shotType;
 
         // The size of the ship...
         private readonly int m_shipSize;
 
-        // The 1-based top-left point of the ship, and its orientation...
-        private readonly API.Shared.BoardSquareCoordinates m_topLeft = new API.Shared.BoardSquareCoordinates();
-        private API.Shared.OrientationEnum m_orientation;
-
         // The collection of parts making up the ship...
         private readonly List<ShipPart> m_shipParts = new List<ShipPart>();
+
+        // The amount of fuel available for movement...
+        private int m_fuel = 0;
 
         #endregion
     }

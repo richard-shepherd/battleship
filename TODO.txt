@@ -15,7 +15,11 @@
 
 - More efficient algorithm for drone detection?
 
-- Remove drone use from RandomPlayer AI
+- Remove drone use from RandomPlayer AI?
+  - Have a Python sample which uses drones
 
 - Write tests
+
+- Should mines be cheaper than drones?
+  - They seem less useful?
 

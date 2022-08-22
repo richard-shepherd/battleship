@@ -13,7 +13,7 @@ namespace DevTestApp
             };
 
             var aiManager = new AIManager(@"D:\code\battleship\AIs");
-            var game = new Game(aiManager, "AI_Sample_RandomPlayer", "AI_Sample_RandomPlayer", 40, 20);
+            var game = new Game(aiManager, "AI_Sample_RandomPlayer", "AI_Sample_RandomPlayer", 100, 20);
             var turnsPlayed = 0;
             while(game.GameStatus == Game.GameStatusEnum.PLAYING)
             {
@@ -22,10 +22,6 @@ namespace DevTestApp
             }
             Console.WriteLine($"Turns played: {turnsPlayed}. {game.GameStatus}: {game.WinningAIName}");
 
-            Console.WriteLine("Press Enter to exit");
-            Console.ReadLine();
-
-            
             game.Dispose();
         }
     }

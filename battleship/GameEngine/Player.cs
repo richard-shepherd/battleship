@@ -137,6 +137,33 @@ namespace GameEngine
             return damageReport;
         }
 
+        /// <summary>
+        /// Sends the MOVE request to the AI.
+        /// </summary>
+        public void moveShips_SendMessage()
+        {
+            var message = new API.Move.Message();
+
+            // We note where each ship is located and how much fuel it has...
+            var ships = m_board.Ships;
+            for (var i = 0; i < ships.Count; ++i)
+            {
+                var ship = ships[i];
+                var shipInfo = new API.Move.Message.ShipInfo();
+                shipInfo.Index = i;
+                shipInfo.ShipPlacement = ship.ShipPlacement;
+                shipInfo.Fuel = ship.Fuel;
+                message.ShipInfos.Add(shipInfo);
+            }
+
+            m_ai.sendMessage(message);
+        }
+
+        public void moveShips_ProcessResponse()
+        {
+            // TODO: WRITE THIS!!!
+        }
+
         #endregion
 
         #region IDisposable implementation

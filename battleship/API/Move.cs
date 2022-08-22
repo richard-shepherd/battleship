@@ -3,7 +3,7 @@
     /// <summary>
     /// The game-engine message and AI response for the MOVE event.
     /// </summary>
-    internal class Move
+    public class Move
     {
         #region Event name
 
@@ -24,7 +24,7 @@
             /// </summary>
             public Message()
             {
-                EventName = Shutdown.EventName;
+                EventName = Move.EventName;
             }
 
             /// <summary>
@@ -45,7 +45,7 @@
                 /// <summary>
                 /// Gets or sets the fuel available for the ship.
                 /// </summary>
-                public int FuelAvailable { get; set; } = 0;
+                public int Fuel { get; set; } = 0;
             }
 
             /// <summary>
@@ -68,7 +68,7 @@
             /// </summary>
             public AIResponse()
             {
-                EventName = Shutdown.EventName;
+                EventName = Move.EventName;
             }
 
             /// <summary>
