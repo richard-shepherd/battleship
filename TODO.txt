@@ -13,11 +13,9 @@
   - To a separate file?
   - To a separate file per AI?
 
-- Split StatusUpdate into two different types?
-  - DamageReport
-  - StatusUpdate
-  - BUT: After moving there can be damage from mines
-
 - More efficient algorithm for drone detection?
 
-- Should we only report undamaged parts from drones?
+- Remove drone use from RandomPlayer AI
+
+- Write tests
+

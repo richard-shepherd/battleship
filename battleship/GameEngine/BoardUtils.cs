@@ -16,7 +16,7 @@ namespace GameEngine
         /// - Ships do not overlap
         /// Returns true if the ship placement is valid, false if not.
         /// </summary>
-        public static bool validateShipPlacement(int boardSize, int shipSquares, List<API.StartGame.AIResponse.ShipPlacement> shipPlacements)
+        public static bool validateShipPlacement(int boardSize, int shipSquares, List<API.Shared.ShipPlacement> shipPlacements)
         {
             var shipPartLocations = new HashSet<(int, int)>();
 

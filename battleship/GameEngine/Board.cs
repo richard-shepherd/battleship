@@ -57,7 +57,7 @@ namespace GameEngine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Board(int boardSize, List<API.StartGame.AIResponse.ShipPlacement> shipPlacements)
+        public Board(int boardSize, List<API.Shared.ShipPlacement> shipPlacements)
         {
             m_boardSize = boardSize;
 

@@ -49,7 +49,7 @@ namespace GameEngine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Ship(API.StartGame.AIResponse.ShipPlacement shipPlacement)
+        public Ship(API.Shared.ShipPlacement shipPlacement)
         {
             m_shipType = shipPlacement.ShipType;
             m_topLeft = shipPlacement.TopLeft;

@@ -198,9 +198,9 @@ namespace AI_Sample_RandomPlayer
         /// <summary>
         /// Creates a ship to be placed on the board at the start of the game.
         /// </summary>
-        private API.StartGame.AIResponse.ShipPlacement createShip(API.Shared.ShipTypeEnum shipType)
+        private API.Shared.ShipPlacement createShip(API.Shared.ShipTypeEnum shipType)
         {
-            var shipPlacement = new API.StartGame.AIResponse.ShipPlacement();
+            var shipPlacement = new API.Shared.ShipPlacement();
             shipPlacement.ShipType = shipType;
             shipPlacement.Orientation = (m_rnd.NextDouble() > 0.5) ? API.Shared.OrientationEnum.HORIZONTAL : API.Shared.OrientationEnum.VERTICAL;
 

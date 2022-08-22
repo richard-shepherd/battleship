@@ -60,6 +60,29 @@
         }
 
         /// <summary>
+        /// Holds the position of a ship and its type (eg, CARRIER, BATTLESHIP etc).
+        /// </summary><remarks>
+        /// This is used when placing ships on the board and also when movement updates are handled.
+        /// </remarks>
+        public class ShipPlacement
+        {
+            /// <summary>
+            /// Gets or sets the type of ship.
+            /// </summary>
+            public Shared.ShipTypeEnum ShipType { get; set; }
+
+            /// <summary>
+            /// Gets or sets the 1-based coordinates of the top-left square for the ship.
+            /// </summary>
+            public Shared.BoardSquareCoordinates TopLeft { get; set; } = new Shared.BoardSquareCoordinates();
+
+            /// <summary>
+            /// Gets or sets the orientation of the ship, ie VERTICAL or HORIZONTAL
+            /// </summary>
+            public Shared.OrientationEnum Orientation { get; set; } = Shared.OrientationEnum.HORIZONTAL;
+        }
+
+        /// <summary>
         /// Dictionary of ship-type enum to the size of each ship.
         /// </summary>
         public static Dictionary<ShipTypeEnum, int> ShipSizes { get; set; } = new Dictionary<ShipTypeEnum, int>
