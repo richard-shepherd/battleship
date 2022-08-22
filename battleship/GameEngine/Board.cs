@@ -101,6 +101,46 @@ namespace GameEngine
             m_drones.Add(new Drone(this, boardPosition));
         }
 
+        /// <summary>
+        /// Removes a mine.
+        /// </summary>
+        public void removeMine(Mine mine)
+        {
+            m_mineLocations.Remove(mine.BoardPosition.toTuple());
+        }
+
+        /// <summary>
+        /// Removes a drone.
+        /// </summary>
+        public void removeDrone(Drone drone)
+        {
+            m_drones.Remove(drone);
+        }
+
+        /// <summary>
+        /// Checks time-to-live for mines and drones and removes expired items from the board.
+        /// </summary>
+        public void checkTTL()
+        {
+            // Note that for both mines and drones we iterate over a copy of the collection
+            // of objects, as checking TTL may result in removing the item from the underlying
+            // collection.
+
+            // Mines...
+            var mines = new List<Mine>(m_mineLocations.Values);
+            foreach(var mine in mines)
+            {
+                mine.checkTTL();
+            }
+
+            // Drones...
+            var drones = new List<Drone>(m_drones);
+            foreach(var drone in drones)
+            {
+                drone.checkTTL();
+            }
+        }
+
         #endregion
 
         #region Private functions

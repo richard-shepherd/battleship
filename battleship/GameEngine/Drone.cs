@@ -19,6 +19,18 @@
             m_boardPosition = boardPosition;
         }
 
+        /// <summary>
+        /// Checks time-to-live and removes the drone from the board if it has expired.
+        /// </summary>
+        public void checkTTL()
+        {
+            m_turnsRemaining--;
+            if (m_turnsRemaining <= 0)
+            {
+                m_parentBoard.removeDrone(this);
+            }
+        }
+
         #endregion
 
         #region Private data

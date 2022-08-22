@@ -5,6 +5,15 @@
     /// </summary>
     internal class Mine
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets the mine's position on the board.
+        /// </summary>
+        public API.Shared.BoardSquareCoordinates BoardPosition => m_boardPosition;
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -14,6 +23,18 @@
         {
             m_parentBoard = parentBoard;
             m_boardPosition = boardPosition;
+        }
+
+        /// <summary>
+        /// Checks time-to-live and removes the mine from the board if it has expired.
+        /// </summary>
+        public void checkTTL()
+        {
+            m_turnsRemaining--;
+            if(m_turnsRemaining <= 0)
+            {
+                m_parentBoard.removeMine(this);
+            }
         }
 
         #endregion

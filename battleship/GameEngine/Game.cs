@@ -70,6 +70,9 @@
 
             // We check to see if the game has been won...
             updateGameStatus();
+
+            // Checks TTL for mines and drones...
+            checkTTL();
         }
 
         #endregion
@@ -172,6 +175,15 @@
             GameUtils.waitForAIReponses(m_player1, m_player2, TURN_TIMEOUT, API.StatusUpdate.EventName);
             m_player1.AI.getOutputAs<API.StatusUpdate.AIResponse>();
             m_player2.AI.getOutputAs<API.StatusUpdate.AIResponse>();
+        }
+
+        /// <summary>
+        /// Checks time-to-live for mines and drones and removes expired items from the board.
+        /// </summary>
+        private void checkTTL()
+        {
+            m_player1.Board.checkTTL();
+            m_player2.Board.checkTTL();
         }
 
         #endregion
