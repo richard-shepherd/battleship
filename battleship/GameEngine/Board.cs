@@ -141,6 +141,72 @@ namespace GameEngine
             }
         }
 
+        /// <summary>
+        /// Returns a list of DroneReports for any drones which detect ships.
+        /// </summary><remarks>
+        /// Drones detect ships if they are directly N, S, E, W of the drone - or if the
+        /// drone is directly over the ship.
+        /// </remarks>
+        public List<API.StatusUpdate.Message.DroneReport> getDroneReports()
+        {
+            // Perhaps there is a more efficient algorithm for this?
+            // ie, without checking each drone against each ship part.
+
+            // We check each drone...
+            var droneReports = new List<API.StatusUpdate.Message.DroneReport>();
+            foreach (var drone in m_drones)
+            {
+                var droneX = drone.BoardPosition.X;
+                var droneY = drone.BoardPosition.Y;
+
+                // We check each ship part...
+                var directionsDetected = new HashSet<API.StatusUpdate.Message.DroneDetectionEnum>();
+                foreach (var shipPart in m_shipPartLocations.Values)
+                {
+                    // Drones only detect undamaged ship-parts...
+                    if(shipPart.IsDamaged)
+                    {
+                        continue;
+                    }
+
+                    // We check if the drone can see a ship part the N, S, E, W...
+                    var shipPartX = shipPart.BoardPosition.X;
+                    var shipPartY = shipPart.BoardPosition.Y;
+                    if(shipPartX == droneX && shipPartY == droneY)
+                    {
+                        directionsDetected.Add(API.StatusUpdate.Message.DroneDetectionEnum.OVER_SHIP);
+                    }
+                    else if (shipPartX == droneX && shipPartY < droneY)
+                    {
+                        directionsDetected.Add(API.StatusUpdate.Message.DroneDetectionEnum.NORTH);
+                    }
+                    else if (shipPartX == droneX && shipPartY > droneY)
+                    {
+                        directionsDetected.Add(API.StatusUpdate.Message.DroneDetectionEnum.SOUTH);
+                    }
+                    else if (shipPartX < droneX && shipPartY == droneY)
+                    {
+                        directionsDetected.Add(API.StatusUpdate.Message.DroneDetectionEnum.WEST);
+                    }
+                    else if (shipPartX > droneX && shipPartY == droneY)
+                    {
+                        directionsDetected.Add(API.StatusUpdate.Message.DroneDetectionEnum.EAST);
+                    }
+                }
+
+                // We only report if the drone detected something...
+                if(directionsDetected.Any())
+                {
+                    var droneReport = new API.StatusUpdate.Message.DroneReport();
+                    droneReport.DronePosition = drone.BoardPosition;
+                    droneReport.DirectionsDetected.AddRange(directionsDetected);
+                    droneReports.Add(droneReport);
+                }
+            }
+
+            return droneReports;
+        }
+
         #endregion
 
         #region Private functions

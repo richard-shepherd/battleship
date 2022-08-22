@@ -17,3 +17,7 @@
   - DamageReport
   - StatusUpdate
   - BUT: After moving there can be damage from mines
+
+- More efficient algorithm for drone detection?
+
+- Should we only report undamaged parts from drones?

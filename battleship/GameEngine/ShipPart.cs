@@ -8,6 +8,11 @@
         #region Properties
 
         /// <summary>
+        /// Gets the ship-part's 1-based board position.
+        /// </summary>
+        public API.Shared.BoardSquareCoordinates BoardPosition => m_boardPosition;
+
+        /// <summary>
         /// Gets the part's board position as an (int, int) tuple.
         /// </summary>
         public (int X, int Y) BoardPositionTuple => m_boardPosition.toTuple();

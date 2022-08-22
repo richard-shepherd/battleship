@@ -151,8 +151,8 @@
 
             // We process the responses.
             // Note about the damage reports returned:
-            // - Damage-report-1 includes shots by player-1 and damage taken by player-2
-            // - Damage-report-2 includes shots by player-2 and damage taken by player-1
+            // - DamageReport1 includes shots by player-1 and damage taken by player-2
+            // - DamageReport2 includes shots by player-2 and damage taken by player-1
             var damageReport1 = m_player1.fireWeapons_ProcessResponse(m_player2);
             var damageReport2 = m_player2.fireWeapons_ProcessResponse(m_player1);
 
@@ -162,13 +162,16 @@
 
             // To player 1...
             var statusUpdate = new API.StatusUpdate.Message();
+            statusUpdate.PreviousEventName = API.FireWeapons.EventName;
             statusUpdate.Player = damageReport1;
             statusUpdate.Opponent = damageReport2;
+            statusUpdate.DroneReports = m_player2.Board.getDroneReports();
             m_player1.AI.sendMessage(statusUpdate);
 
             // To player 2...
             statusUpdate.Player = damageReport2;
             statusUpdate.Opponent = damageReport1;
+            statusUpdate.DroneReports = m_player1.Board.getDroneReports();
             m_player2.AI.sendMessage(statusUpdate);
 
             // We wait for the AIs to ACK the status update...

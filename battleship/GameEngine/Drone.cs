@@ -8,6 +8,15 @@
     /// </remarks>
     internal class Drone
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets the drone's position on the board.
+        /// </summary>
+        public API.Shared.BoardSquareCoordinates BoardPosition => m_boardPosition;
+
+        #endregion
+
         #region Public methods
 
         /// <summary>

@@ -37,6 +37,7 @@
             public enum ShotStatusEnum
             {
                 HIT,
+                HIT_ALREADY_DAMAGED_PART,
                 MISS
             }
 
@@ -86,6 +87,44 @@
             }
 
             /// <summary>
+            /// Enum for the direction (or directions) where a drone detects oppoonent ships.
+            /// </summary>
+            public enum DroneDetectionEnum
+            {
+                OVER_SHIP,
+                NORTH,
+                SOUTH,
+                EAST,
+                WEST
+            }
+
+            /// <summary>
+            /// Report of opponent ships detected by a drone.
+            /// </summary>
+            public class DroneReport
+            {
+                /// <summary>
+                /// Gets or sets the board position of the drone.
+                /// </summary>
+                public Shared.BoardSquareCoordinates DronePosition { get; set; } = new Shared.BoardSquareCoordinates();
+
+                /// <summary>
+                /// Gets or sets the collection of directions relative to the drone where opponent 
+                /// ships have been detected.
+                /// </summary>
+                public List<DroneDetectionEnum> DirectionsDetected { get; set; } = new List<DroneDetectionEnum>();
+            }
+
+            /// <summary>
+            /// Gets or sets the name of the previous event.
+            /// </summary><remarks>
+            /// There can be more than one status update in a turn - for example, after the FIRE_WEAPONS event
+            /// and after the MOVE event. The name of the previous event is provided here to provide some context
+            /// for the data provided with the update.
+            /// </remarks>
+            public string PreviousEventName { get; set; } = "";
+
+            /// <summary>
             /// Gets or sets the report of damage caused by the player.
             /// </summary><remarks>
             /// - ShotInfos are shots made by the player
@@ -100,6 +139,14 @@
             /// - DestroyedShips, TotalShips and ShipsRemaining refer to the player's ships
             /// </remarks>
             public DamageReport Opponent { get; set; } = new DamageReport();
+
+            /// <summary>
+            /// Gets or sets reports from drones which have detected opponent ships.
+            /// </summary><remarks>
+            /// NOTE 1: Only drones which have detected opponent ships are reported.
+            /// NOTE 2: Drones only report directions in which undamaged ship-parts are detected.
+            /// </remarks>
+            public List<DroneReport> DroneReports { get; set; } = new List<DroneReport>();
         }
 
         #endregion
