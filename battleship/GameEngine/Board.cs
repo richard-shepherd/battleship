@@ -104,7 +104,45 @@ namespace GameEngine
             ship.updateShipPlacement(newShipPlacement);
             ship.Fuel -= fuelUsed;
             updateShipPartLocations();
+        }
 
+        /// <summary>
+        /// Checks if any ships have been hit by mines.
+        /// </summary><remarks>
+        /// In particular, this is checked after the MOVE phase to see if any moved ships have
+        /// hit any lurking mines.
+        /// </remarks>
+        public API.StatusUpdate.Message.DamageReport checkMines()
+        {
+            var damageReport = new API.StatusUpdate.Message.DamageReport();
+
+            // We check each mine.
+            // Note: We loop over a copy of the mines, as we may remove mines from the underlying collection
+            //       if we detect that they have hit a ship.
+            var mines = new List<Mine>(m_mineLocations.Values);
+            foreach(var mine in mines)
+            {
+                var hitStatus = BoardUtils.checkForHit(this, mine.BoardPosition);
+                var shotStatus = hitStatus.ShotStatus;
+                if (shotStatus == API.StatusUpdate.Message.ShotStatusEnum.HIT)
+                {
+                    // The mine hit a ship, so we add this to the damage report...
+                    var shotInfo = new API.StatusUpdate.Message.ShotInfo();
+                    shotInfo.TargetSquare = mine.BoardPosition;
+                    shotInfo.ShotStatus = shotStatus;
+                    damageReport.ShotInfos.Add(shotInfo);
+                    var ship = hitStatus.ShipPart.Ship;
+                    if (ship.IsDestroyed)
+                    {
+                        damageReport.DestroyedShips.Add(ship.ShipType);
+                    }
+
+                    // We remove the mine...
+                    removeMine(mine);
+                }
+            }
+
+            return damageReport;
         }
 
         /// <summary>

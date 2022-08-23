@@ -170,6 +170,34 @@ namespace GameEngine
             }
         }
 
+        /// <summary>
+        /// Checks if the shot specified has hit one of the opponent's ships.
+        /// Returns HIT or MISS, or HIT_ALREADY_DAMAGED_PART if the shot hits a part which has
+        /// previously been hit. If the shot is a HIT, the ship-part is also returned.
+        /// </summary><remarks>
+        /// If the shot has hit a ship, the ship-part it hit is marked as damaged.
+        /// </remarks>
+        public static (API.StatusUpdate.Message.ShotStatusEnum ShotStatus, ShipPart ShipPart) checkForHit(Board board, API.Shared.BoardSquareCoordinates targetSquare)
+        {
+            // We check if the shell hit an opponent ship...
+            var shipPart = board.getShipPart(targetSquare.X, targetSquare.Y);
+            if (shipPart == null)
+            {
+                // There was no ship at the target square...
+                return (API.StatusUpdate.Message.ShotStatusEnum.MISS, null);
+            }
+
+            // There is a ship-part at the target square. We check if we have hit an already damaged part...
+            if (shipPart.IsDamaged)
+            {
+                return (API.StatusUpdate.Message.ShotStatusEnum.HIT_ALREADY_DAMAGED_PART, null);
+            }
+
+            // We have hit a ship part...
+            shipPart.IsDamaged = true;
+            return (API.StatusUpdate.Message.ShotStatusEnum.HIT, shipPart);
+        }
+
         #endregion
     }
 }

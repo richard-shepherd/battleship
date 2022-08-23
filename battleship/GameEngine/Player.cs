@@ -162,8 +162,7 @@ namespace GameEngine
         /// <summary>
         /// Processes the response from the AI to the MOVE message.
         /// </summary>
-        //public API.StatusUpdate.Message.DamageReport moveShips_ProcessResponse()
-        public void moveShips_ProcessResponse()
+        public API.StatusUpdate.Message.DamageReport moveShips_ProcessResponse()
         {
             // We deserialize the response...
             var aiResponse = m_ai.getOutputAs<API.Move.AIResponse>();
@@ -180,6 +179,9 @@ namespace GameEngine
                     m_board.moveShip(movementRequest.Index, movementRequest.ShipPlacement, fuelUsed);
                 }
             }
+
+            // We produce a damage report, as ship movements may have caused the ships to hit mines...
+            return m_board.checkMines();
         }
 
         #endregion
@@ -234,7 +236,7 @@ namespace GameEngine
             damageReport.ShotInfos.Add(shotInfo);
 
             // We check if the shell hit an opponent ship...
-            var hitStatus = checkForHit(opponent, shot);
+            var hitStatus = BoardUtils.checkForHit(opponent.Board, shot.TargetSquare);
             var shotStatus = hitStatus.ShotStatus;
             shotInfo.ShotStatus = shotStatus;
 
@@ -250,34 +252,6 @@ namespace GameEngine
         }
 
         /// <summary>
-        /// Checks if the shot specified has hit one of the opponent's ships.
-        /// Returns HIT or MISS, or HIT_ALREADY_DAMAGED_PART if the shot hits a part which has
-        /// previously been hit. If the shot is a HIT, the ship-part is also returned.
-        /// </summary><remarks>
-        /// If the shot has hit a ship, the ship-part it hit is marked as damaged.
-        /// </remarks>
-        private (API.StatusUpdate.Message.ShotStatusEnum ShotStatus, ShipPart ShipPart) checkForHit(Player opponent, API.FireWeapons.AIResponse.Shot shot)
-        {
-            // We check if the shell hit an opponent ship...
-            var shipPart = opponent.Board.getShipPart(shot.TargetSquare.X, shot.TargetSquare.Y);
-            if (shipPart == null)
-            {
-                // There was no ship at the target square...
-                return (API.StatusUpdate.Message.ShotStatusEnum.MISS, null);
-            }
-
-            // There is a ship-part at the target square. We check if we have hit an already damaged part...
-            if (shipPart.IsDamaged)
-            {
-                return (API.StatusUpdate.Message.ShotStatusEnum.HIT_ALREADY_DAMAGED_PART, null);
-            }
-
-            // We have hit a ship part...
-            shipPart.IsDamaged = true;
-            return (API.StatusUpdate.Message.ShotStatusEnum.HIT, shipPart);
-        }
-
-        /// <summary>
         /// Processes a MINE laid by the player.
         /// </summary>
         private void processShot_Mine(API.StatusUpdate.Message.DamageReport damageReport, Player opponent, API.FireWeapons.AIResponse.Shot shot)
@@ -290,7 +264,7 @@ namespace GameEngine
             m_minesAvailable -= 1.0;
 
             // We check if the mine has hit a ship.
-            var hitStatus = checkForHit(opponent, shot);
+            var hitStatus = BoardUtils.checkForHit(opponent.Board, shot.TargetSquare);
             var shotStatus = hitStatus.ShotStatus;
             if(shotStatus == API.StatusUpdate.Message.ShotStatusEnum.HIT)
             {

@@ -41,8 +41,8 @@ namespace Utility
         /// <summary>
         /// Returns a clone of an object by serializing it to JSON and back to a new object.
         /// </summary><remarks>
-        /// Perhaps not always the most efficient clone - but it does the job as a deep copy
-        /// and without having to write specialized cloning code for each object type.
+        /// Perhaps not always the most efficient clone - but it does the job of creating a
+        /// deep copy without having to write specialized cloning code for each object type.
         /// </remarks>
         public static T clone<T>(T obj)
         {

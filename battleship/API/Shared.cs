@@ -106,14 +106,14 @@
         /// Dictionary of shot-type to the cost of firing each type of shot.
         /// </summary><remarks>
         /// The costs refer to the number of undamaged ship-parts needed to take one shot of the specified type.
-        /// For example, if you have 7 undamaged ship-parts (squares) capabale of firing drones, then you will
-        /// accumulate 1.4 drones each turn. For example, you can fire one drone, and accumulate 0.4 drones for 
-        /// subsequent turns.
+        /// For example, if you have 7 undamaged ship-parts (squares) capabale of firing drones and drones cost
+        /// 5 points to fire, then you will accumulate 1.4 drones each turn. For example, you can fire one drone, 
+        /// and accumulate 0.4 drones for subsequent turns.
         /// </remarks>
         public static Dictionary<ShotTypeEnum, double> ShotCosts = new Dictionary<ShotTypeEnum, double>
         {
             { ShotTypeEnum.SHELL, 1.0},
-            { ShotTypeEnum.MINE, 5.0},
+            { ShotTypeEnum.MINE, 2.0},
             { ShotTypeEnum.DRONE, 5.0}
         };
     }
