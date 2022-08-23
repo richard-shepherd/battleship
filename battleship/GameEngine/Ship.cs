@@ -20,9 +20,9 @@ namespace GameEngine
         public API.Shared.ShipPlacement ShipPlacement => m_shipPlacement;
 
         /// <summary>
-        /// Gets the fuel available for movement.
+        /// Gets or sets the fuel available for movement.
         /// </summary>
-        public int Fuel => m_fuel;
+        public int Fuel { get; set; } = 0;
 
         /// <summary>
         /// Gets the ship type - eg, CARRIER, BATTLESHIP etc.
@@ -78,7 +78,16 @@ namespace GameEngine
             // We set the initial amount of fuel available. This depends on the ship size, as
             // when we move a ship we do this by calculating howmuch fuel it takes to move each
             // part to the new location...
-            m_fuel = m_shipSize * 20;
+            Fuel = m_shipSize * 20;
+        }
+
+        /// <summary>
+        /// Updates the ship placement - for example, when an AI moves a ship.
+        /// </summary>
+        public void updateShipPlacement(API.Shared.ShipPlacement shipPlacement)
+        {
+            m_shipPlacement = shipPlacement;
+            updatePartPositions();
         }
 
         #endregion
@@ -113,7 +122,7 @@ namespace GameEngine
         #region Private data
 
         // Construction params...
-        private readonly API.Shared.ShipPlacement m_shipPlacement;
+        private API.Shared.ShipPlacement m_shipPlacement = null;
             
         // The type of shots fired by the ship...
         private readonly API.Shared.ShotTypeEnum m_shotType;
@@ -123,9 +132,6 @@ namespace GameEngine
 
         // The collection of parts making up the ship...
         private readonly List<ShipPart> m_shipParts = new List<ShipPart>();
-
-        // The amount of fuel available for movement...
-        private int m_fuel = 0;
 
         #endregion
     }

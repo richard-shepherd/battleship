@@ -159,9 +159,77 @@ namespace GameEngine
             m_ai.sendMessage(message);
         }
 
+        /// <summary>
+        /// Processes the response from the AI to the MOVE message.
+        /// </summary>
         public void moveShips_ProcessResponse()
         {
-            // TODO: WRITE THIS!!!
+            // We deserialize the response...
+            var aiResponse = m_ai.getOutputAs<API.Move.AIResponse>();
+            if (aiResponse.MovementRequests.None())
+            {
+                // The AI has not requested any movement...
+                return;
+            }
+
+            // We enrich the movement requests to include the ship-type, which may
+            // not have been specified by the AI. This is needed during validation
+            // as it determines the size of the ships...
+            foreach (var movementRequest in aiResponse.MovementRequests)
+            {
+                var ship = m_board.Ships[movementRequest.Index];
+                movementRequest.ShipPlacement.ShipType = ship.ShipType;
+            }
+
+            // We validate the movement. This means checking that:
+            // - Each ship has enough fuel for the movement
+            // - Ship positions after movement are on the board
+            // - Ship positions after movement do not overlap
+            //
+            // If any of these validations fails, we do not move the ships.
+
+            // We check the fuel needed for each ship movement.
+            // We note this in a dictionary of ship-index -> fuel-required, so that we can 
+            // take the fuel from the ships laster if validation passes.
+            var fuelRequiredPerShip = new Dictionary<int, int>();
+            foreach (var movementRequest in aiResponse.MovementRequests)
+            {
+                var ship = m_board.Ships[movementRequest.Index];
+                var fuelRequired = checkFuel(ship, movementRequest.ShipPlacement);
+                if (fuelRequired == -1)
+                {
+                    // The ship does not have enough fuel for this movement request...
+                    Logger.log($"{m_aiName}: Not enough fuel for movement request");
+                    return;
+                }
+                else
+                {
+                    // The ship has enough fuel...
+                    fuelRequiredPerShip[movementRequest.Index] = fuelRequired;
+                }
+            }
+
+            // We have enough fuel to make each movement, so we check that the new ship positions
+            // are valid. To do this, we get the collection of all ship-placements including 
+            // existing ship positions and any that have moved...
+            var shipPlacements = m_board.Ships.Select(x => x.ShipPlacement).ToList();
+            foreach (var movementRequest in aiResponse.MovementRequests)
+            {
+                shipPlacements[movementRequest.Index] = movementRequest.ShipPlacement;
+            }
+            if(!BoardUtils.validateShipPlacement(m_boardSize, m_shipSquares, shipPlacements))
+            {
+                // The new ship placements are not valid...
+                Logger.log($"{m_aiName}: Ship placements not valid after movement request");
+                return;
+            }
+
+            // The movement request is valid, so we apply the changes...
+            foreach (var movementRequest in aiResponse.MovementRequests)
+            {
+                var fuelUsed = fuelRequiredPerShip[movementRequest.Index];
+                m_board.moveShip(movementRequest.Index, movementRequest.ShipPlacement, fuelUsed);
+            }
         }
 
         #endregion
@@ -309,6 +377,47 @@ namespace GameEngine
 
             // We place the drone on the opponent's board...
             opponent.Board.addDrone(shot.TargetSquare);
+        }
+
+        /// <summary>
+        /// Checks that the ship has enough fuel to make the movement requested.
+        /// 
+        /// Returns the amount of fuel used if the move can be made, or -1 if the ship
+        /// does not have enough fuel for the move.
+        /// </summary><remarks>
+        /// The amount of fuel used to move a ship is the amount of fuel needed to move each 
+        /// ship-part to its new position. The amount of fuel used to move a ship-part is the
+        /// difference in x-position plus the difference in y-position.
+        /// </remarks>
+        private int checkFuel(Ship ship, API.Shared.ShipPlacement shipPlacement)
+        {
+            // To find the positions of each ship-part after movement, we create a temporary
+            // Ship in the new position...
+            var movedShip = new Ship(shipPlacement);
+
+            // We see how far each ship-part has moved and use this to calculate
+            // the fuel required for the move...
+            var fuelRequired = 0;
+            var numShipParts = ship.ShipParts.Count;
+            for (var i = 0; i < numShipParts; ++i)
+            {
+                var shipPart = ship.ShipParts[i];
+                var movedShipPart = movedShip.ShipParts[i];
+                fuelRequired += Math.Abs(shipPart.BoardPosition.X - movedShipPart.BoardPosition.X);
+                fuelRequired += Math.Abs(shipPart.BoardPosition.Y - movedShipPart.BoardPosition.Y);
+            }
+
+            // We check if the ship has enough fuel to make this move...
+            if(ship.Fuel >= fuelRequired)
+            {
+                // The ship has enough fuel for this move...
+                return fuelRequired;
+            }
+            else
+            {
+                // The ship does not have enough fuel for this move...
+                return -1;
+            }
         }
 
         #endregion

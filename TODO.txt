@@ -23,3 +23,6 @@
 - Should mines be cheaper than drones?
   - They seem less useful?
 
+- Make the RandomPlayer place ships without overlapping
+  - Maybe all vertical or all horizontal, to make this easier?
+

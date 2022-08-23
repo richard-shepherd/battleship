@@ -91,6 +91,18 @@ namespace GameEngine
         }
 
         /// <summary>
+        /// Moves a ship.
+        /// </summary>
+        public void moveShip(int shipIndex, API.Shared.ShipPlacement newShipPlacement, int fuelUsed)
+        {
+            var ship = m_ships[shipIndex];
+            ship.updateShipPlacement(newShipPlacement);
+            ship.Fuel -= fuelUsed;
+            updateShipPartLocations();
+
+        }
+
+        /// <summary>
         /// Adds a mine to the board.
         /// </summary>
         public void addMine(API.Shared.BoardSquareCoordinates boardPosition)

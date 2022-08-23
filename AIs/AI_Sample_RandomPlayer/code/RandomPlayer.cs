@@ -233,13 +233,65 @@ namespace AI_Sample_RandomPlayer
         {
             // We deserialize the message from the game-engine. This tells us the current 
             // position of our ships and the fuel available for movement...
-            var moveInfo = Utils.fromJSON<API.Move.Message>(message);
+            var gameMessage = Utils.fromJSON<API.Move.Message>(message);
 
-            // We randomly move ships...
+            // We move one of the ships...
             var response = new API.Move.AIResponse();
-            // TODO: Add some random movement
+
+            // We choose a ship to move...
+            var numShips = gameMessage.ShipInfos.Count;
+            var shipIndex = m_rnd.Next(0, numShips);
+            var shipInfo = gameMessage.ShipInfos[shipIndex];
+
+            // We move the ship if it has enough fuel...
+            if(shipInfo.Fuel >= 5)
+            {
+                var movementRequest = new API.Move.AIResponse.MovementRequest();
+                movementRequest.Index = shipIndex;
+                movementRequest.ShipPlacement = moveShip(shipInfo.ShipPlacement);
+                response.MovementRequests.Add(movementRequest);
+            }
 
             sendMessage(response);
+        }
+
+        /// <summary>
+        /// Returns a new location for a ship, moving it randomly.
+        /// </summary>
+        private API.Shared.ShipPlacement moveShip(API.Shared.ShipPlacement shipPlacement)
+        {
+            var newShipPlacement = Utils.clone(shipPlacement);
+            var direction = m_rnd.Next(0, 4);
+            switch(direction)
+            {
+                case 0:
+                    // We move up...
+                    newShipPlacement.TopLeft.Y -= 1;
+                    if (newShipPlacement.TopLeft.Y < 1) newShipPlacement.TopLeft.Y = 1;
+                    break;
+
+                case 1:
+                    // We move down...
+                    var boardLimitY = m_gameInfo.BoardSize.Y - 5;
+                    newShipPlacement.TopLeft.Y += 1;
+                    if (newShipPlacement.TopLeft.Y > boardLimitY) newShipPlacement.TopLeft.Y = boardLimitY;
+                    break;
+
+                case 2:
+                    // We move left...
+                    newShipPlacement.TopLeft.X -= 1;
+                    if (newShipPlacement.TopLeft.X < 1) newShipPlacement.TopLeft.X = 1;
+                    break;
+
+                case 3:
+                    // We move right...
+                    var boardLimitX = m_gameInfo.BoardSize.X - 5;
+                    newShipPlacement.TopLeft.X += 1;
+                    if (newShipPlacement.TopLeft.X > boardLimitX) newShipPlacement.TopLeft.X = boardLimitX;
+                    break;
+
+            }
+            return newShipPlacement;
         }
 
         /// <summary>
