@@ -21,6 +21,11 @@ namespace GameEngine
         #region Properties
 
         /// <summary>
+        /// Gets the board size.
+        /// </summary>
+        public int BoardSize => m_boardSize;
+
+        /// <summary>
         /// Gets the list of ships on the board.
         /// </summary>
         public List<Ship> Ships => m_ships;
