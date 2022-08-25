@@ -114,8 +114,34 @@
             GameUtils.waitForAIReponses(m_player1, m_player2, TURN_TIMEOUT, API.Move.EventName);
 
             // We process the responses...
-            m_player1.moveShips_ProcessResponse();
-            m_player2.moveShips_ProcessResponse();
+            // Note about the damage reports returned:
+            // - DamageReport1 includes damage caused to player-1 by mines laid by player-2
+            // - DamageReport2 includes damage caused to player-2 by mines laid by player-1
+            var damageReport1 = m_player1.moveShips_ProcessResponse();
+            var damageReport2 = m_player2.moveShips_ProcessResponse();
+
+            // We send the post-firing status update.
+            // Note that when we send the updates below, the Player and Opponent data
+            // is sent the opposite way around to each player.
+
+            // To player 1...
+            var statusUpdate = new API.StatusUpdate.Message();
+            statusUpdate.PreviousEventName = API.Move.EventName;
+            statusUpdate.Player = damageReport2;
+            statusUpdate.Opponent = damageReport1;
+            statusUpdate.DroneReports = m_player2.Board.getDroneReports();
+            m_player1.AI.sendMessage(statusUpdate);
+
+            // To player 2...
+            statusUpdate.Player = damageReport1;
+            statusUpdate.Opponent = damageReport2;
+            statusUpdate.DroneReports = m_player1.Board.getDroneReports();
+            m_player2.AI.sendMessage(statusUpdate);
+
+            // We wait for the AIs to ACK the status update...
+            GameUtils.waitForAIReponses(m_player1, m_player2, TURN_TIMEOUT, API.StatusUpdate.EventName);
+            m_player1.AI.getOutputAs<API.StatusUpdate.AIResponse>();
+            m_player2.AI.getOutputAs<API.StatusUpdate.AIResponse>();
         }
 
         /// <summary>
@@ -179,7 +205,7 @@
             var damageReport2 = m_player2.fireWeapons_ProcessResponse(m_player1);
 
             // We send the post-firing status update.
-            // Note that when we send the udpates below, the Player and Opponent data
+            // Note that when we send the updates below, the Player and Opponent data
             // is sent the opposite way around to each player.
 
             // To player 1...
