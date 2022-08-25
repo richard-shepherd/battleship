@@ -161,6 +161,11 @@ namespace GameEngine
 
         /// <summary>
         /// Processes the response from the AI to the MOVE message.
+        /// 
+        /// Returns a damage report indicating if any ships have been hit by mines as a result
+        /// of the movement.
+        /// 
+        /// NOTE: The damage report holds damage to this player's ships cause by the opponent's mines.
         /// </summary>
         public API.StatusUpdate.Message.DamageReport moveShips_ProcessResponse()
         {
