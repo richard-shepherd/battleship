@@ -238,18 +238,21 @@ namespace AI_Sample_RandomPlayer
             // We move one of the ships...
             var response = new API.Move.AIResponse();
 
-            // We choose a ship to move...
-            var numShips = gameMessage.ShipInfos.Count;
-            var shipIndex = m_rnd.Next(0, numShips);
-            var shipInfo = gameMessage.ShipInfos[shipIndex];
-
-            // We move the ship if it has enough fuel...
-            if(shipInfo.Fuel >= 5)
+            // We choose a ship to move (though not every turn)...
+            if(m_rnd.NextDouble() < 0.1)
             {
-                var movementRequest = new API.Move.AIResponse.MovementRequest();
-                movementRequest.Index = shipIndex;
-                movementRequest.ShipPlacement = moveShip(shipInfo.ShipPlacement);
-                response.MovementRequests.Add(movementRequest);
+                var numShips = gameMessage.ShipInfos.Count;
+                var shipIndex = m_rnd.Next(0, numShips);
+                var shipInfo = gameMessage.ShipInfos[shipIndex];
+
+                // We move the ship if it has enough fuel...
+                if (shipInfo.Fuel >= 5)
+                {
+                    var movementRequest = new API.Move.AIResponse.MovementRequest();
+                    movementRequest.Index = shipIndex;
+                    movementRequest.ShipPlacement = moveShip(shipInfo.ShipPlacement);
+                    response.MovementRequests.Add(movementRequest);
+                }
             }
 
             sendMessage(response);

@@ -56,10 +56,17 @@
             m_ai2_Name = ai2_Name;
             m_boardSize = boardSize;
             m_shipSquares = shipSquares;
+        }
+
+        /// <summary>
+        /// Creates the player AIs and starts the game.
+        /// </summary>
+        public void startGame()
+        {
 
             // We create the two players, and send the START_GAME message to them...
-            m_player1 = new Player(aiManager, boardSize, shipSquares, ai1_Name, ai2_Name);
-            m_player2 = new Player(aiManager, boardSize, shipSquares, ai2_Name, ai1_Name);
+            m_player1 = new Player(m_aiManager, m_boardSize, m_shipSquares, m_ai1_Name, m_ai2_Name);
+            m_player2 = new Player(m_aiManager, m_boardSize, m_shipSquares, m_ai2_Name, m_ai1_Name);
             m_player1.startGame_SendMessage();
             m_player2.startGame_SendMessage();
 
@@ -101,8 +108,8 @@
             if (IsDisposed) return;
 
             // We clean up the players...
-            m_player1.Dispose();
-            m_player2.Dispose();
+            m_player1?.Dispose();
+            m_player2?.Dispose();
 
             IsDisposed = true;
         }
@@ -259,8 +266,8 @@
         private readonly int m_shipSquares;
 
         // The two players...
-        private readonly Player m_player1;
-        private readonly Player m_player2;
+        private Player m_player1 = null;
+        private Player m_player2 = null;
 
         // Constants...
         private const int START_GAME_TIMEOUT = 30000;

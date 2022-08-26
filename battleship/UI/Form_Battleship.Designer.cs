@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.ctrlBoard1 = new UI.Control_Board();
             this.ctrlBoard2 = new UI.Control_Board();
             this.ctrlLog = new UI.Control_Log();
             this.ctrlStartGame = new System.Windows.Forms.Button();
             this.ctrlPlayTurn = new System.Windows.Forms.Button();
+            this.ctrlTurnTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // ctrlBoard1
@@ -84,6 +86,12 @@
             this.ctrlPlayTurn.UseVisualStyleBackColor = true;
             this.ctrlPlayTurn.Click += new System.EventHandler(this.ctrlPlayTurn_Click);
             // 
+            // ctrlTurnTimer
+            // 
+            this.ctrlTurnTimer.Enabled = true;
+            this.ctrlTurnTimer.Interval = 50;
+            this.ctrlTurnTimer.Tick += new System.EventHandler(this.ctrlTurnTimer_Tick);
+            // 
             // Form_Battleship
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -108,5 +116,6 @@
         private Control_Log ctrlLog;
         private Button ctrlStartGame;
         private Button ctrlPlayTurn;
+        private System.Windows.Forms.Timer ctrlTurnTimer;
     }
 }

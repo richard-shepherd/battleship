@@ -128,16 +128,18 @@ namespace UI
         /// </summary>
         private void drawShips(Graphics graphics)
         {
-            var brush = new SolidBrush(m_playerColor);
+            var brush_undamaged = new SolidBrush(m_playerColor);
+            var brush_damaged = new SolidBrush(Color.Purple);
 
             // We show each ship-part for each ship...
-            foreach(var ship in m_board.Ships)
+            foreach (var ship in m_board.Ships)
             {
                 foreach(var shipPart in ship.ShipParts)
                 {
                     // We color the square for the ship part...
                     var x1 = m_gridSizeX * (shipPart.BoardPosition.X - 1);
                     var y1 = m_gridSizeY * (shipPart.BoardPosition.Y - 1);
+                    var brush = shipPart.IsDamaged ? brush_damaged : brush_undamaged;
                     graphics.FillRectangle(brush, x1, y1, m_gridSizeX, m_gridSizeY);
                 }
             }

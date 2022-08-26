@@ -35,6 +35,7 @@ namespace UI
 
                 // We start a new game and show the boards...
                 m_game = new Game(m_aiManager, "AI_Sample_RandomPlayer", "AI_Sample_RandomPlayer", 50, 20);
+                m_game.startGame();
                 ctrlBoard1.showBoard(m_game.Player1.Board);
                 ctrlBoard2.showBoard(m_game.Player2.Board);
             }
@@ -51,18 +52,7 @@ namespace UI
         {
             try
             {
-                // We check that we have an active game...
-                if(m_game == null)
-                {
-                    return;
-                }
-
-                // We play a turn...
-                m_game.playTurn();
-
-                // We show the boards...
-                ctrlBoard1.showBoard(m_game.Player1.Board);
-                ctrlBoard2.showBoard(m_game.Player2.Board);
+                playTurn();
             }
             catch (Exception ex)
             {
@@ -70,9 +60,50 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Called when the turn timer ticks.
+        /// </summary>
+        private void ctrlTurnTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                playTurn();
+            }
+            catch (Exception ex)
+            {
+                Logger.log(ex);
+            }
+
+        }
+
         #endregion
 
         #region Private functions
+
+        /// <summary>
+        /// Plays one turn of the game and shows the game state.
+        /// </summary>
+        private void playTurn()
+        {
+            // We check that we have an active game...
+            if (m_game == null)
+            {
+                return;
+            }
+
+            // We check that the game is not over...
+            if (m_game.GameStatus != Game.GameStatusEnum.PLAYING)
+            {
+                return;
+            }
+
+            // We play a turn...
+            m_game.playTurn();
+
+            // We show the boards...
+            ctrlBoard1.showBoard(m_game.Player1.Board);
+            ctrlBoard2.showBoard(m_game.Player2.Board);
+        }
 
         /// <summary>
         /// Cleans up the current game.
