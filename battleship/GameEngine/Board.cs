@@ -36,6 +36,11 @@ namespace GameEngine
         public IEnumerable<Mine> Mines => m_mineLocations.Values;
 
         /// <summary>
+        /// Gets the collection of drones on the board.
+        /// </summary>
+        public IEnumerable<Drone> Drones => m_drones;
+
+        /// <summary>
         /// Gets the collection of undamaged parts across all ships on the board.
         /// </summary>
         public IEnumerable<ShipPart> UndamagedParts => m_ships.SelectMany(x => x.UndamagedParts);

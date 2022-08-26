@@ -119,7 +119,7 @@ namespace UI
             {
                 drawShips(graphics);
                 drawMines(graphics);
-                drawDrones();
+                drawDrones(graphics);
             }
         }
 
@@ -163,9 +163,28 @@ namespace UI
             }
         }
 
-        private void drawDrones()
+        private void drawDrones(Graphics graphics)
         {
-            // TODO: WRITE THIS!!!
+            foreach(var drone in m_board.Drones)
+            {
+                // We set the transparency of the drone depending on its remaining lifetime...
+                var alpha = drone.TurnsRemaining * 255 / Mine.Lifetime;
+                var droneColor = Color.FromArgb(alpha, Color.Orange);
+                var brush = new SolidBrush(droneColor);
+
+                // We draw a circle for the drone...
+                var x = m_gridSizeX * (drone.BoardPosition.X - 1);
+                var y = m_gridSizeY * (drone.BoardPosition.Y - 1);
+                graphics.FillEllipse(brush, x, y, m_gridSizeX, m_gridSizeY);
+
+                // We draw lines indicating what the drone can see...
+                var radarColor = Color.FromArgb(alpha / 4, Color.Orange);
+                var pen = new Pen(radarColor);
+                x += m_gridSizeX / 2;
+                y += m_gridSizeY / 2;
+                graphics.DrawLine(pen, x, 0, x, Height - 1);
+                graphics.DrawLine(pen, 0, y, Width - 1, y);
+            }
         }
 
         /// <summary>
