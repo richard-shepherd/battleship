@@ -16,7 +16,7 @@ namespace UI
         public int BoardSize
         {
             get { return m_boardSize; }
-            set { setBoardSize(value); }
+            set { setBoardSize(value); Invalidate(); }
         }
 
         /// <summary>
@@ -56,6 +56,11 @@ namespace UI
         public void showBoard(Board board)
         {
             m_board = board;
+
+            // We make sure that the board size is set up...
+            setBoardSize(board.BoardSize);
+
+            // We draw the board...
             Invalidate();
         }
 
@@ -75,6 +80,9 @@ namespace UI
 
                 // We draw the grid...
                 drawGrid(e.Graphics);
+
+                // We draw the items on the board...
+                drawBoard(e.Graphics);
             }
             catch (Exception ex)
             {
@@ -105,11 +113,11 @@ namespace UI
         /// <summary>
         /// Draws the ships and other items from the board.
         /// </summary>
-        public void drawBoard()
+        public void drawBoard(Graphics graphics)
         {
             if(m_board != null)
             {
-                drawShips();
+                drawShips(graphics);
                 drawMines();
                 drawDrones();
             }
@@ -118,9 +126,21 @@ namespace UI
         /// <summary>
         /// Draws each ship on the board.
         /// </summary>
-        private void drawShips()
+        private void drawShips(Graphics graphics)
         {
-            // TODO: WRITE THIS!!!
+            var brush = new SolidBrush(m_playerColor);
+
+            // We show each ship-part for each ship...
+            foreach(var ship in m_board.Ships)
+            {
+                foreach(var shipPart in ship.ShipParts)
+                {
+                    // We color the square for the ship part...
+                    var x1 = m_gridSizeX * (shipPart.BoardPosition.X - 1);
+                    var y1 = m_gridSizeY * (shipPart.BoardPosition.Y - 1);
+                    graphics.FillRectangle(brush, x1, y1, m_gridSizeX, m_gridSizeY);
+                }
+            }
         }
 
         private void drawMines()
@@ -138,10 +158,12 @@ namespace UI
         /// </summary>
         private void setBoardSize(int boardSize)
         {
-            m_boardSize = boardSize;
-            m_fBoardSize = boardSize;
-            updateGridSize();
-            Invalidate();
+            if(boardSize != m_boardSize)
+            {
+                m_boardSize = boardSize;
+                m_fBoardSize = boardSize;
+                updateGridSize();
+            }
         }
 
         /// <summary>

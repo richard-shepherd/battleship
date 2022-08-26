@@ -9,7 +9,7 @@ namespace GameEngine
     /// - The board with the player's ships (plus enemy mines and drones)
     /// - The shots available to the player.
     /// </remarks>
-    internal class Player
+    public class Player
     {
         #region Properties
 

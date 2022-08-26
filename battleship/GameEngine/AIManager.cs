@@ -3,7 +3,7 @@
     /// <summary>
     /// Discovers the available AIs from the AIs folder and helps create them by name.
     /// </summary>
-    internal class AIManager
+    public class AIManager
     {
         #region Public methods
 

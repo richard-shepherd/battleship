@@ -3,7 +3,7 @@
     /// <summary>
     /// Manages a game of Battleship between two AIs.
     /// </summary>
-    internal class Game
+    public class Game
     {
         #region Public types
 
@@ -31,6 +31,16 @@
         /// Gets the name of the winning AI.
         /// </summary>
         public string WinningAIName { get; private set; } = "";
+
+        /// <summary>
+        /// Gets player 1.
+        /// </summary>
+        public Player Player1 => m_player1;
+
+        /// <summary>
+        /// Gets player 2.
+        /// </summary>
+        public Player Player2 => m_player2;
 
         #endregion
 

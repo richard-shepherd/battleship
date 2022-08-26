@@ -26,3 +26,7 @@
 - Make the RandomPlayer place ships without overlapping
   - Maybe all vertical or all horizontal, to make this easier?
 
+- Validation of the board can throw an exception
+  - Causes the game to not be constructed
+  - So cannot be disposed
+  - Maybe have a separate setup AIs method?

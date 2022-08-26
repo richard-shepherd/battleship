@@ -10,7 +10,7 @@ namespace GameEngine
     /// The AI is created by specifying its folder. This should contain a text file
     /// called AI.info which specifies how to run the process for the AI.
     /// </remarks>
-    internal class AIProcess : IDisposable
+    public class AIProcess : IDisposable
     {
         #region Properties
 
@@ -47,6 +47,7 @@ namespace GameEngine
             startInfo.WorkingDirectory = Path.Combine(folder, aiInfo.WorkingDirectory);
             startInfo.FileName = Path.Combine(folder, aiInfo.WorkingDirectory, aiInfo.Executable);
             startInfo.Arguments = aiInfo.CommandLine;
+            startInfo.CreateNoWindow = true;
             m_process.Start();
             m_process.OutputDataReceived += onOutputDataReceived; ;
             m_process.BeginOutputReadLine();
