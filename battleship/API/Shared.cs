@@ -113,7 +113,7 @@
         public static Dictionary<ShotTypeEnum, double> ShotCosts = new Dictionary<ShotTypeEnum, double>
         {
             { ShotTypeEnum.SHELL, 1.0},
-            { ShotTypeEnum.MINE, 2.0},
+            { ShotTypeEnum.MINE, 3.0},
             { ShotTypeEnum.DRONE, 5.0}
         };
     }

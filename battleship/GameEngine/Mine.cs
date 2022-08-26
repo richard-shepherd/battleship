@@ -12,6 +12,16 @@
         /// </summary>
         public API.Shared.BoardSquareCoordinates BoardPosition => m_boardPosition;
 
+        /// <summary>
+        /// The lifetime of a mine in game turns.
+        /// </summary>
+        public static int Lifetime = 20;
+
+        /// <summary>
+        /// Gets the number of turns remaining for this mine.
+        /// </summary>
+        public int TurnsRemaining => m_turnsRemaining;
+
         #endregion
 
         #region Public methods
@@ -46,7 +56,7 @@
         private readonly API.Shared.BoardSquareCoordinates m_boardPosition;
 
         // The remaining lifetime of the mine...
-        private int m_turnsRemaining = 20;
+        private int m_turnsRemaining = Mine.Lifetime;
 
         #endregion
     }

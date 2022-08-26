@@ -76,7 +76,7 @@ namespace UI
             try
             {
                 // We clear the board...
-                e.Graphics.Clear(Color.White);
+                e.Graphics.Clear(Color.FromArgb(0xff, 0xf8, 0xff, 0xff));
 
                 // We draw the grid...
                 drawGrid(e.Graphics);
@@ -118,7 +118,7 @@ namespace UI
             if(m_board != null)
             {
                 drawShips(graphics);
-                drawMines();
+                drawMines(graphics);
                 drawDrones();
             }
         }
@@ -137,17 +137,30 @@ namespace UI
                 foreach(var shipPart in ship.ShipParts)
                 {
                     // We color the square for the ship part...
-                    var x1 = m_gridSizeX * (shipPart.BoardPosition.X - 1);
-                    var y1 = m_gridSizeY * (shipPart.BoardPosition.Y - 1);
+                    var x = m_gridSizeX * (shipPart.BoardPosition.X - 1);
+                    var y = m_gridSizeY * (shipPart.BoardPosition.Y - 1);
                     var brush = shipPart.IsDamaged ? brush_damaged : brush_undamaged;
-                    graphics.FillRectangle(brush, x1, y1, m_gridSizeX, m_gridSizeY);
+                    graphics.FillRectangle(brush, x, y, m_gridSizeX, m_gridSizeY);
                 }
             }
         }
 
-        private void drawMines()
+        /// <summary>
+        /// Draws each mine on the board.
+        /// </summary>
+        private void drawMines(Graphics graphics)
         {
-            // TODO: WRITE THIS!!!
+            foreach (var mine in m_board.Mines)
+            {
+                // We set the transparency of the mine depending on its remaining lifetime...
+                var alpha = mine.TurnsRemaining * 255 / Mine.Lifetime;
+                var color = Color.FromArgb(alpha, Color.DarkGreen);
+                var brush = new SolidBrush(color);
+
+                var x = m_gridSizeX * (mine.BoardPosition.X - 1);
+                var y = m_gridSizeY * (mine.BoardPosition.Y - 1);
+                graphics.FillEllipse(brush, x, y, m_gridSizeX, m_gridSizeY);
+            }
         }
 
         private void drawDrones()
