@@ -118,6 +118,7 @@ namespace UI
             if(m_board != null)
             {
                 drawShips(graphics);
+                drawShells(graphics);
                 drawMines(graphics);
                 drawDrones(graphics);
             }
@@ -146,6 +147,27 @@ namespace UI
         }
 
         /// <summary>
+        /// Draws each shell fired in the most recent turn.
+        /// </summary>
+        private void drawShells(Graphics graphics)
+        {
+            var pen = new Pen(Color.Black, 2f);
+            var xOffset = m_gridSizeX / 4;
+            var yOffset = m_gridSizeY / 4;
+            var xLength = xOffset * 2;
+            var yLength = yOffset * 2;
+            foreach (var shelledSquare in m_board.ShelledSquares)
+            {
+                var x1 = m_gridSizeX * (shelledSquare.X - 1) + xOffset;
+                var y1 = m_gridSizeY * (shelledSquare.Y - 1) + yOffset;
+                var x2 = x1 + xLength;
+                var y2 = y1 + yLength;
+                graphics.DrawLine(pen, x1, y1, x2, y2);
+                graphics.DrawLine(pen, x1, y2, x2, y1);
+            }
+        }
+
+        /// <summary>
         /// Draws each mine on the board.
         /// </summary>
         private void drawMines(Graphics graphics)
@@ -163,6 +185,9 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Draws each drone on the board.
+        /// </summary>
         private void drawDrones(Graphics graphics)
         {
             foreach(var drone in m_board.Drones)

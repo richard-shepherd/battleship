@@ -70,6 +70,11 @@ namespace GameEngine
         /// </remarks>
         public bool FleetHasOffensiveWeapons => m_ships.Any(x => x.HasOffensiveWeapons);
 
+        /// <summary>
+        /// Gets the locationsof shells fired to this board in the most recent turn.
+        /// </summary>
+        public HashSet<API.Shared.BoardSquareCoordinates> ShelledSquares { get; } = new HashSet<API.Shared.BoardSquareCoordinates>();
+
         #endregion
 
         #region Public methods

@@ -89,7 +89,6 @@
             // ctrlTurnTimer
             // 
             this.ctrlTurnTimer.Enabled = true;
-            this.ctrlTurnTimer.Interval = 10;
             this.ctrlTurnTimer.Tick += new System.EventHandler(this.ctrlTurnTimer_Tick);
             // 
             // Form_Battleship

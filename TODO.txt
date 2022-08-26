@@ -30,3 +30,9 @@
   - Causes the game to not be constructed
   - So cannot be disposed
   - Maybe have a separate setup AIs method?
+
+- I think I've seen a shell hit in the UI, but the ship-part not be set as damaged!
+  - Could it be that the ship had moved into the square *after* the shell had been fired?
+  - We may want to render the two phases of the turn separately?
+
+- Does player 1 win more than it should?

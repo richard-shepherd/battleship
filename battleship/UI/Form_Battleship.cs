@@ -34,7 +34,7 @@ namespace UI
                 cleanupGame();
 
                 // We start a new game and show the boards...
-                m_game = new Game(m_aiManager, "AI_Sample_RandomPlayer", "AI_Sample_RandomPlayer", 50, 20);
+                m_game = new Game(m_aiManager, "AI_Sample_RandomPlayer", "AI_Sample_RandomPlayer", 40, 20);
                 m_game.startGame();
                 ctrlBoard1.showBoard(m_game.Player1.Board);
                 ctrlBoard2.showBoard(m_game.Player2.Board);

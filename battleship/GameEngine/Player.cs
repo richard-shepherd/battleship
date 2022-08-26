@@ -107,6 +107,10 @@ namespace GameEngine
             // We parse the response from the AI...
             var aiResponse = m_ai.getOutputAs<API.FireWeapons.AIResponse>();
 
+            // We clear the recent shells from the opponent's board.
+            // (These are recorded so that we can draw them in the UI.)
+            opponent.Board.ShelledSquares.Clear();
+
             // We process each shot and fill in the damage-report...
             var damageReport = new API.StatusUpdate.Message.DamageReport();
             foreach(var shot in aiResponse.Shots)
@@ -234,6 +238,9 @@ namespace GameEngine
                 return;
             }
             m_shellsAvailable -= 1.0;
+
+            // We record the shell on the opponent's board (so that it can be shown in the UI)...
+            opponent.Board.ShelledSquares.Add(shot.TargetSquare);
 
             // We add the shot to the damage report...
             var shotInfo = new API.StatusUpdate.Message.ShotInfo();

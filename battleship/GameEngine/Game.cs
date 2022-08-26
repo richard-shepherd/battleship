@@ -33,6 +33,11 @@
         public string WinningAIName { get; private set; } = "";
 
         /// <summary>
+        /// Gets the winning player number, ie player 1 or player 2.
+        /// </summary>
+        public int WinningPlayerNumber { get; private set; } = 0;
+
+        /// <summary>
         /// Gets player 1.
         /// </summary>
         public Player Player1 => m_player1;
@@ -196,10 +201,12 @@
             if(fleetDestroyed_Player1)
             {
                 WinningAIName = m_ai2_Name;
+                WinningPlayerNumber = 2;
             }
             if (fleetDestroyed_Player2)
             {
                 WinningAIName = m_ai1_Name;
+                WinningPlayerNumber = 1;
             }
         }
 
