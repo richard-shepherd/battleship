@@ -3,7 +3,7 @@
     /// <summary>
     /// Manages a mine.
     /// </summary>
-    internal class Mine
+    public class Mine
     {
         #region Properties
 

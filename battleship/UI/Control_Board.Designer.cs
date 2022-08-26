@@ -36,8 +36,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.DoubleBuffered = true;
             this.Name = "Control_Board";
-            this.Size = new System.Drawing.Size(356, 335);
+            this.Size = new System.Drawing.Size(424, 374);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Control_Board_Paint);
+            this.Resize += new System.EventHandler(this.Control_Board_Resize);
             this.ResumeLayout(false);
 
         }

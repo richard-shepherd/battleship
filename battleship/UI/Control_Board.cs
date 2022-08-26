@@ -1,4 +1,5 @@
-﻿using Utility;
+﻿using GameEngine;
+using Utility;
 
 namespace UI
 {
@@ -15,7 +16,7 @@ namespace UI
         public int BoardSize
         {
             get { return m_boardSize; }
-            set { if (m_boardSize != value) { m_boardSize = value; Invalidate(); } }
+            set { setBoardSize(value); }
         }
 
         /// <summary>
@@ -28,12 +29,12 @@ namespace UI
          }
 
         /// <summary>
-        /// Gets or sets the border color;
+        /// Gets or sets the player color;
         /// </summary>
-        public Color BorderColor
+        public Color PlayerColor
         {
-            get { return m_borderColor; }
-            set { if (m_borderColor != value) { m_borderColor = value; Invalidate(); } }
+            get { return m_playerColor; }
+            set { if (m_playerColor != value) { m_playerColor = value; Invalidate(); } }
         }
 
         #endregion
@@ -46,6 +47,16 @@ namespace UI
         public Control_Board()
         {
             InitializeComponent();
+            updateGridSize();
+        }
+
+        /// <summary>
+        /// Shows the board.
+        /// </summary>
+        public void showBoard(Board board)
+        {
+            m_board = board;
+            Invalidate();
         }
 
         #endregion
@@ -53,7 +64,7 @@ namespace UI
         #region Control events
 
         /// <summary>
-        /// Paints the control / board.
+        /// Called when the control is redrawn.
         /// </summary>
         private void Control_Board_Paint(object sender, PaintEventArgs e)
         {
@@ -71,9 +82,76 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// Called when the control is resized.
+        /// </summary>
+        private void Control_Board_Resize(object sender, EventArgs e)
+        {
+            try
+            {
+                updateGridSize();
+                Invalidate();
+            }
+            catch (Exception ex)
+            {
+                Logger.log(ex);
+            }
+        }
+
         #endregion
 
         #region Private functions
+
+        /// <summary>
+        /// Draws the ships and other items from the board.
+        /// </summary>
+        public void drawBoard()
+        {
+            if(m_board != null)
+            {
+                drawShips();
+                drawMines();
+                drawDrones();
+            }
+        }
+
+        /// <summary>
+        /// Draws each ship on the board.
+        /// </summary>
+        private void drawShips()
+        {
+            // TODO: WRITE THIS!!!
+        }
+
+        private void drawMines()
+        {
+            // TODO: WRITE THIS!!!
+        }
+
+        private void drawDrones()
+        {
+            // TODO: WRITE THIS!!!
+        }
+
+        /// <summary>
+        /// Sets the board size and redraws the grid.
+        /// </summary>
+        private void setBoardSize(int boardSize)
+        {
+            m_boardSize = boardSize;
+            m_fBoardSize = boardSize;
+            updateGridSize();
+            Invalidate();
+        }
+
+        /// <summary>
+        /// Updates the size of grid squares based on the board size and the size of the control.
+        /// </summary>
+        private void updateGridSize()
+        {
+            m_gridSizeX = Width / m_fBoardSize;
+            m_gridSizeY = Height / m_fBoardSize;
+        }
 
         /// <summary>
         /// Dreaws the board grid.
@@ -81,25 +159,22 @@ namespace UI
         private void drawGrid(Graphics graphics)
         {
             // We work out the spacing of grid lines to fit the size of the control...
-            var fBoardSize = (float)m_boardSize;
-            var gridSizeX = Width / fBoardSize;
-            var gridSizeY = Height / fBoardSize;
             var gridPen = new Pen(m_gridColor);
 
             // We draw the grid...
             for (var i = 1; i < m_boardSize; ++i)
             {
                 // Horizontal line...
-                var yOffset = i * gridSizeY;
+                var yOffset = i * m_gridSizeY;
                 graphics.DrawLine(gridPen, 0, yOffset, Width - 1, yOffset);
 
                 // Vertical line...
-                var xOffset = i * gridSizeX;
+                var xOffset = i * m_gridSizeX;
                 graphics.DrawLine(gridPen, xOffset, 0, xOffset, Height - 1);
             }
 
             // We draw the border...
-            var borderPen = new Pen(m_borderColor);
+            var borderPen = new Pen(m_playerColor);
             graphics.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
         }
 
@@ -107,14 +182,20 @@ namespace UI
 
         #region Private data
 
-        // The board size. Boards are square and have board-size squares in the x and y axes...
+        // The board size and associated grid size...
         private int m_boardSize = 30;
+        private float m_fBoardSize = 30f;
+        private float m_gridSizeX = 10f;
+        private float m_gridSizeY = 10f;
 
         // The color of the grid...
         private Color m_gridColor = Color.LightGray;
 
-        // The color of the border...
-        private Color m_borderColor = Color.Blue;
+        // The color of the player...
+        private Color m_playerColor = Color.Blue;
+
+        // The game board we are showing...
+        private Board m_board = null;
 
 
         #endregion

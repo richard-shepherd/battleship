@@ -3,7 +3,7 @@
     /// <summary>
     /// Manages one part (board-square) for a ship.
     /// </summary>
-    internal class ShipPart
+    public class ShipPart
     {
         #region Properties
 

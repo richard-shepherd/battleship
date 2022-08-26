@@ -6,7 +6,7 @@
     /// Drone report whether opponent ships exist to their N, S, E, W to the
     /// player who placed the drone.
     /// </remarks>
-    internal class Drone
+    public class Drone
     {
         #region Properties
 

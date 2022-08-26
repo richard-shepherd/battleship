@@ -16,7 +16,7 @@ namespace GameEngine
     ///   (34, 46) -> Ship[2].Part[3]
     ///   (13, 51) -> Mine
     /// </remarks>
-    internal class Board
+    public class Board
     {
         #region Properties
 

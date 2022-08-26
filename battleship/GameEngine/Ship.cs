@@ -5,7 +5,7 @@ namespace GameEngine
     /// <summary>
     /// Holds details of one ship.
     /// </summary>
-    internal class Ship
+    public class Ship
     {
         #region Properties
 
