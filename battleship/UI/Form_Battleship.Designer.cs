@@ -33,16 +33,19 @@
             // 
             // control_Board1
             // 
-            this.control_Board1.Location = new System.Drawing.Point(44, 22);
+            this.control_Board1.BoardSize = 40;
+            this.control_Board1.BorderColor = System.Drawing.Color.Blue;
+            this.control_Board1.GridColor = System.Drawing.Color.LightGray;
+            this.control_Board1.Location = new System.Drawing.Point(24, 25);
             this.control_Board1.Name = "control_Board1";
-            this.control_Board1.Size = new System.Drawing.Size(472, 463);
+            this.control_Board1.Size = new System.Drawing.Size(455, 472);
             this.control_Board1.TabIndex = 0;
             // 
             // Form_Battleship
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(980, 659);
+            this.ClientSize = new System.Drawing.Size(1287, 659);
             this.Controls.Add(this.control_Board1);
             this.DoubleBuffered = true;
             this.Name = "Form_Battleship";
