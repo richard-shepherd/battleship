@@ -1,4 +1,5 @@
-import json
+from .game_message import GameMessage
+from ..api import *
 
 class DroneHunter(object):
     '''
@@ -23,22 +24,32 @@ class DroneHunter(object):
         - Sends responses to the game-engine
         '''
         while not self.shutdown:
-            # We wait for a message from the game-engine and log it...
-            message = input()
-            self.logger.log(f"RX -> {message}")
+            try:
+                # We wait for a message from the game-engine and log it...
+                message = input()
+                self.logger.log(f"RX -> {message}")
 
-            # We parse the JSON message and process it depending on the event...
-            message_json = json.loads(message)
-            match message_json["EventName"]:
-                case "START_GAME":
-                    self.on_start_game(message)
+                # We parse the JSON message and process it depending on the event...
+                game_message = GameMessage.from_json(message)
+                self.logger.log(game_message.EventName)
+                match game_message.EventName:
+                    case "START_GAME":
+                        self.on_start_game(game_message)
 
-                case "SHUTDOWN":
-                    self.on_shutdown()
+                    case "SHUTDOWN":
+                        self.on_shutdown()
+            except Exception as ex:
+                self.logger(f"Exception: {ex}")
+
+    def on_start_game(self, start_game_message):
+        '''
+        Called when we receive the START_GAME message.
+        '''
+
 
     def on_shutdown(self):
         '''
         Called when we receive the SHUTDOWN message.
         '''
-        pass
+        response = StartGameResponse()
 
