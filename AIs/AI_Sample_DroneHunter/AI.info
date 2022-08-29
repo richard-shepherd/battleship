@@ -1,0 +1,5 @@
+{
+	"WorkingDirectory": "./code",
+	"Executable": "D:\\installed-apps\\python-installations\\Python310\\python.exe",
+	"CommandLine": "main.py"
+}
