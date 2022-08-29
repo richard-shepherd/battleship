@@ -1,6 +1,5 @@
 import sys
-from drone_hunter import DroneHunter
-from logger import Logger
+from drone_hunter import *
 
 # We create the logger, and log the Python version we are running ...
 logger = Logger()

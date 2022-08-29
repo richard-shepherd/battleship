@@ -18,7 +18,7 @@ class Logger(object):
 
     def log(self, message):
         '''
-        Write the message to the log file.
+        Writes a message to the log file.
         '''
         with open(self.log_filename, "a") as log_file:
             log_file.write(message + "\n\n")

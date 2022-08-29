@@ -30,6 +30,9 @@ class DroneHunter(object):
             # We parse the JSON message and process it depending on the event...
             message_json = json.loads(message)
             match message_json["EventName"]:
+                case "START_GAME":
+                    self.on_start_game(message)
+
                 case "SHUTDOWN":
                     self.on_shutdown()
 
