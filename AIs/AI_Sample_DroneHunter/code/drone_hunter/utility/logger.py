@@ -1,4 +1,5 @@
 import os
+import time
 from pathlib import Path
 
 class Logger(object):
@@ -10,11 +11,20 @@ class Logger(object):
         Constructor.
         '''
         # We create the log folder...
-        Path("Logs").mkdir(parents=True, exist_ok=True)
+        folder = "Logs"
+        Path(folder).mkdir(parents=True, exist_ok=True)
+
+        # We delete any old log files...
+        cutoff = time.time() - 60
+        for f in os.listdir(folder):
+            f = os.path.join(folder, f)
+            if os.stat(f).st_mtime < cutoff:
+                if os.path.isfile(f):
+                    os.remove(f)
 
         # We create the log file name...
         pid = os.getpid()
-        self.log_filename = f"Logs/DroneHunter_{pid}.log"
+        self.log_filename = f"{folder}/DroneHunter_{pid}.log"
 
     def log(self, message):
         '''

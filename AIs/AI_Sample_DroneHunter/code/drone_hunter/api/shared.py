@@ -15,6 +15,15 @@ class OrientationEnum(object):
     VERTICAL = "VERTICAL"
 
 
+class ShotTypeEnum(object):
+    '''
+    An enum for shot types.
+    '''
+    SHELL = "SHELL"
+    MINE = "MINE"
+    DRONE = "DRONE"
+
+
 class BoardSquareCoordinates(object):
     '''
     Coordinates for one square of the board.
@@ -23,6 +32,15 @@ class BoardSquareCoordinates(object):
     def __init__(self):
         self.X = 0
         self.Y = 0
+
+
+class ShipSizes(object):
+    '''
+    Constants for ship sizes.
+    '''
+    CARRIER = 5
+    BATTLESHIP = 4
+    MINELAYER = 3
 
 
 class ShipPlacement(object):

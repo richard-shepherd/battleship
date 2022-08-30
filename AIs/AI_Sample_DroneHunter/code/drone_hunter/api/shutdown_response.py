@@ -1,4 +1,4 @@
-class Shutdown(object):
+class ShutdownResponse(object):
     '''
     ACK response from AIs to the SHUTDOWN message.
     '''
