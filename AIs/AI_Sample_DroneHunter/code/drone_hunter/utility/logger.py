@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime
 from pathlib import Path
 
 class Logger(object):
@@ -30,6 +31,7 @@ class Logger(object):
         '''
         Writes a message to the log file.
         '''
+        time_string = datetime.now().strftime("%H:%M:%S.%f")[:-3]
         with open(self.log_filename, "a") as log_file:
-            log_file.write(message + "\n\n")
+            log_file.write(f"{time_string}: {message}"+ "\n\n")
         

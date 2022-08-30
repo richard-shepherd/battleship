@@ -26,7 +26,7 @@ class DroneHunter(object):
         Serializes the message-object to JSON and sends it to the game engine.
         '''
         json_string = json.dumps(vars(message_object), default=lambda o: vars(o))
-        self.logger.log(f"TX -> {json_string}")
+        self.logger.log(f"TX<-{json_string}")
         print(json_string)
 
     def play_game(self):
@@ -40,7 +40,7 @@ class DroneHunter(object):
             try:
                 # We wait for a message from the game-engine and log it...
                 message = input()
-                self.logger.log(f"RX <- {message}")
+                self.logger.log(f"RX->{message}")
 
                 # We parse the JSON message and process it depending on the event...
                 game_message = GameMessage.from_json(message)
@@ -50,6 +50,12 @@ class DroneHunter(object):
 
                     case "FIRE_WEAPONS":
                         self.on_fire_weapons(game_message)
+
+                    case "STATUS_UPDATE":
+                        self.on_status_update(game_message)
+
+                    case "MOVE":
+                        self.on_move(game_message)
 
                     case "SHUTDOWN":
                         self.on_shutdown()
@@ -124,6 +130,21 @@ class DroneHunter(object):
 
         # We send the response to the game engine...
         self.send_message(response)
+
+    def on_status_update(self, status_update_message):
+        '''
+        Called when we receive the STATUS_UPDATE message.
+        '''
+        # We store the status update, and ACK that we have received it...
+        self.status_update = status_update_message
+        self.send_message(StatusUpdateResponse())
+
+    def on_move(self, move_message):
+        '''
+        Called when we receive the MOVE message.
+        '''
+        # This AI does not move ships, so we send an empty response...
+        self.send_message(MoveResponse())
 
     def on_shutdown(self):
         '''
