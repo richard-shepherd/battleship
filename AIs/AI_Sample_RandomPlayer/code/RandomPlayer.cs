@@ -1,4 +1,5 @@
-﻿using Utility;
+﻿using GameEngine;
+using Utility;
 
 namespace AI_Sample_RandomPlayer
 {
@@ -138,14 +139,41 @@ namespace AI_Sample_RandomPlayer
             // In response to the START_GAME message, we need to place our ships on the board...
             var response = new API.StartGame.AIResponse();
 
-            // We add ships...
-            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.CARRIER));
-            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.BATTLESHIP));
-            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.BATTLESHIP));
-            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.MINELAYER));
-            response.ShipPlacements.Add(createShip(API.Shared.ShipTypeEnum.MINELAYER));
+            // We create a random layout of ships, and check that it is valid.
+            // This AI only uses battleships and minelayers, as it does not process
+            // the reports from drones...
+            var shipPlacements = new List<API.Shared.ShipPlacement>();
+            for(; ; )
+            {
+                // We create a random collection of battleships and minelayers...
+                shipPlacements.Clear();
+                var squaresRemaining = m_gameInfo.ShipSquares;
+                var battleshipSize = API.Shared.ShipSizes[API.Shared.ShipTypeEnum.BATTLESHIP];
+                var minelayerSize = API.Shared.ShipSizes[API.Shared.ShipTypeEnum.MINELAYER];
+                while (squaresRemaining >= battleshipSize)
+                {
+                    if (squaresRemaining >= battleshipSize)
+                    {
+                        shipPlacements.Add(createShip(API.Shared.ShipTypeEnum.BATTLESHIP));
+                        squaresRemaining -= battleshipSize;
+                    }
+                    if (squaresRemaining >= minelayerSize)
+                    {
+                        shipPlacements.Add(createShip(API.Shared.ShipTypeEnum.MINELAYER));
+                        squaresRemaining -= minelayerSize;
+                    }
+                }
+
+                // We check that the placement is valid...
+                if(BoardUtils.validateShipPlacement(m_gameInfo.BoardSize.X, m_gameInfo.ShipSquares, shipPlacements))
+                {
+                    // The ship placement is valid...
+                    break;
+                }
+            }
 
             // We send the response...
+            response.ShipPlacements = shipPlacements;
             sendMessage(response);
         }
 

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\battleship\API\API.csproj" />
+    <ProjectReference Include="..\..\..\battleship\GameEngine\GameEngine.csproj" />
     <ProjectReference Include="..\..\..\battleship\Utility\Utility.csproj" />
   </ItemGroup>
 

@@ -84,8 +84,9 @@ class DroneHunter(object):
         response = StartGameResponse()
         ship_squares_remaining = start_game_message.ShipSquares
         approx_num_ships = start_game_message.ShipSquares / 5
-        row_step = int(start_game_message.BoardSize.Y / approx_num_ships)
-        row = 2
+        row_step = int((start_game_message.BoardSize.Y - 2) / approx_num_ships)
+        if row_step < 1: row_step = 1
+        row = 1
         while ship_squares_remaining >= 5:
             # Carrier...
             if ship_squares_remaining >= 5:

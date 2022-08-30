@@ -5,7 +5,7 @@ namespace GameEngine
     /// <summary>
     /// Utility functions for the board.
     /// </summary>
-    internal class BoardUtils
+    public class BoardUtils
     {
         #region Public methods
 
