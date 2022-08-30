@@ -1,6 +1,4 @@
-import sys
 import json
-from .game_message import GameMessage
 from ..api import *
 
 class DroneHunter(object):
@@ -22,8 +20,7 @@ class DroneHunter(object):
         '''
         Serializes the message-object to JSON and sends it to the game engine.
         '''
-        self.logger.log("JSON!")
-        json_string = json.dumps(vars(message_object))
+        json_string = json.dumps(vars(message_object), default=lambda o: vars(o))
         self.logger.log(f"TX -> {json_string}")
         print(json_string)
 
@@ -48,6 +45,8 @@ class DroneHunter(object):
 
                     case "SHUTDOWN":
                         self.on_shutdown()
+            except EOFError:
+                self.shutdown = True
             except Exception as ex:
                 self.logger.log(f"Exception: {repr(ex)}")
 
@@ -57,10 +56,10 @@ class DroneHunter(object):
         '''
         response = StartGameResponse()
         ship_placement = ShipPlacement()
-        #ship_placement.ShipType = ShipTypeEnum.BATTLESHIP
-        #ship_placement.Orientation = OrientationEnum.HORIZONTAL
-        #ship_placement.TopLeft.X = 20
-        #ship_placement.TopLeft.Y = 30
+        ship_placement.ShipType = ShipTypeEnum.BATTLESHIP
+        ship_placement.Orientation = OrientationEnum.HORIZONTAL
+        ship_placement.TopLeft.X = 20
+        ship_placement.TopLeft.Y = 30
         response.ShipPlacements.append(ship_placement)
         self.send_message(response)
 
@@ -68,5 +67,7 @@ class DroneHunter(object):
         '''
         Called when we receive the SHUTDOWN message.
         '''
-        pass
+        # We ACK that we have received this message, and note that we should shut down...
+        self.send_message(Shutdown())
+        self.shutdown = True
 

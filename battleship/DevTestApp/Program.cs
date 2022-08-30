@@ -14,17 +14,23 @@ namespace DevTestApp
 
             var aiManager = new AIManager(@"D:\code\battleship\AIs");
 
-
             var game = new Game(aiManager, "AI_Sample_RandomPlayer", "AI_Sample_DroneHunter", 50, 20);
-            game.startGame();
-            while (game.GameStatus == Game.GameStatusEnum.PLAYING)
+            try
             {
-                game.playTurn();
-            }
-            Console.WriteLine($"Result={game.GameStatus}. Winner={game.WinningAIName}");
+                game.startGame();
+                while (game.GameStatus == Game.GameStatusEnum.PLAYING)
+                {
+                    game.playTurn();
+                }
+                Console.WriteLine($"Result={game.GameStatus}. Winner={game.WinningAIName}");
 
-            Console.WriteLine("Press Enter to exit");
-            Console.ReadLine();
+                Console.WriteLine("Press Enter to exit");
+                Console.ReadLine();
+            }
+            finally
+            {
+                game.Dispose();
+            }
         }
     }
 }
