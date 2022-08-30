@@ -126,10 +126,66 @@ class DroneHunter(object):
             shot.TargetSquare.Y = random.randint(1, self.start_game_message.BoardSize.Y)
             response.Shots.append(shot)
 
-        # If we do not (yet) have any information from drones, we fire shells randomly
+        if self.status_update is None or not self.status_update.DroneReports:
+            # We do not (yet) have any information from drones, so we fire shells randomly...
+            self.fire_randomly(response, fire_weapons_message.AvailableShells)
+        else:
+            # We have info from drones, so we target based on the drone information...
+            self.fire_using_drone_report(response, fire_weapons_message.AvailableShells)
 
         # We send the response to the game engine...
         self.send_message(response)
+
+    def fire_using_drone_report(self, response, num_shells):
+        '''
+        Fires shells based on the most recent drone report.
+        '''
+        # This AI only looks at information from the first drone to report, and 
+        # only fires in the first direction reported by this drone...
+        drone_report = self.status_update.DroneReports[0]
+        direction = drone_report.DirectionsDetected[0]
+
+        # We fire random shells on the row or column where the drone is located
+        # in the direction detected...
+        drone_x = drone_report.DronePosition.X
+        drone_y = drone_report.DronePosition.Y
+        for i in range(num_shells):
+            shot = FireWeaponsResponse.Shot()
+            shot.ShotType = ShotTypeEnum.SHELL
+
+            match direction:
+                case "NORTH":
+                    shot.TargetSquare.X = drone_x
+                    shot.TargetSquare.Y = random.randint(1, drone_y - 1)
+
+                case "SOUTH":
+                    shot.TargetSquare.X = drone_x
+                    shot.TargetSquare.Y = random.randint(drone_y + 1, self.start_game_message.BoardSize.Y)
+
+                case "EAST":
+                    shot.TargetSquare.X = random.randint(drone_x + 1, self.start_game_message.BoardSize.X)
+                    shot.TargetSquare.Y = drone_y
+
+                case "WEST":
+                    shot.TargetSquare.X = random.randint(1, drone_x - 1)
+                    shot.TargetSquare.Y = drone_y
+
+                case "OVER_SHIP":
+                    shot.TargetSquare.X = drone_x
+                    shot.TargetSquare.Y = drone_y
+
+            response.Shots.append(shot)
+
+    def fire_randomly(self, response, num_shells):
+        '''
+        Fires shells randomly.
+        '''
+        for i in range(num_shells):
+            shot = FireWeaponsResponse.Shot()
+            shot.ShotType = ShotTypeEnum.SHELL
+            shot.TargetSquare.X = random.randint(1, self.start_game_message.BoardSize.X)
+            shot.TargetSquare.Y = random.randint(1, self.start_game_message.BoardSize.Y)
+            response.Shots.append(shot)
 
     def on_status_update(self, status_update_message):
         '''
