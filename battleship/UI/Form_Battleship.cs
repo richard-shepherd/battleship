@@ -98,7 +98,7 @@ namespace UI
                 }
 
                 // We start a new game...
-                m_game = new Game(m_aiManager, aiName1, aiName2, 30, 40);
+                m_game = new Game(m_aiManager, aiName1, aiName2, 30, 30);
                 m_game.startGame();
 
                 // We show the player names...

@@ -114,7 +114,7 @@
         {
             { ShotTypeEnum.SHELL, 1.0},
             { ShotTypeEnum.MINE, 3.0},
-            { ShotTypeEnum.DRONE, 5.0}
+            { ShotTypeEnum.DRONE, 20.0}
         };
     }
 }
