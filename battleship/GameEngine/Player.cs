@@ -66,10 +66,10 @@ namespace GameEngine
 
             // We validate the ship placements...
             Logger.log($"Validating ship placement for {m_aiName}");
-            var validShipPlacement = BoardUtils.validateShipPlacement(m_boardSize, m_shipSquares, aiResponse.ShipPlacements);
-            if(!validShipPlacement)
+            var shipPlacementInfo = BoardUtils.validateShipPlacement(m_boardSize, m_shipSquares, aiResponse.ShipPlacements);
+            if(!shipPlacementInfo.Valid)
             {
-                throw new ShipPlacementValidationException($"{m_aiName}: invalid ship placement");
+                throw new ShipPlacementValidationException($"{m_aiName}: invalid ship placement: {shipPlacementInfo.Message}");
             }
 
             // The ship placements are valid, so we set up the board...
@@ -179,7 +179,8 @@ namespace GameEngine
             // We check that the movement requests are valid - eg, they do not use
             // too much fuel, or move ships into invalid positions...
             var fuelRequiredPerShip = new Dictionary<int, int>();
-            if (BoardUtils.validateMovementRequests(m_board, m_aiName, aiResponse.MovementRequests, fuelRequiredPerShip))
+            var movementRequestInfo = BoardUtils.validateMovementRequests(m_board, m_aiName, aiResponse.MovementRequests, fuelRequiredPerShip);
+            if (movementRequestInfo.Valid)
             {
                 // The movement request is valid, so we apply the changes...
                 foreach (var movementRequest in aiResponse.MovementRequests)
@@ -187,6 +188,11 @@ namespace GameEngine
                     var fuelUsed = fuelRequiredPerShip[movementRequest.Index];
                     m_board.moveShip(movementRequest.Index, movementRequest.ShipPlacement, fuelUsed);
                 }
+            }
+            else
+            {
+                // The movement request was not valid. We log the message...
+                Logger.log(movementRequestInfo.Message);
             }
 
             // We produce a damage report, as ship movements may have caused the ships to hit mines...

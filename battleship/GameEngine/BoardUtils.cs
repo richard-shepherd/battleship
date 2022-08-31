@@ -16,7 +16,7 @@ namespace GameEngine
         /// - Ships do not overlap
         /// Returns true if the ship placement is valid, false if not.
         /// </summary>
-        public static bool validateShipPlacement(int boardSize, int shipSquares, List<API.Shared.ShipPlacement> shipPlacements)
+        public static (bool Valid, string Message) validateShipPlacement(int boardSize, int shipSquares, List<API.Shared.ShipPlacement> shipPlacements)
         {
             var shipPartLocations = new HashSet<(int, int)>();
 
@@ -33,8 +33,7 @@ namespace GameEngine
                     // Is the part on a square already used by another ship?
                     if(shipPartLocations.Contains(boardPosition))
                     {
-                        Logger.log("Ship placements overlap");
-                        return false;
+                        return (false, "Ship placements overlap");
                     }
 
                     // Is the ship-part on the board?
@@ -42,8 +41,7 @@ namespace GameEngine
                         ||
                         boardPosition.Y < 1 || boardPosition.Y > boardSize)
                     {
-                        Logger.log("Ship placement is not on the board");
-                        return false;
+                        return (false, "Ship placement is not on the board");
                     }
 
                     // We note the ship-part location for checking against other ships...
@@ -54,23 +52,22 @@ namespace GameEngine
             // We check that there are no more ship-squares used than was specified...
             if(shipPartLocations.Count > shipSquares)
             {
-                Logger.log("Too many ships specified");
-                return false;
+                return (false, "Too many ships specified");
             }
 
-            return true;
+            return (true, "");
         }
 
         /// <summary>
         /// Validates a collection of movement requests.
         /// Returns true if they are valid, false if not.
         /// </summary>
-        public static bool validateMovementRequests(Board board, string aiName, List<API.Move.AIResponse.MovementRequest> movementRequests, Dictionary<int, int> fuelRequiredPerShip)
+        public static (bool Valid, string Message) validateMovementRequests(Board board, string aiName, List<API.Move.AIResponse.MovementRequest> movementRequests, Dictionary<int, int> fuelRequiredPerShip)
         {
             // If no movement requests were made, the request is valid...
             if(movementRequests.None())
             {
-                return true;
+                return (true, "");
             }
 
             // We enrich the movement requests to include the ship-type, which may
@@ -99,8 +96,7 @@ namespace GameEngine
                 if (fuelRequired == -1)
                 {
                     // The ship does not have enough fuel for this movement request...
-                    Logger.log($"{aiName}: Not enough fuel for movement request");
-                    return false;
+                    return (false, $"{aiName}: Not enough fuel for movement request");
                 }
                 else
                 {
@@ -118,15 +114,16 @@ namespace GameEngine
                 shipPlacements[movementRequest.Index] = movementRequest.ShipPlacement;
             }
             var numShipSquares = board.Ships.SelectMany(x => x.ShipParts).Count();
-            if (!BoardUtils.validateShipPlacement(board.BoardSize, numShipSquares, shipPlacements))
+            var shipPlacementInfo = BoardUtils.validateShipPlacement(board.BoardSize, numShipSquares, shipPlacements);
+            if (!shipPlacementInfo.Valid)
             {
                 // The new ship placements are not valid...
-                Logger.log($"{aiName}: Ship placements not valid after movement request");
-                return false;
+                var message = $"{aiName}: Ship placements not valid after movement request: {shipPlacementInfo.Message}";
+                return (false, message);
             }
 
             // The movement request looks valid...
-            return true;
+            return (true, "");
         }
 
         /// <summary>

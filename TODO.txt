@@ -11,16 +11,13 @@
 
 - More efficient algorithm for drone detection?
 
-- Remove drone use from RandomPlayer AI?
-  - Have a Python sample which uses drones
-
 - Write tests
-
-- Make the RandomPlayer place ships without overlapping
-  - Maybe all vertical or all horizontal, to make this easier?
 
 - I think I've seen a shell hit in the UI, but the ship-part not be set as damaged!
   - Could it be that the ship had moved into the square *after* the shell had been fired?
   - We may want to render the two phases of the turn separately?
 
 - Make Python sample run without full path to python.exe
+
+- Make the UI show both turn phases
+  - Before moving and after moving

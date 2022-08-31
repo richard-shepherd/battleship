@@ -165,7 +165,8 @@ namespace AI_Sample_RandomPlayer
                 }
 
                 // We check that the placement is valid...
-                if(BoardUtils.validateShipPlacement(m_gameInfo.BoardSize.X, m_gameInfo.ShipSquares, shipPlacements))
+                var shipPlacementInfo = BoardUtils.validateShipPlacement(m_gameInfo.BoardSize.X, m_gameInfo.ShipSquares, shipPlacements);
+                if (shipPlacementInfo.Valid)
                 {
                     // The ship placement is valid...
                     break;
