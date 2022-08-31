@@ -16,12 +16,59 @@ namespace UI
         public Form_Battleship()
         {
             InitializeComponent();
-            m_aiManager = new AIManager(@"D:\code\battleship\AIs");
         }
 
         #endregion
 
         #region Form events
+
+        /// <summary>
+        /// Called when the Load AIs button is pressed.
+        /// </summary>
+        private void ctrlAIs_Load_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // We load AIs from the folder specified and show them in the list...
+                m_aiManager = new AIManager(ctrlAIFolder.Text);
+                ctrlAIs.Items.Clear();
+                ctrlAIs.Items.AddRange(m_aiManager.AINames.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Logger.log(ex);
+            }
+        }
+
+        /// <summary>
+        /// Called when the Select All button is pressed.
+        /// </summary>
+        private void ctrlAIs_SelectAll_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ctrlAIs.CheckAll(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.log(ex);
+            }
+        }
+
+        /// <summary>
+        /// Called when the Select None button is pressed.
+        /// </summary>
+        private void ctrlAIs_SelectNone_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ctrlAIs.CheckAll(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.log(ex);
+            }
+        }
 
         /// <summary>
         /// Called when the Start Game button is pressed.
@@ -128,7 +175,7 @@ namespace UI
         #region Private data
 
         // The AI manager...
-        private readonly AIManager m_aiManager;
+        private AIManager m_aiManager = null;
 
         // The game currently being played...
         private Game m_game = null;
