@@ -33,9 +33,15 @@ namespace UI
                 // We dispose any existing game...
                 cleanupGame();
 
-                // We start a new game and show the boards...
-                m_game = new Game(m_aiManager, "AI_Sample_RandomPlayer", "AI_Sample_DroneHunter", 40, 40);
+                // We start a new game...
+                m_game = new Game(m_aiManager, "AI_Sample_RandomPlayer", "AI_Sample_DroneHunter", 30, 40);
                 m_game.startGame();
+
+                // We show the player names...
+                lblPlayer1.Text = $"Player 1: {m_game.Player1.AIName}";
+                lblPlayer2.Text = $"Player 2: {m_game.Player2.AIName}";
+
+                // We show the boards with the initial ship placement...
                 ctrlBoard1.showBoard(m_game.Player1.Board);
                 ctrlBoard2.showBoard(m_game.Player2.Board);
             }

@@ -19,6 +19,11 @@ namespace GameEngine
         public AIProcess AI => m_ai;
 
         /// <summary>
+        /// Gets the AI name.
+        /// </summary>
+        public string AIName => m_aiName;
+
+        /// <summary>
         /// Gets the board for the player.
         /// </summary>
         public Board Board => m_board;
