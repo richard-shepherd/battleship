@@ -16,12 +16,15 @@ class Logger(object):
         Path(folder).mkdir(parents=True, exist_ok=True)
 
         # We delete any old log files...
-        cutoff = time.time() - 60
-        for f in os.listdir(folder):
-            f = os.path.join(folder, f)
-            if os.stat(f).st_mtime < cutoff:
-                if os.path.isfile(f):
-                    os.remove(f)
+        try:
+            cutoff = time.time() - 60
+            for f in os.listdir(folder):
+                f = os.path.join(folder, f)
+                if os.stat(f).st_mtime < cutoff:
+                    if os.path.isfile(f):
+                        os.remove(f)
+        except:
+            pass
 
         # We create the log file name...
         pid = os.getpid()

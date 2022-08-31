@@ -80,8 +80,25 @@ namespace UI
                 // We dispose any existing game...
                 cleanupGame();
 
+                // We find the AIs to play.
+                // - If two AIs are selected, we play them against each other.
+                // - If one AI is selected, we play it against itself.
+                if(ctrlAIs.CheckedItems.Count == 0 || ctrlAIs.CheckedItems.Count > 2)
+                {
+                    MessageBox.Show(this, "Please select one or two AIs from the list");
+                    return;
+                }
+
+                // We find the first and second AI...
+                var aiName1 = ctrlAIs.CheckedItems[0].ToString();
+                var aiName2 = aiName1;
+                if (ctrlAIs.CheckedItems.Count == 2)
+                {
+                    aiName2 = ctrlAIs.CheckedItems[1].ToString();
+                }
+
                 // We start a new game...
-                m_game = new Game(m_aiManager, "AI_Sample_RandomPlayer", "AI_Sample_DroneHunter", 30, 40);
+                m_game = new Game(m_aiManager, aiName1, aiName2, 30, 40);
                 m_game.startGame();
 
                 // We show the player names...
