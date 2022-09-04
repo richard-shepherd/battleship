@@ -49,6 +49,8 @@
             this.ctrlBoard1 = new UI.Control_Board();
             this.lblLog = new System.Windows.Forms.Label();
             this.ctrlLog = new UI.Control_Log();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ctrlShipSquares = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -100,6 +102,8 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.ctrlShipSquares);
+            this.splitContainer2.Panel2.Controls.Add(this.label1);
             this.splitContainer2.Panel2.Controls.Add(this.lblBoardSize);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlBoardSize);
             this.splitContainer2.Panel2.Controls.Add(this.lblPlayer2);
@@ -292,6 +296,23 @@
             this.ctrlLog.Size = new System.Drawing.Size(1353, 154);
             this.ctrlLog.TabIndex = 3;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(100, 530);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 15);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Ship squares";
+            // 
+            // ctrlShipSquares
+            // 
+            this.ctrlShipSquares.Location = new System.Drawing.Point(100, 548);
+            this.ctrlShipSquares.Name = "ctrlShipSquares";
+            this.ctrlShipSquares.Size = new System.Drawing.Size(86, 23);
+            this.ctrlShipSquares.TabIndex = 13;
+            this.ctrlShipSquares.Text = "20";
+            // 
             // Form_Battleship
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -338,5 +359,7 @@
         private ToolStripMenuItem ctrlAIs_SelectNone;
         private Label lblBoardSize;
         private ComboBox ctrlBoardSize;
+        private TextBox ctrlShipSquares;
+        private Label label1;
     }
 }

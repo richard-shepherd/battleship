@@ -108,8 +108,11 @@ namespace UI
                 var tokens = strBoardSize.Split('x');
                 var boardSize = Convert.ToInt32(tokens[0]);
 
+                // We find the number of ship squares...
+                var shipSquares = Convert.ToInt32(ctrlShipSquares.Text);
+
                 // We start a new game...
-                m_game = new Game(m_aiManager, aiName1, aiName2, boardSize, 30);
+                m_game = new Game(m_aiManager, aiName1, aiName2, boardSize, shipSquares);
                 m_game.startGame();
 
                 // We show the player names...
