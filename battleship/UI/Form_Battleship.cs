@@ -127,12 +127,8 @@ namespace UI
                 m_game = new Game(m_aiManager, aiName1, aiName2, boardSize, shipSquares);
                 m_game.startGame();
 
-                // We show the player names...
-                showPlayerInfo(m_game);
-
-                // We show the boards with the initial ship placement...
-                ctrlBoard1.showBoard(m_game.Player1.Board);
-                ctrlBoard2.showBoard(m_game.Player2.Board);
+                // We show the board and player info...
+                showGame(m_game);
             }
             catch (Exception ex)
             {
@@ -187,7 +183,7 @@ namespace UI
                 // For a tournament we play every AI against every other AI on various 
                 // board configurations. We play a number of rounds of each of these
                 // combinations.
-                var boardSizes = new List<int> { 10, 20, 30, 40, 50, 80, 100, 200, 500, 1000 };
+                var boardSizes = new List<int> { 10, 20, 30, 40, 50, 80, 100, 200, 500 };
                 var shipSquaress = new List<int> { 20, 30, 40, 50, 100, 200, 500 };
                 foreach(var aiName1 in m_aiManager.AINames)
                 {
@@ -221,6 +217,8 @@ namespace UI
 
                                 // We play a game...
                                 var game = new Game(m_aiManager, aiName1, aiName2, boardSize, shipSquares);
+                                lblTournamentGameInfo.Text = $"{boardSize}x{boardSize}, {shipSquares}";
+                                Application.DoEvents();
                                 try
                                 {
                                     game.startGame();
@@ -235,10 +233,7 @@ namespace UI
                                         // We show the board every few turns...
                                         if(turnsPlayed % 50 == 0)
                                         {
-                                            // We show the boards...
-                                            ctrlBoard1.showBoard(game.Player1.Board);
-                                            ctrlBoard2.showBoard(game.Player2.Board);
-                                            showPlayerInfo(game);
+                                            showGame(game);
                                             Application.DoEvents();
                                         }
                                         turnsPlayed++;
@@ -249,6 +244,7 @@ namespace UI
                                     m_tournamentInfo.updateAIInfo(aiName2, (game.WinningAIName == aiName2) ? 1 : 0, game.Player2.Board.UndamagedParts.Count());
 
                                     // We show the results. This also allows the Stop Tournament button to be processed...
+                                    showGame(game);
                                     Application.DoEvents();
                                 }
                                 catch (Exception ex)
@@ -263,6 +259,9 @@ namespace UI
                         }
                     }
                 }
+
+                // We result the tournament game-info message...
+                lblTournamentGameInfo.Text = "(Tournament not running)";
             }
             catch (Exception ex)
             {
@@ -332,12 +331,21 @@ namespace UI
             // We play a turn...
             m_game.playTurn();
 
+            // We show the boards and player info...
+            showGame(m_game);
+        }
+
+        /// <summary>
+        /// Shows the current status of the game.
+        /// </summary>
+        private void showGame(Game game)
+        {
             // We show the boards...
-            ctrlBoard1.showBoard(m_game.Player1.Board);
-            ctrlBoard2.showBoard(m_game.Player2.Board);
+            ctrlBoard1.showBoard(game.Player1.Board);
+            ctrlBoard2.showBoard(game.Player2.Board);
 
             // We show the player names and info...
-            showPlayerInfo(m_game);
+            showPlayerInfo(game);
         }
 
         /// <summary>

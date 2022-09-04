@@ -39,6 +39,10 @@
             this.ctrlAIs_Load = new System.Windows.Forms.Button();
             this.ctrlAIFolder = new System.Windows.Forms.TextBox();
             this.lblAIList = new System.Windows.Forms.Label();
+            this.lblTournamentGameInfo = new System.Windows.Forms.Label();
+            this.lblTournamentResults = new System.Windows.Forms.Label();
+            this.ctrlStopTournament = new System.Windows.Forms.Button();
+            this.ctrlPlayTournament = new System.Windows.Forms.Button();
             this.ctrlTournamentGrid = new System.Windows.Forms.DataGridView();
             this.ctrlTurnSpeed = new System.Windows.Forms.TextBox();
             this.lblTurnSpeed = new System.Windows.Forms.Label();
@@ -54,8 +58,6 @@
             this.ctrlBoard1 = new UI.Control_Board();
             this.lblLog = new System.Windows.Forms.Label();
             this.ctrlLog = new UI.Control_Log();
-            this.ctrlPlayTournament = new System.Windows.Forms.Button();
-            this.ctrlStopTournament = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -108,6 +110,8 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.lblTournamentGameInfo);
+            this.splitContainer2.Panel2.Controls.Add(this.lblTournamentResults);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlStopTournament);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlPlayTournament);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlTournamentGrid);
@@ -194,17 +198,59 @@
             this.lblAIList.TabIndex = 7;
             this.lblAIList.Text = "AIs";
             // 
+            // lblTournamentGameInfo
+            // 
+            this.lblTournamentGameInfo.AutoSize = true;
+            this.lblTournamentGameInfo.Location = new System.Drawing.Point(1015, 29);
+            this.lblTournamentGameInfo.Name = "lblTournamentGameInfo";
+            this.lblTournamentGameInfo.Size = new System.Drawing.Size(145, 15);
+            this.lblTournamentGameInfo.TabIndex = 20;
+            this.lblTournamentGameInfo.Text = "(Tournament not running)";
+            // 
+            // lblTournamentResults
+            // 
+            this.lblTournamentResults.AutoSize = true;
+            this.lblTournamentResults.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblTournamentResults.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblTournamentResults.Location = new System.Drawing.Point(1015, 7);
+            this.lblTournamentResults.Name = "lblTournamentResults";
+            this.lblTournamentResults.Size = new System.Drawing.Size(128, 17);
+            this.lblTournamentResults.TabIndex = 19;
+            this.lblTournamentResults.Text = "Tournament results";
+            // 
+            // ctrlStopTournament
+            // 
+            this.ctrlStopTournament.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ctrlStopTournament.Location = new System.Drawing.Point(1222, 535);
+            this.ctrlStopTournament.Name = "ctrlStopTournament";
+            this.ctrlStopTournament.Size = new System.Drawing.Size(128, 36);
+            this.ctrlStopTournament.TabIndex = 18;
+            this.ctrlStopTournament.Text = "Stop tournament";
+            this.ctrlStopTournament.UseVisualStyleBackColor = true;
+            this.ctrlStopTournament.Click += new System.EventHandler(this.ctrlStopTournament_Click);
+            // 
+            // ctrlPlayTournament
+            // 
+            this.ctrlPlayTournament.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ctrlPlayTournament.Location = new System.Drawing.Point(1088, 535);
+            this.ctrlPlayTournament.Name = "ctrlPlayTournament";
+            this.ctrlPlayTournament.Size = new System.Drawing.Size(128, 36);
+            this.ctrlPlayTournament.TabIndex = 17;
+            this.ctrlPlayTournament.Text = "Play tournament";
+            this.ctrlPlayTournament.UseVisualStyleBackColor = true;
+            this.ctrlPlayTournament.Click += new System.EventHandler(this.ctrlPlayTournament_Click);
+            // 
             // ctrlTournamentGrid
             // 
             this.ctrlTournamentGrid.AllowUserToAddRows = false;
             this.ctrlTournamentGrid.AllowUserToDeleteRows = false;
             this.ctrlTournamentGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ctrlTournamentGrid.Location = new System.Drawing.Point(1015, 29);
+            this.ctrlTournamentGrid.Location = new System.Drawing.Point(1015, 47);
             this.ctrlTournamentGrid.Name = "ctrlTournamentGrid";
             this.ctrlTournamentGrid.ReadOnly = true;
             this.ctrlTournamentGrid.RowHeadersVisible = false;
             this.ctrlTournamentGrid.RowTemplate.Height = 25;
-            this.ctrlTournamentGrid.Size = new System.Drawing.Size(329, 500);
+            this.ctrlTournamentGrid.Size = new System.Drawing.Size(329, 482);
             this.ctrlTournamentGrid.TabIndex = 16;
             // 
             // ctrlTurnSpeed
@@ -354,28 +400,6 @@
             this.ctrlLog.Size = new System.Drawing.Size(1687, 154);
             this.ctrlLog.TabIndex = 3;
             // 
-            // ctrlPlayTournament
-            // 
-            this.ctrlPlayTournament.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlPlayTournament.Location = new System.Drawing.Point(1088, 535);
-            this.ctrlPlayTournament.Name = "ctrlPlayTournament";
-            this.ctrlPlayTournament.Size = new System.Drawing.Size(128, 36);
-            this.ctrlPlayTournament.TabIndex = 17;
-            this.ctrlPlayTournament.Text = "Play tournament";
-            this.ctrlPlayTournament.UseVisualStyleBackColor = true;
-            this.ctrlPlayTournament.Click += new System.EventHandler(this.ctrlPlayTournament_Click);
-            // 
-            // ctrlStopTournament
-            // 
-            this.ctrlStopTournament.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlStopTournament.Location = new System.Drawing.Point(1222, 535);
-            this.ctrlStopTournament.Name = "ctrlStopTournament";
-            this.ctrlStopTournament.Size = new System.Drawing.Size(128, 36);
-            this.ctrlStopTournament.TabIndex = 18;
-            this.ctrlStopTournament.Text = "Stop tournament";
-            this.ctrlStopTournament.UseVisualStyleBackColor = true;
-            this.ctrlStopTournament.Click += new System.EventHandler(this.ctrlStopTournament_Click);
-            // 
             // Form_Battleship
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -430,5 +454,7 @@
         private DataGridView ctrlTournamentGrid;
         private Button ctrlStopTournament;
         private Button ctrlPlayTournament;
+        private Label lblTournamentGameInfo;
+        private Label lblTournamentResults;
     }
 }
