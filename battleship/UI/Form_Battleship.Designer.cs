@@ -39,6 +39,9 @@
             this.ctrlAIs_Load = new System.Windows.Forms.Button();
             this.ctrlAIFolder = new System.Windows.Forms.TextBox();
             this.lblAIList = new System.Windows.Forms.Label();
+            this.lblTurnSpeed = new System.Windows.Forms.Label();
+            this.ctrlShipSquares = new System.Windows.Forms.TextBox();
+            this.lblShipSquares = new System.Windows.Forms.Label();
             this.lblBoardSize = new System.Windows.Forms.Label();
             this.ctrlBoardSize = new System.Windows.Forms.ComboBox();
             this.lblPlayer2 = new System.Windows.Forms.Label();
@@ -49,8 +52,7 @@
             this.ctrlBoard1 = new UI.Control_Board();
             this.lblLog = new System.Windows.Forms.Label();
             this.ctrlLog = new UI.Control_Log();
-            this.label1 = new System.Windows.Forms.Label();
-            this.ctrlShipSquares = new System.Windows.Forms.TextBox();
+            this.ctrlTurnSpeed = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -102,8 +104,10 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.ctrlTurnSpeed);
+            this.splitContainer2.Panel2.Controls.Add(this.lblTurnSpeed);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlShipSquares);
-            this.splitContainer2.Panel2.Controls.Add(this.label1);
+            this.splitContainer2.Panel2.Controls.Add(this.lblShipSquares);
             this.splitContainer2.Panel2.Controls.Add(this.lblBoardSize);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlBoardSize);
             this.splitContainer2.Panel2.Controls.Add(this.lblPlayer2);
@@ -182,6 +186,32 @@
             this.lblAIList.Size = new System.Drawing.Size(23, 15);
             this.lblAIList.TabIndex = 7;
             this.lblAIList.Text = "AIs";
+            // 
+            // lblTurnSpeed
+            // 
+            this.lblTurnSpeed.AutoSize = true;
+            this.lblTurnSpeed.Location = new System.Drawing.Point(198, 532);
+            this.lblTurnSpeed.Name = "lblTurnSpeed";
+            this.lblTurnSpeed.Size = new System.Drawing.Size(92, 15);
+            this.lblTurnSpeed.TabIndex = 14;
+            this.lblTurnSpeed.Text = "Turn speed (ms)";
+            // 
+            // ctrlShipSquares
+            // 
+            this.ctrlShipSquares.Location = new System.Drawing.Point(100, 548);
+            this.ctrlShipSquares.Name = "ctrlShipSquares";
+            this.ctrlShipSquares.Size = new System.Drawing.Size(92, 23);
+            this.ctrlShipSquares.TabIndex = 13;
+            this.ctrlShipSquares.Text = "20";
+            // 
+            // lblShipSquares
+            // 
+            this.lblShipSquares.AutoSize = true;
+            this.lblShipSquares.Location = new System.Drawing.Point(100, 530);
+            this.lblShipSquares.Name = "lblShipSquares";
+            this.lblShipSquares.Size = new System.Drawing.Size(73, 15);
+            this.lblShipSquares.TabIndex = 12;
+            this.lblShipSquares.Text = "Ship squares";
             // 
             // lblBoardSize
             // 
@@ -296,22 +326,13 @@
             this.ctrlLog.Size = new System.Drawing.Size(1353, 154);
             this.ctrlLog.TabIndex = 3;
             // 
-            // label1
+            // ctrlTurnSpeed
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(100, 530);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 15);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Ship squares";
-            // 
-            // ctrlShipSquares
-            // 
-            this.ctrlShipSquares.Location = new System.Drawing.Point(100, 548);
-            this.ctrlShipSquares.Name = "ctrlShipSquares";
-            this.ctrlShipSquares.Size = new System.Drawing.Size(86, 23);
-            this.ctrlShipSquares.TabIndex = 13;
-            this.ctrlShipSquares.Text = "20";
+            this.ctrlTurnSpeed.Location = new System.Drawing.Point(198, 548);
+            this.ctrlTurnSpeed.Name = "ctrlTurnSpeed";
+            this.ctrlTurnSpeed.Size = new System.Drawing.Size(92, 23);
+            this.ctrlTurnSpeed.TabIndex = 15;
+            this.ctrlTurnSpeed.Text = "50";
             // 
             // Form_Battleship
             // 
@@ -360,6 +381,8 @@
         private Label lblBoardSize;
         private ComboBox ctrlBoardSize;
         private TextBox ctrlShipSquares;
-        private Label label1;
+        private Label lblShipSquares;
+        private Label lblTurnSpeed;
+        private TextBox ctrlTurnSpeed;
     }
 }

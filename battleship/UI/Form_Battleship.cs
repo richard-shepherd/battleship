@@ -111,6 +111,18 @@ namespace UI
                 // We find the number of ship squares...
                 var shipSquares = Convert.ToInt32(ctrlShipSquares.Text);
 
+                // We set the turn speed for the timer...
+                var turnSpeedMS = Convert.ToInt32(ctrlTurnSpeed.Text);
+                if(turnSpeedMS > 0)
+                {
+                    ctrlTurnTimer.Enabled = true;
+                    ctrlTurnTimer.Interval = turnSpeedMS;
+                }
+                else
+                {
+                    ctrlTurnTimer.Enabled = false;
+                }
+
                 // We start a new game...
                 m_game = new Game(m_aiManager, aiName1, aiName2, boardSize, shipSquares);
                 m_game.startGame();
