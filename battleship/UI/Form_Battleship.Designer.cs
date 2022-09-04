@@ -39,6 +39,8 @@
             this.ctrlAIs_Load = new System.Windows.Forms.Button();
             this.ctrlAIFolder = new System.Windows.Forms.TextBox();
             this.lblAIList = new System.Windows.Forms.Label();
+            this.ctrlTournamentGrid = new System.Windows.Forms.DataGridView();
+            this.ctrlTurnSpeed = new System.Windows.Forms.TextBox();
             this.lblTurnSpeed = new System.Windows.Forms.Label();
             this.ctrlShipSquares = new System.Windows.Forms.TextBox();
             this.lblShipSquares = new System.Windows.Forms.Label();
@@ -52,7 +54,8 @@
             this.ctrlBoard1 = new UI.Control_Board();
             this.lblLog = new System.Windows.Forms.Label();
             this.ctrlLog = new UI.Control_Log();
-            this.ctrlTurnSpeed = new System.Windows.Forms.TextBox();
+            this.ctrlPlayTournament = new System.Windows.Forms.Button();
+            this.ctrlStopTournament = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -62,6 +65,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.ctrlAIs_ContextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ctrlTournamentGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // ctrlTurnTimer
@@ -85,7 +89,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.lblLog);
             this.splitContainer1.Panel2.Controls.Add(this.ctrlLog);
-            this.splitContainer1.Size = new System.Drawing.Size(1377, 766);
+            this.splitContainer1.Size = new System.Drawing.Size(1711, 766);
             this.splitContainer1.SplitterDistance = 576;
             this.splitContainer1.TabIndex = 9;
             // 
@@ -104,6 +108,9 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.ctrlStopTournament);
+            this.splitContainer2.Panel2.Controls.Add(this.ctrlPlayTournament);
+            this.splitContainer2.Panel2.Controls.Add(this.ctrlTournamentGrid);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlTurnSpeed);
             this.splitContainer2.Panel2.Controls.Add(this.lblTurnSpeed);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlShipSquares);
@@ -116,8 +123,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.ctrlStartGame);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlBoard2);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlBoard1);
-            this.splitContainer2.Size = new System.Drawing.Size(1377, 576);
-            this.splitContainer2.SplitterDistance = 352;
+            this.splitContainer2.Size = new System.Drawing.Size(1711, 576);
+            this.splitContainer2.SplitterDistance = 354;
             this.splitContainer2.TabIndex = 0;
             // 
             // ctrlAIs
@@ -130,7 +137,7 @@
             this.ctrlAIs.FormattingEnabled = true;
             this.ctrlAIs.Location = new System.Drawing.Point(12, 58);
             this.ctrlAIs.Name = "ctrlAIs";
-            this.ctrlAIs.Size = new System.Drawing.Size(337, 508);
+            this.ctrlAIs.Size = new System.Drawing.Size(339, 508);
             this.ctrlAIs.TabIndex = 12;
             // 
             // ctrlAIs_ContextMenu
@@ -159,7 +166,7 @@
             // 
             this.ctrlAIs_Load.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlAIs_Load.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlAIs_Load.Location = new System.Drawing.Point(296, 29);
+            this.ctrlAIs_Load.Location = new System.Drawing.Point(298, 29);
             this.ctrlAIs_Load.Name = "ctrlAIs_Load";
             this.ctrlAIs_Load.Size = new System.Drawing.Size(53, 23);
             this.ctrlAIs_Load.TabIndex = 9;
@@ -173,7 +180,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlAIFolder.Location = new System.Drawing.Point(12, 29);
             this.ctrlAIFolder.Name = "ctrlAIFolder";
-            this.ctrlAIFolder.Size = new System.Drawing.Size(278, 23);
+            this.ctrlAIFolder.Size = new System.Drawing.Size(280, 23);
             this.ctrlAIFolder.TabIndex = 8;
             this.ctrlAIFolder.Text = "D:\\code\\battleship\\AIs";
             // 
@@ -186,6 +193,27 @@
             this.lblAIList.Size = new System.Drawing.Size(23, 15);
             this.lblAIList.TabIndex = 7;
             this.lblAIList.Text = "AIs";
+            // 
+            // ctrlTournamentGrid
+            // 
+            this.ctrlTournamentGrid.AllowUserToAddRows = false;
+            this.ctrlTournamentGrid.AllowUserToDeleteRows = false;
+            this.ctrlTournamentGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ctrlTournamentGrid.Location = new System.Drawing.Point(1015, 29);
+            this.ctrlTournamentGrid.Name = "ctrlTournamentGrid";
+            this.ctrlTournamentGrid.ReadOnly = true;
+            this.ctrlTournamentGrid.RowHeadersVisible = false;
+            this.ctrlTournamentGrid.RowTemplate.Height = 25;
+            this.ctrlTournamentGrid.Size = new System.Drawing.Size(329, 500);
+            this.ctrlTournamentGrid.TabIndex = 16;
+            // 
+            // ctrlTurnSpeed
+            // 
+            this.ctrlTurnSpeed.Location = new System.Drawing.Point(198, 548);
+            this.ctrlTurnSpeed.Name = "ctrlTurnSpeed";
+            this.ctrlTurnSpeed.Size = new System.Drawing.Size(92, 23);
+            this.ctrlTurnSpeed.TabIndex = 15;
+            this.ctrlTurnSpeed.Text = "50";
             // 
             // lblTurnSpeed
             // 
@@ -246,7 +274,7 @@
             // 
             this.lblPlayer2.AutoSize = true;
             this.lblPlayer2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblPlayer2.ForeColor = System.Drawing.Color.Red;
+            this.lblPlayer2.ForeColor = System.Drawing.Color.Green;
             this.lblPlayer2.Location = new System.Drawing.Point(509, 7);
             this.lblPlayer2.Name = "lblPlayer2";
             this.lblPlayer2.Size = new System.Drawing.Size(65, 17);
@@ -267,9 +295,9 @@
             // ctrlPlayTurn
             // 
             this.ctrlPlayTurn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlPlayTurn.Location = new System.Drawing.Point(751, 535);
+            this.ctrlPlayTurn.Location = new System.Drawing.Point(405, 535);
             this.ctrlPlayTurn.Name = "ctrlPlayTurn";
-            this.ctrlPlayTurn.Size = new System.Drawing.Size(128, 36);
+            this.ctrlPlayTurn.Size = new System.Drawing.Size(98, 36);
             this.ctrlPlayTurn.TabIndex = 5;
             this.ctrlPlayTurn.Text = "Play turn";
             this.ctrlPlayTurn.UseVisualStyleBackColor = true;
@@ -278,9 +306,9 @@
             // ctrlStartGame
             // 
             this.ctrlStartGame.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlStartGame.Location = new System.Drawing.Point(614, 535);
+            this.ctrlStartGame.Location = new System.Drawing.Point(296, 535);
             this.ctrlStartGame.Name = "ctrlStartGame";
-            this.ctrlStartGame.Size = new System.Drawing.Size(131, 36);
+            this.ctrlStartGame.Size = new System.Drawing.Size(101, 36);
             this.ctrlStartGame.TabIndex = 4;
             this.ctrlStartGame.Text = "Start game";
             this.ctrlStartGame.UseVisualStyleBackColor = true;
@@ -292,7 +320,7 @@
             this.ctrlBoard2.GridColor = System.Drawing.Color.LightGray;
             this.ctrlBoard2.Location = new System.Drawing.Point(509, 29);
             this.ctrlBoard2.Name = "ctrlBoard2";
-            this.ctrlBoard2.PlayerColor = System.Drawing.Color.Red;
+            this.ctrlBoard2.PlayerColor = System.Drawing.Color.Green;
             this.ctrlBoard2.Size = new System.Drawing.Size(500, 500);
             this.ctrlBoard2.TabIndex = 2;
             // 
@@ -323,22 +351,36 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlLog.Location = new System.Drawing.Point(12, 20);
             this.ctrlLog.Name = "ctrlLog";
-            this.ctrlLog.Size = new System.Drawing.Size(1353, 154);
+            this.ctrlLog.Size = new System.Drawing.Size(1687, 154);
             this.ctrlLog.TabIndex = 3;
             // 
-            // ctrlTurnSpeed
+            // ctrlPlayTournament
             // 
-            this.ctrlTurnSpeed.Location = new System.Drawing.Point(198, 548);
-            this.ctrlTurnSpeed.Name = "ctrlTurnSpeed";
-            this.ctrlTurnSpeed.Size = new System.Drawing.Size(92, 23);
-            this.ctrlTurnSpeed.TabIndex = 15;
-            this.ctrlTurnSpeed.Text = "50";
+            this.ctrlPlayTournament.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ctrlPlayTournament.Location = new System.Drawing.Point(1088, 535);
+            this.ctrlPlayTournament.Name = "ctrlPlayTournament";
+            this.ctrlPlayTournament.Size = new System.Drawing.Size(128, 36);
+            this.ctrlPlayTournament.TabIndex = 17;
+            this.ctrlPlayTournament.Text = "Play tournament";
+            this.ctrlPlayTournament.UseVisualStyleBackColor = true;
+            this.ctrlPlayTournament.Click += new System.EventHandler(this.ctrlPlayTournament_Click);
+            // 
+            // ctrlStopTournament
+            // 
+            this.ctrlStopTournament.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ctrlStopTournament.Location = new System.Drawing.Point(1222, 535);
+            this.ctrlStopTournament.Name = "ctrlStopTournament";
+            this.ctrlStopTournament.Size = new System.Drawing.Size(128, 36);
+            this.ctrlStopTournament.TabIndex = 18;
+            this.ctrlStopTournament.Text = "Stop tournament";
+            this.ctrlStopTournament.UseVisualStyleBackColor = true;
+            this.ctrlStopTournament.Click += new System.EventHandler(this.ctrlStopTournament_Click);
             // 
             // Form_Battleship
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1377, 766);
+            this.ClientSize = new System.Drawing.Size(1711, 766);
             this.Controls.Add(this.splitContainer1);
             this.DoubleBuffered = true;
             this.Name = "Form_Battleship";
@@ -355,6 +397,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ctrlAIs_ContextMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ctrlTournamentGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -384,5 +427,8 @@
         private Label lblShipSquares;
         private Label lblTurnSpeed;
         private TextBox ctrlTurnSpeed;
+        private DataGridView ctrlTournamentGrid;
+        private Button ctrlStopTournament;
+        private Button ctrlPlayTournament;
     }
 }

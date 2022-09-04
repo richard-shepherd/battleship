@@ -130,7 +130,7 @@ namespace UI
         private void drawShips(Graphics graphics)
         {
             var brush_undamaged = new SolidBrush(m_playerColor);
-            var brush_damaged = new SolidBrush(Color.Purple);
+            var brush_damaged = new SolidBrush(Color.Red);
 
             // We show each ship-part for each ship...
             foreach (var ship in m_board.Ships)
@@ -176,7 +176,7 @@ namespace UI
             {
                 // We set the transparency of the mine depending on its remaining lifetime...
                 var alpha = mine.TurnsRemaining * 255 / Mine.Lifetime;
-                var color = Color.FromArgb(alpha, Color.DarkGreen);
+                var color = Color.FromArgb(alpha, Color.Purple);
                 var brush = new SolidBrush(color);
 
                 var x = m_gridSizeX * (mine.BoardPosition.X - 1);

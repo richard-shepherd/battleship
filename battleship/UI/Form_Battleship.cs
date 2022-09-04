@@ -128,7 +128,7 @@ namespace UI
                 m_game.startGame();
 
                 // We show the player names...
-                showPlayerInfo();
+                showPlayerInfo(m_game);
 
                 // We show the boards with the initial ship placement...
                 ctrlBoard1.showBoard(m_game.Player1.Board);
@@ -168,7 +168,122 @@ namespace UI
             {
                 Logger.log(ex);
             }
+        }
 
+        /// <summary>
+        /// Called when the Play Tournament button is pressed.
+        /// </summary>
+        private void ctrlPlayTournament_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // We set up the results...
+                m_tournamentInfo = new TournamentInfo(m_aiManager.AINames);
+                ctrlTournamentGrid.DataSource = m_tournamentInfo.AIInfos;
+
+                // Will be set to true if the tournament should be stopped while it is playing...
+                m_stopTournament = false;
+
+                // For a tournament we play every AI against every other AI on various 
+                // board configurations. We play a number of rounds of each of these
+                // combinations.
+                var boardSizes = new List<int> { 10, 20, 30, 40, 50, 80, 100, 200, 500, 1000 };
+                var shipSquaress = new List<int> { 20, 30, 40, 50, 100, 200, 500 };
+                foreach(var aiName1 in m_aiManager.AINames)
+                {
+                    if (m_stopTournament) break;
+                    foreach (var aiName2 in m_aiManager.AINames)
+                    {
+                        if (m_stopTournament) break;
+
+                        // We do not play AIs against themselves...
+                        if (aiName1 == aiName2)
+                        {
+                            continue;
+                        }
+
+                        // We play each combination of AIs on each board size and with different numbers 
+                        // of ship squares...
+                        foreach(var boardSize in boardSizes)
+                        {
+                            if (m_stopTournament) break;
+
+                            foreach (var shipSquares in shipSquaress)
+                            {
+                                if (m_stopTournament) break;
+
+                                // We limit the number of ship-squares depending on the size of the board,
+                                // as smaller boards may not have enough room for all the ships...
+                                if (shipSquares > boardSize * 2)
+                                {
+                                    continue;
+                                }
+
+                                // We play a game...
+                                var game = new Game(m_aiManager, aiName1, aiName2, boardSize, shipSquares);
+                                try
+                                {
+                                    game.startGame();
+                                    var turnsPlayed = 0;
+                                    while(game.GameStatus == Game.GameStatusEnum.PLAYING)
+                                    {
+                                        if (m_stopTournament) break;
+
+                                        // We play a turn...
+                                        game.playTurn();
+
+                                        // We show the board every few turns...
+                                        if(turnsPlayed % 50 == 0)
+                                        {
+                                            // We show the boards...
+                                            ctrlBoard1.showBoard(game.Player1.Board);
+                                            ctrlBoard2.showBoard(game.Player2.Board);
+                                            showPlayerInfo(game);
+                                            Application.DoEvents();
+                                        }
+                                        turnsPlayed++;
+                                    }
+
+                                    // The game has ended, so we update the results...
+                                    m_tournamentInfo.updateAIInfo(aiName1, (game.WinningAIName == aiName1) ? 1 : 0, game.Player1.Board.UndamagedParts.Count());
+                                    m_tournamentInfo.updateAIInfo(aiName2, (game.WinningAIName == aiName2) ? 1 : 0, game.Player2.Board.UndamagedParts.Count());
+
+                                    // We show the results. This also allows the Stop Tournament button to be processed...
+                                    Application.DoEvents();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.log(ex);
+                                }
+                                finally
+                                {
+                                    game.Dispose();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.log(ex);
+            }
+
+        }
+
+        /// <summary>
+        /// Called when the Stop Tournament button is pressed.
+        /// </summary>
+        private void ctrlStopTournament_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                m_stopTournament = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.log(ex);
+            }
         }
 
         #endregion
@@ -178,19 +293,19 @@ namespace UI
         /// <summary>
         /// Shows the player names and associated info.
         /// </summary>
-        private void showPlayerInfo()
+        private void showPlayerInfo(Game game)
         {
             // Player 1...
-            var player1 = $"Player 1: {m_game.Player1.AIName} ({m_game.Player1.Board.UndamagedParts.Count()})";
-            if (m_game.WinningPlayerNumber == 1)
+            var player1 = $"Player 1: {game.Player1.AIName} ({game.Player1.Board.UndamagedParts.Count()})";
+            if (game.WinningPlayerNumber == 1)
             {
                 player1 += " WINNER!";
             }
             lblPlayer1.Text = player1;
 
             // Player 2...
-            var player2 = $"Player 2: {m_game.Player2.AIName} ({m_game.Player2.Board.UndamagedParts.Count()})";
-            if (m_game.WinningPlayerNumber == 2)
+            var player2 = $"Player 2: {game.Player2.AIName} ({game.Player2.Board.UndamagedParts.Count()})";
+            if (game.WinningPlayerNumber == 2)
             {
                 player2 += " WINNER!";
             }
@@ -222,7 +337,7 @@ namespace UI
             ctrlBoard2.showBoard(m_game.Player2.Board);
 
             // We show the player names and info...
-            showPlayerInfo();
+            showPlayerInfo(m_game);
         }
 
         /// <summary>
@@ -246,6 +361,12 @@ namespace UI
 
         // The game currently being played...
         private Game m_game = null;
+
+        // Holds tournament results...
+        private TournamentInfo m_tournamentInfo = null;
+
+        // Set to true to stop a tournament while it is playing...
+        private bool m_stopTournament = false;
 
         #endregion
     }

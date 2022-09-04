@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets the list of AI names, ordered alphabetically.
         /// </summary>
-        public IList<string> AINames => m_aiFolders.Keys.OrderBy(x => x).ToList();
+        public List<string> AINames => m_aiFolders.Keys.OrderBy(x => x).ToList();
 
         #endregion
 
