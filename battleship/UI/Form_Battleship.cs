@@ -16,6 +16,12 @@ namespace UI
         public Form_Battleship()
         {
             InitializeComponent();
+
+            // We select a 30x30 board by default...
+            ctrlBoardSize.SelectedItem = ctrlBoardSize.Items[2];
+
+            // We load AIs from the defauilt folder...
+            ctrlAIs_Load_Click(null, null);
         }
 
         #endregion
@@ -97,13 +103,17 @@ namespace UI
                     aiName2 = ctrlAIs.CheckedItems[1].ToString();
                 }
 
+                // We find the board size...
+                var strBoardSize = ctrlBoardSize.SelectedItem.ToString();
+                var tokens = strBoardSize.Split('x');
+                var boardSize = Convert.ToInt32(tokens[0]);
+
                 // We start a new game...
-                m_game = new Game(m_aiManager, aiName1, aiName2, 30, 30);
+                m_game = new Game(m_aiManager, aiName1, aiName2, boardSize, 30);
                 m_game.startGame();
 
                 // We show the player names...
-                lblPlayer1.Text = $"Player 1: {m_game.Player1.AIName}";
-                lblPlayer2.Text = $"Player 2: {m_game.Player2.AIName}";
+                showPlayerInfo();
 
                 // We show the boards with the initial ship placement...
                 ctrlBoard1.showBoard(m_game.Player1.Board);
@@ -151,6 +161,28 @@ namespace UI
         #region Private functions
 
         /// <summary>
+        /// Shows the player names and associated info.
+        /// </summary>
+        private void showPlayerInfo()
+        {
+            // Player 1...
+            var player1 = $"Player 1: {m_game.Player1.AIName} ({m_game.Player1.Board.UndamagedParts.Count()})";
+            if (m_game.WinningPlayerNumber == 1)
+            {
+                player1 += " WINNER!";
+            }
+            lblPlayer1.Text = player1;
+
+            // Player 2...
+            var player2 = $"Player 2: {m_game.Player2.AIName} ({m_game.Player2.Board.UndamagedParts.Count()})";
+            if (m_game.WinningPlayerNumber == 2)
+            {
+                player2 += " WINNER!";
+            }
+            lblPlayer2.Text = player2;
+        }
+
+        /// <summary>
         /// Plays one turn of the game and shows the game state.
         /// </summary>
         private void playTurn()
@@ -173,6 +205,9 @@ namespace UI
             // We show the boards...
             ctrlBoard1.showBoard(m_game.Player1.Board);
             ctrlBoard2.showBoard(m_game.Player2.Board);
+
+            // We show the player names and info...
+            showPlayerInfo();
         }
 
         /// <summary>

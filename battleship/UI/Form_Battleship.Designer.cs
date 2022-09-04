@@ -39,6 +39,8 @@
             this.ctrlAIs_Load = new System.Windows.Forms.Button();
             this.ctrlAIFolder = new System.Windows.Forms.TextBox();
             this.lblAIList = new System.Windows.Forms.Label();
+            this.lblBoardSize = new System.Windows.Forms.Label();
+            this.ctrlBoardSize = new System.Windows.Forms.ComboBox();
             this.lblPlayer2 = new System.Windows.Forms.Label();
             this.lblPlayer1 = new System.Windows.Forms.Label();
             this.ctrlPlayTurn = new System.Windows.Forms.Button();
@@ -98,6 +100,8 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.lblBoardSize);
+            this.splitContainer2.Panel2.Controls.Add(this.ctrlBoardSize);
             this.splitContainer2.Panel2.Controls.Add(this.lblPlayer2);
             this.splitContainer2.Panel2.Controls.Add(this.lblPlayer1);
             this.splitContainer2.Panel2.Controls.Add(this.ctrlPlayTurn);
@@ -175,6 +179,35 @@
             this.lblAIList.TabIndex = 7;
             this.lblAIList.Text = "AIs";
             // 
+            // lblBoardSize
+            // 
+            this.lblBoardSize.AutoSize = true;
+            this.lblBoardSize.Location = new System.Drawing.Point(3, 530);
+            this.lblBoardSize.Name = "lblBoardSize";
+            this.lblBoardSize.Size = new System.Drawing.Size(60, 15);
+            this.lblBoardSize.TabIndex = 11;
+            this.lblBoardSize.Text = "Board size";
+            // 
+            // ctrlBoardSize
+            // 
+            this.ctrlBoardSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ctrlBoardSize.FormattingEnabled = true;
+            this.ctrlBoardSize.Items.AddRange(new object[] {
+            "10x10",
+            "20x20",
+            "30x30",
+            "40x40",
+            "50x50",
+            "80x80",
+            "100x100",
+            "200x200",
+            "500x500",
+            "1000x1000"});
+            this.ctrlBoardSize.Location = new System.Drawing.Point(3, 548);
+            this.ctrlBoardSize.Name = "ctrlBoardSize";
+            this.ctrlBoardSize.Size = new System.Drawing.Size(91, 23);
+            this.ctrlBoardSize.TabIndex = 10;
+            // 
             // lblPlayer2
             // 
             this.lblPlayer2.AutoSize = true;
@@ -200,7 +233,7 @@
             // ctrlPlayTurn
             // 
             this.ctrlPlayTurn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlPlayTurn.Location = new System.Drawing.Point(140, 535);
+            this.ctrlPlayTurn.Location = new System.Drawing.Point(751, 535);
             this.ctrlPlayTurn.Name = "ctrlPlayTurn";
             this.ctrlPlayTurn.Size = new System.Drawing.Size(128, 36);
             this.ctrlPlayTurn.TabIndex = 5;
@@ -211,7 +244,7 @@
             // ctrlStartGame
             // 
             this.ctrlStartGame.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlStartGame.Location = new System.Drawing.Point(3, 535);
+            this.ctrlStartGame.Location = new System.Drawing.Point(614, 535);
             this.ctrlStartGame.Name = "ctrlStartGame";
             this.ctrlStartGame.Size = new System.Drawing.Size(131, 36);
             this.ctrlStartGame.TabIndex = 4;
@@ -303,5 +336,7 @@
         private ContextMenuStrip ctrlAIs_ContextMenu;
         private ToolStripMenuItem ctrlAIs_SelectAll;
         private ToolStripMenuItem ctrlAIs_SelectNone;
+        private Label lblBoardSize;
+        private ComboBox ctrlBoardSize;
     }
 }
