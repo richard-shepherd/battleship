@@ -183,8 +183,8 @@ namespace UI
                 // For a tournament we play every AI against every other AI on various 
                 // board configurations. We play a number of rounds of each of these
                 // combinations.
-                var boardSizes = new List<int> { 10, 20, 30, 40, 50, 80, 100, 200, 500 };
-                var shipSquaress = new List<int> { 20, 30, 40, 50, 100, 200, 500 };
+                var boardSizes = new List<int> { 10, 20, 30, 40, 50, 80, 100, 200 };
+                var shipSquaress = new List<int> { 20, 30, 40, 50, 100, 200, 300 };
                 foreach(var aiName1 in m_aiManager.AINames)
                 {
                     if (m_stopTournament) break;

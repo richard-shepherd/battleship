@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.ctrlTurnTimer = new System.Windows.Forms.Timer(this.components);
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.ctrlSplit_Horizontal = new System.Windows.Forms.SplitContainer();
+            this.ctrlSplit_Vertical = new System.Windows.Forms.SplitContainer();
             this.ctrlAIs = new System.Windows.Forms.CheckedListBox();
             this.ctrlAIs_ContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctrlAIs_SelectAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,14 +58,14 @@
             this.ctrlBoard1 = new UI.Control_Board();
             this.lblLog = new System.Windows.Forms.Label();
             this.ctrlLog = new UI.Control_Log();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ctrlSplit_Horizontal)).BeginInit();
+            this.ctrlSplit_Horizontal.Panel1.SuspendLayout();
+            this.ctrlSplit_Horizontal.Panel2.SuspendLayout();
+            this.ctrlSplit_Horizontal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ctrlSplit_Vertical)).BeginInit();
+            this.ctrlSplit_Vertical.Panel1.SuspendLayout();
+            this.ctrlSplit_Vertical.Panel2.SuspendLayout();
+            this.ctrlSplit_Vertical.SuspendLayout();
             this.ctrlAIs_ContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ctrlTournamentGrid)).BeginInit();
             this.SuspendLayout();
@@ -76,60 +76,60 @@
             this.ctrlTurnTimer.Interval = 50;
             this.ctrlTurnTimer.Tick += new System.EventHandler(this.ctrlTurnTimer_Tick);
             // 
-            // splitContainer1
+            // ctrlSplit_Horizontal
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.ctrlSplit_Horizontal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlSplit_Horizontal.Location = new System.Drawing.Point(0, 0);
+            this.ctrlSplit_Horizontal.Name = "ctrlSplit_Horizontal";
+            this.ctrlSplit_Horizontal.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer1.Panel1
+            // ctrlSplit_Horizontal.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.ctrlSplit_Horizontal.Panel1.Controls.Add(this.ctrlSplit_Vertical);
             // 
-            // splitContainer1.Panel2
+            // ctrlSplit_Horizontal.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.lblLog);
-            this.splitContainer1.Panel2.Controls.Add(this.ctrlLog);
-            this.splitContainer1.Size = new System.Drawing.Size(1711, 766);
-            this.splitContainer1.SplitterDistance = 576;
-            this.splitContainer1.TabIndex = 9;
+            this.ctrlSplit_Horizontal.Panel2.Controls.Add(this.lblLog);
+            this.ctrlSplit_Horizontal.Panel2.Controls.Add(this.ctrlLog);
+            this.ctrlSplit_Horizontal.Size = new System.Drawing.Size(1610, 766);
+            this.ctrlSplit_Horizontal.SplitterDistance = 576;
+            this.ctrlSplit_Horizontal.TabIndex = 9;
             // 
-            // splitContainer2
+            // ctrlSplit_Vertical
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
+            this.ctrlSplit_Vertical.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlSplit_Vertical.Location = new System.Drawing.Point(0, 0);
+            this.ctrlSplit_Vertical.Name = "ctrlSplit_Vertical";
             // 
-            // splitContainer2.Panel1
+            // ctrlSplit_Vertical.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.ctrlAIs);
-            this.splitContainer2.Panel1.Controls.Add(this.ctrlAIs_Load);
-            this.splitContainer2.Panel1.Controls.Add(this.ctrlAIFolder);
-            this.splitContainer2.Panel1.Controls.Add(this.lblAIList);
+            this.ctrlSplit_Vertical.Panel1.Controls.Add(this.ctrlAIs);
+            this.ctrlSplit_Vertical.Panel1.Controls.Add(this.ctrlAIs_Load);
+            this.ctrlSplit_Vertical.Panel1.Controls.Add(this.ctrlAIFolder);
+            this.ctrlSplit_Vertical.Panel1.Controls.Add(this.lblAIList);
             // 
-            // splitContainer2.Panel2
+            // ctrlSplit_Vertical.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.lblTournamentGameInfo);
-            this.splitContainer2.Panel2.Controls.Add(this.lblTournamentResults);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlStopTournament);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlPlayTournament);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlTournamentGrid);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlTurnSpeed);
-            this.splitContainer2.Panel2.Controls.Add(this.lblTurnSpeed);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlShipSquares);
-            this.splitContainer2.Panel2.Controls.Add(this.lblShipSquares);
-            this.splitContainer2.Panel2.Controls.Add(this.lblBoardSize);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlBoardSize);
-            this.splitContainer2.Panel2.Controls.Add(this.lblPlayer2);
-            this.splitContainer2.Panel2.Controls.Add(this.lblPlayer1);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlPlayTurn);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlStartGame);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlBoard2);
-            this.splitContainer2.Panel2.Controls.Add(this.ctrlBoard1);
-            this.splitContainer2.Size = new System.Drawing.Size(1711, 576);
-            this.splitContainer2.SplitterDistance = 354;
-            this.splitContainer2.TabIndex = 0;
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.lblTournamentGameInfo);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.lblTournamentResults);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlStopTournament);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlPlayTournament);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlTournamentGrid);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlTurnSpeed);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.lblTurnSpeed);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlShipSquares);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.lblShipSquares);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.lblBoardSize);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlBoardSize);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.lblPlayer2);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.lblPlayer1);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlPlayTurn);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlStartGame);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlBoard2);
+            this.ctrlSplit_Vertical.Panel2.Controls.Add(this.ctrlBoard1);
+            this.ctrlSplit_Vertical.Size = new System.Drawing.Size(1610, 576);
+            this.ctrlSplit_Vertical.SplitterDistance = 255;
+            this.ctrlSplit_Vertical.TabIndex = 0;
             // 
             // ctrlAIs
             // 
@@ -141,7 +141,7 @@
             this.ctrlAIs.FormattingEnabled = true;
             this.ctrlAIs.Location = new System.Drawing.Point(12, 58);
             this.ctrlAIs.Name = "ctrlAIs";
-            this.ctrlAIs.Size = new System.Drawing.Size(339, 508);
+            this.ctrlAIs.Size = new System.Drawing.Size(240, 508);
             this.ctrlAIs.TabIndex = 12;
             // 
             // ctrlAIs_ContextMenu
@@ -170,7 +170,7 @@
             // 
             this.ctrlAIs_Load.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlAIs_Load.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlAIs_Load.Location = new System.Drawing.Point(298, 29);
+            this.ctrlAIs_Load.Location = new System.Drawing.Point(199, 29);
             this.ctrlAIs_Load.Name = "ctrlAIs_Load";
             this.ctrlAIs_Load.Size = new System.Drawing.Size(53, 23);
             this.ctrlAIs_Load.TabIndex = 9;
@@ -184,7 +184,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlAIFolder.Location = new System.Drawing.Point(12, 29);
             this.ctrlAIFolder.Name = "ctrlAIFolder";
-            this.ctrlAIFolder.Size = new System.Drawing.Size(280, 23);
+            this.ctrlAIFolder.Size = new System.Drawing.Size(181, 23);
             this.ctrlAIFolder.TabIndex = 8;
             this.ctrlAIFolder.Text = "D:\\code\\battleship\\AIs";
             // 
@@ -221,7 +221,7 @@
             // ctrlStopTournament
             // 
             this.ctrlStopTournament.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlStopTournament.Location = new System.Drawing.Point(1222, 535);
+            this.ctrlStopTournament.Location = new System.Drawing.Point(1216, 535);
             this.ctrlStopTournament.Name = "ctrlStopTournament";
             this.ctrlStopTournament.Size = new System.Drawing.Size(128, 36);
             this.ctrlStopTournament.TabIndex = 18;
@@ -232,7 +232,7 @@
             // ctrlPlayTournament
             // 
             this.ctrlPlayTournament.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctrlPlayTournament.Location = new System.Drawing.Point(1088, 535);
+            this.ctrlPlayTournament.Location = new System.Drawing.Point(1082, 535);
             this.ctrlPlayTournament.Name = "ctrlPlayTournament";
             this.ctrlPlayTournament.Size = new System.Drawing.Size(128, 36);
             this.ctrlPlayTournament.TabIndex = 17;
@@ -397,29 +397,29 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlLog.Location = new System.Drawing.Point(12, 20);
             this.ctrlLog.Name = "ctrlLog";
-            this.ctrlLog.Size = new System.Drawing.Size(1687, 154);
+            this.ctrlLog.Size = new System.Drawing.Size(1586, 154);
             this.ctrlLog.TabIndex = 3;
             // 
             // Form_Battleship
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1711, 766);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(1610, 766);
+            this.Controls.Add(this.ctrlSplit_Horizontal);
             this.DoubleBuffered = true;
             this.Name = "Form_Battleship";
-            this.Text = "Form1";
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.Text = "Battleship coding challenge";
+            this.ctrlSplit_Horizontal.Panel1.ResumeLayout(false);
+            this.ctrlSplit_Horizontal.Panel2.ResumeLayout(false);
+            this.ctrlSplit_Horizontal.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ctrlSplit_Horizontal)).EndInit();
+            this.ctrlSplit_Horizontal.ResumeLayout(false);
+            this.ctrlSplit_Vertical.Panel1.ResumeLayout(false);
+            this.ctrlSplit_Vertical.Panel1.PerformLayout();
+            this.ctrlSplit_Vertical.Panel2.ResumeLayout(false);
+            this.ctrlSplit_Vertical.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ctrlSplit_Vertical)).EndInit();
+            this.ctrlSplit_Vertical.ResumeLayout(false);
             this.ctrlAIs_ContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ctrlTournamentGrid)).EndInit();
             this.ResumeLayout(false);
@@ -428,8 +428,8 @@
 
         #endregion
         private System.Windows.Forms.Timer ctrlTurnTimer;
-        private SplitContainer splitContainer1;
-        private SplitContainer splitContainer2;
+        private SplitContainer ctrlSplit_Horizontal;
+        private SplitContainer ctrlSplit_Vertical;
         private Label lblAIList;
         private Label lblPlayer2;
         private Label lblPlayer1;
